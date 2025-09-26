@@ -1,7 +1,9 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 public class DialogueManager : MonoBehaviour
 {
+    public bool IsDialogueActive { get; private set; }
     public static DialogueManager Instance;
     public DialogueUI ui;
     private DialogueSO currentDialogue;
@@ -20,15 +22,18 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(DialogueSO dialogue)
     {
+        IsDialogueActive = true;
         currentDialogue = dialogue;
         currentIndex = 0;
         selectedChoice = 0;
         ui.Show();
         DisplayLine();
+        Debug.Log("started dialog");
     }
 
     void DisplayLine()
     {
+
         if (currentIndex >= currentDialogue.lines.Count)
         {
             EndDialogue();
@@ -41,6 +46,8 @@ public class DialogueManager : MonoBehaviour
         {
             UpdateChoiceSelection(); // Обновляем выделение опций
         }
+        Debug.Log("Displayed a line with index "+currentIndex+" = "+line );
+
     }
 
     public void Continue()
@@ -48,6 +55,8 @@ public class DialogueManager : MonoBehaviour
         currentIndex++;
         selectedChoice = 0; // Сбрасываем выбор при переходе
         DisplayLine();
+        Debug.Log("Continued dialog index"+ currentIndex);
+
     }
 
     void OnChoiceSelected(int choice)
@@ -82,10 +91,17 @@ public class DialogueManager : MonoBehaviour
             mouseLock.canLook = true;
             mouseLock.crosshair.gameObject.SetActive(true);
         }
+        IsDialogueActive = false;
     }
 
     void Update()
     {
+        if (ui.gameObject.activeSelf && Input.GetMouseButtonDown(0)){
+            // Continue();
+
+            //EditorUtility.DisplayDialog("TUTA", "Message", "OK");
+        }
+
         if (ui.gameObject.activeSelf && Input.GetMouseButtonDown(0) && !hasChoices && !ui.isTyping)
         {
             Continue();
