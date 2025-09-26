@@ -10,20 +10,27 @@ public class MouseLock : MonoBehaviour
     float xRotation = 0f;
 
     public Image crosshair;
-    public float maxInteractDistance = 5f;
+    public float maxInteractDistance = 30f;
+    public float minInteractDistance = 15f;
     public Color defaultColor = Color.white;
     public Color highlightColor = Color.yellow;
     private Camera mainCamera;
-    private bool isHoveringNPC = false;
     public bool canLook = true;
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         mainCamera = Camera.main;
-        if (mainCamera == null) Debug.LogError("Main Camera not found!");
-        if (crosshair == null) Debug.LogError("Crosshair not assigned!");
+        if (mainCamera == null)
+        {
+            Debug.LogError("Main Camera not found! Please assign a camera with the tag 'MainCamera'.");
+        }
+        if (crosshair == null)
+        {
+            Debug.LogError("Crosshair Image not assigned! Please drag the Image into the Inspector.");
+        }
         crosshair.color = defaultColor;
+        Debug.Log("MouseLock started. Camera: " + (mainCamera != null ? "Found" : "Not found"));
     }
 
     void Update()
@@ -39,15 +46,21 @@ public class MouseLock : MonoBehaviour
         }
 
         Ray ray = mainCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
-        if (Physics.Raycast(ray, out RaycastHit hit, maxInteractDistance))
+        Debug.Log("Raycast started. Position: " + ray.origin);
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
+            Debug.Log("Raycast hit: " + hit.collider?.name + " with tag: " + hit.collider?.tag);
+            float distance = Vector3.Distance(playerBody.position, hit.collider.transform.position);
+            Debug.Log("Distance to hit: " + distance);
+
+            // Простая проверка цвета без строгого диапазона для теста
             if (hit.collider != null && hit.collider.CompareTag("NPC"))
             {
-                Debug.Log("NPC hit!");
-                isHoveringNPC = true;
                 crosshair.color = highlightColor;
-                if (Input.GetMouseButtonDown(1) && isHoveringNPC) // Только при жёлтой точке
+                Debug.Log("NPC detected. Setting highlight color.");
+                if (Input.GetMouseButtonDown(0))
                 {
+                    Debug.Log("Left click on: " + hit.collider.name);
                     NPCDialogue npcDialogue = hit.collider.GetComponent<NPCDialogue>();
                     if (npcDialogue != null && npcDialogue.dialogue != null)
                     {
@@ -61,20 +74,24 @@ public class MouseLock : MonoBehaviour
                         {
                             playerMovement.canMove = false;
                         }
-                        canLook = false; // Фиксируем камеру
-                        crosshair.gameObject.SetActive(false); // Убираем crosshair
+                        canLook = false;
+                        crosshair.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        Debug.Log("No NPCDialogue or dialogue on: " + hit.collider.name);
                     }
                 }
             }
             else
             {
-                isHoveringNPC = false;
                 crosshair.color = defaultColor;
+                Debug.Log("No NPC tag or not an NPC.");
             }
         }
         else
         {
-            isHoveringNPC = false;
+            Debug.Log("Raycast missed");
             crosshair.color = defaultColor;
         }
     }

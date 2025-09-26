@@ -3,7 +3,6 @@ using TMPro;
 using System.Collections;
 using System;
 using UnityEngine.UI;
-
 public class DialogueUI : MonoBehaviour
 {
     public TextMeshProUGUI speakerNameText;
