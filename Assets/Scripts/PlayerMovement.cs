@@ -9,28 +9,45 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 12f;
     public float gravity = -9.81f;
 
-    public Transform groundCheck; //to check if the player is on the ground
+    public Transform groundCheck; // to check if the player is on the ground
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
 
     Vector3 velocity;
     bool isGrounded;
+
+    // Новые переменные для диалога
+    public bool canMove = true; // Переменная для блокировки движения
+    private Camera mainCamera; // Для Raycast от камеры
+
+    void Start()
+    {
+        // Инициализация камеры
+        mainCamera = Camera.main;
+        if (mainCamera == null)
+        {
+            Debug.LogError("Main Camera not found! Please assign a camera with the tag 'MainCamera'.");
+        }
+    }
+
     void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         if (isGrounded && velocity.y < 0)
         {
-            velocity.y = -2f; //to keep the player grounded
+            velocity.y = -2f;
         }
 
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        if (canMove)
+        {
+            float x = Input.GetAxis("Horizontal");
+            float z = Input.GetAxis("Vertical");
+            Vector3 move = transform.right * x + transform.forward * z;
+            controller.Move(move * speed * Time.deltaTime);
+        }
 
-        Vector3 move = transform.right * x + transform.forward * z; //move in the direction the player is facing
-
-        controller.Move(move * speed * Time.deltaTime);
-
-        velocity.y += gravity * Time.deltaTime; //falling down
+        velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }
 }
+    
