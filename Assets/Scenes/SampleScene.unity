@@ -1365,7 +1365,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1433134828}
   - component: {fileID: 1433134827}
-  - component: {fileID: 1433134826}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Untagged
@@ -1373,26 +1372,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1433134826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1433134825}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a7dbcf3defedc24c9d8fa6baded233b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controller: {fileID: 1433134827}
-  speed: 12
-  gravity: -39.24
-  groundCheck: {fileID: 0}
-  groundDistance: 0.4
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!143 &1433134827
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1746,7 +1725,7 @@ Transform:
   m_GameObject: {fileID: 1619680373}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.807, z: 0}
+  m_LocalPosition: {x: 0, y: -1.78, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1805,7 +1784,7 @@ Transform:
   m_GameObject: {fileID: 1754734508}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5832398, y: 3.88, z: 12.103059}
+  m_LocalPosition: {x: -0.5832398, y: 14.24, z: 12.103059}
   m_LocalScale: {x: 7.435, y: 7.435, z: 7.435}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1828,12 +1807,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 1754734510}
   speed: 12
-  gravity: -39.24
+  gravity: -9.81
   groundCheck: {fileID: 1619680374}
   groundDistance: 0.4
   groundMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
 --- !u!1 &1767412197
 GameObject:
   m_ObjectHideFlags: 0
@@ -2311,7 +2290,7 @@ Transform:
   m_GameObject: {fileID: 2014572250}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.63, z: 0}
+  m_LocalPosition: {x: 0, y: 0.012, z: 0}
   m_LocalScale: {x: 1.2, y: 1.8, z: 1.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
