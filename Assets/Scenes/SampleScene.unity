@@ -1258,10 +1258,13 @@ MonoBehaviour:
   mouseSensitivity: 500
   playerBody: {fileID: 1754734511}
   crosshair: {fileID: 1544344726}
-  maxInteractDistance: 5
-  minInteractDistance: 4
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
   highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  maxInteractDistance: 30
+  sphereCastRadius: 0.5
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 0
   canLook: 1
 --- !u!1 &1109360312
 GameObject:
@@ -2049,10 +2052,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.24773455
+  m_Radius: 0.40666065
   m_Height: 2.2393723
   m_Direction: 1
-  m_Center: {x: -1.0251089e-16, y: 0.6196864, z: -0.25226545}
+  m_Center: {x: -4.8238166e-16, y: 0.6196864, z: -0.093339354}
 --- !u!1 &1619680373
 GameObject:
   m_ObjectHideFlags: 0

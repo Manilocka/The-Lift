@@ -77,6 +77,9 @@ public class DialogueManager : MonoBehaviour
             {
                 choice2Button.interactable = (selectedChoice == 1);
             }
+            
+            // Обновляем подсветку выбора в UI
+            ui.UpdateChoiceHighlight(selectedChoice, line.choices.Count);
         }
     }
 
@@ -108,12 +111,12 @@ public class DialogueManager : MonoBehaviour
         }
         if (hasChoices)
         {
-            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.S))
+            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
             {
                 selectedChoice = Mathf.Max(0, selectedChoice - 1);
                 UpdateChoiceSelection();
             }
-            if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
             {
                 selectedChoice = Mathf.Min(currentDialogue.lines[currentIndex].choices.Count - 1, selectedChoice + 1);
                 UpdateChoiceSelection();

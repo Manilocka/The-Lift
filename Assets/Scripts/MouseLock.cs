@@ -16,8 +16,12 @@ public class MouseLock : MonoBehaviour
     public Color highlightColor = Color.yellow;
 
     [Header("Interaction")]
-    public float maxInteractDistance = 30f;
-    public float minInteractDistance = 15f;
+    public float maxInteractDistance = 300f;
+    public float sphereCastRadius = 0.5f;
+    // --- THIS IS THE FIX ---
+    // We create a LayerMask to tell the SphereCast which layers to check.
+    // This will let us ignore the Player layer.
+    public LayerMask interactableLayer;
 
     private Camera mainCamera;
     public bool canLook = true;
@@ -26,6 +30,7 @@ public class MouseLock : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         mainCamera = Camera.main;
+
         if (mainCamera == null)
         {
             Debug.LogError("Main Camera not found! Please assign a camera with the tag 'MainCamera'.");
@@ -35,17 +40,19 @@ public class MouseLock : MonoBehaviour
             Debug.LogError("Crosshair Image not assigned! Please drag the Image into the Inspector.");
         }
         crosshair.color = defaultColor;
+        
+        // Debug: Log the interactable layer mask
+        Debug.Log("Interactable Layer Mask: " + interactableLayer.value);
+        Debug.Log("Max Interact Distance: " + maxInteractDistance);
     }
 
     void Update()
     {
-        // 🔹 Stop raycasting & looking around if dialogue is active
         if (DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActive)
         {
             return;
         }
 
-        // --- Mouse look ---
         if (canLook)
         {
             float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
@@ -58,53 +65,87 @@ public class MouseLock : MonoBehaviour
             playerBody.Rotate(Vector3.up * mouseX);
         }
 
-        // --- Raycast from screen center ---
         Ray ray = mainCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
-        if (Physics.Raycast(ray, out RaycastHit hit, maxInteractDistance))
+        
+        // Debug: Always try a regular raycast first to see if we're hitting anything
+        if (Physics.Raycast(ray, out RaycastHit debugHit, maxInteractDistance))
         {
-            if (hit.collider != null && hit.collider.CompareTag("NPC"))
-                {
-                crosshair.color = highlightColor;
+            Debug.Log("Raycast hit: " + debugHit.collider.name + " on layer " + debugHit.collider.gameObject.layer);
+        }
+        
+        // Try with LayerMask first
+        if (Physics.SphereCast(ray, sphereCastRadius, out RaycastHit hit, maxInteractDistance, interactableLayer))
+        {
+            Debug.Log("SphereCast with LayerMask hit: " + hit.collider.name);
+            crosshair.color = highlightColor;
 
-                if (Input.GetMouseButtonDown(0) && crosshair.enabled)
-                {
-                    Debug.Log("Clicked NPC: " + hit.collider.name);
+            if (Input.GetMouseButtonDown(0))
+            {
+                Debug.Log("Clicked Interactable: " + hit.collider.name);
+                NPCDialogue npcDialogue = hit.collider.GetComponent<NPCDialogue>();
 
-                    NPCDialogue npcDialogue = hit.collider.GetComponent<NPCDialogue>();
-                    if (npcDialogue != null && npcDialogue.dialogue != null)
+                if (npcDialogue != null && npcDialogue.dialogue != null)
+                {
+                    Vector3 lookDirection = playerBody.position - hit.collider.transform.position;
+                    lookDirection.y = 0;
+                    hit.collider.transform.rotation = Quaternion.LookRotation(lookDirection);
+
+                    DialogueManager.Instance.StartDialogue(npcDialogue.dialogue);
+
+                    PlayerMovement playerMovement = playerBody.GetComponent<PlayerMovement>();
+                    if (playerMovement != null)
                     {
-                        // Make NPC face player
-                        Vector3 lookDirection = playerBody.position - hit.collider.transform.position;
+                        playerMovement.canMove = false;
+                    }
+                    canLook = false;
+                    crosshair.gameObject.SetActive(false);
+                }
+                else
+                {
+                    Debug.Log("Interactable has no DialogueSO: " + hit.collider.name);
+                }
+            }
+        }
+        // Fallback: Try without LayerMask if the above doesn't work
+        else if (Physics.SphereCast(ray, sphereCastRadius, out RaycastHit fallbackHit, maxInteractDistance))
+        {
+            Debug.Log("SphereCast without LayerMask hit: " + fallbackHit.collider.name);
+            NPCDialogue npcDialogue = fallbackHit.collider.GetComponent<NPCDialogue>();
+            
+            if (npcDialogue != null)
+            {
+                crosshair.color = highlightColor;
+                
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Debug.Log("Clicked Interactable (fallback): " + fallbackHit.collider.name);
+                    
+                    if (npcDialogue.dialogue != null)
+                    {
+                        Vector3 lookDirection = playerBody.position - fallbackHit.collider.transform.position;
                         lookDirection.y = 0;
-                        hit.collider.transform.rotation = Quaternion.LookRotation(lookDirection);
+                        fallbackHit.collider.transform.rotation = Quaternion.LookRotation(lookDirection);
 
-                        // Start DialogueSO conversation
                         DialogueManager.Instance.StartDialogue(npcDialogue.dialogue);
 
-                        // Disable movement & looking
                         PlayerMovement playerMovement = playerBody.GetComponent<PlayerMovement>();
                         if (playerMovement != null)
                         {
                             playerMovement.canMove = false;
                         }
                         canLook = false;
-
-                        // Hide crosshair during dialogue
                         crosshair.gameObject.SetActive(false);
                     }
                     else
                     {
-                        Debug.Log("NPC has no DialogueSO: " + hit.collider.name);
+                        Debug.Log("Interactable has no DialogueSO (fallback): " + fallbackHit.collider.name);
                     }
                 }
-            }
-            else
-            {
-                crosshair.color = defaultColor;
             }
         }
         else
         {
+            // If the SphereCast hits nothing on the interactable layer, reset the crosshair.
             crosshair.color = defaultColor;
         }
     }
