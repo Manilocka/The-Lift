@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class TriggerPlatform : MonoBehaviour
 {
-    ElevaorMoving platform;
+    ElevatorMoving platform;
     void Start()
     {
-        platform = GetComponent<ElevaorMoving>();
+        platform = GetComponent<ElevatorMoving>();
     }
     private void OnTriggerEnter(Collider other)
     {
