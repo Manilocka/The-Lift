@@ -30,6 +30,8 @@ public class ElevatorMoving : MonoBehaviour
             if (currentTarget == endStop)
             {
                 currentTarget = endStop; // Останавливаемся на конечной точке
+                canMove = false;
+                startStop = endStop;
                 return;
             }
             if (reverse)
