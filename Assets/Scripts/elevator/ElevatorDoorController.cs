@@ -34,6 +34,7 @@ public class ElevatorDoorController : MonoBehaviour
             leftDoorTarget = leftDoor.localPosition + Vector3.left * openPosition;  // Движение влево
             rightDoorTarget = rightDoor.localPosition + Vector3.right * openPosition; // Движение вправо
             isOpen = true;
+            StartCoroutine(CloseDoorsAfterDelay(10f)); // Запускаем корутину для закрытия через 6 секунд
         }
     }
 
@@ -47,4 +48,13 @@ public class ElevatorDoorController : MonoBehaviour
             isOpen = false;
         }
     }
+
+    // Корутина для задержки закрытия дверей
+    public System.Collections.IEnumerator CloseDoorsAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        CloseDoors();
+    }
+
+
 }

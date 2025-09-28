@@ -1,3 +1,4 @@
+using OpenCover.Framework.Model;
 using UnityEngine;
 
 public class ElevatorMoving : MonoBehaviour
@@ -6,7 +7,8 @@ public class ElevatorMoving : MonoBehaviour
     [SerializeField] float speed = 2f; // Скорость движения лифта
     [SerializeField] Transform[] stops; // Массив точек остановки
     [SerializeField] int startStop = 0; // Начальная точка
-    [SerializeField] int endStop = 1; // Конечная точка
+    [SerializeField] public int endStop = 1; // Конечная точка
+    ElevatorDoorController doorController;
 
     private Rigidbody rb;
     private int currentTarget;
@@ -14,6 +16,7 @@ public class ElevatorMoving : MonoBehaviour
 
     void Start()
     {
+        doorController = GetComponentInChildren<ElevatorDoorController>();
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true; // Отключаем физическую гравитацию и включаем кинематический режим
         rb.useGravity = false; // Отключаем гравитацию
@@ -32,6 +35,7 @@ public class ElevatorMoving : MonoBehaviour
                 currentTarget = endStop; // Останавливаемся на конечной точке
                 canMove = false;
                 startStop = endStop;
+                doorController.OpenDoors(); // Открываем двери
                 return;
             }
             if (reverse)
