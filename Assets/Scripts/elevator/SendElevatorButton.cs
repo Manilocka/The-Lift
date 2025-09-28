@@ -29,11 +29,22 @@ public class SendElevatorButton : MonoBehaviour
             {
                 if (platform != null && !platform.canMove)
                 {
-                    // Устанавливаем конечную точку (этаж) и включаем движение
-                    
-                    platform.endStop = floorNumber;
-                    StartCoroutine(DelayedDoorClose(2f));
-                    StartCoroutine(DelayedStart(7f)); // Запускаем корутину для задержки старта лифта
+                    // Проверяем, не находится ли лифт уже на этом этаже
+                    if (platform.startStop == floorNumber)
+                    {
+                        // Лифт уже на нужном этаже - просто открываем двери
+                        if (doorController != null && !doorController.isOpen)
+                        {
+                            doorController.OpenDoors();
+                        }
+                    }
+                    else
+                    {
+                        // Лифт на другом этаже - устанавливаем конечную точку и запускаем движение
+                        platform.endStop = floorNumber;
+                        StartCoroutine(DelayedDoorClose(2f));
+                        StartCoroutine(DelayedStart(7f)); // Запускаем корутину для задержки старта лифта
+                    }
                 }
             }
         }
