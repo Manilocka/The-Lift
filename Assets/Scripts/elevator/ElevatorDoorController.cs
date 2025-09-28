@@ -34,7 +34,11 @@ public class ElevatorDoorController : MonoBehaviour
             leftDoorTarget = leftDoor.localPosition + Vector3.left * openPosition;  // Движение влево
             rightDoorTarget = rightDoor.localPosition + Vector3.right * openPosition; // Движение вправо
             isOpen = true;
-            StartCoroutine(CloseDoorsAfterDelay(10f)); // Запускаем корутину для закрытия через 6 секунд
+            
+            // Открываем внешние двери на текущем этаже
+            OpenFloorDoors();
+            
+            StartCoroutine(CloseDoorsAfterDelay(10f)); // Запускаем корутину для закрытия через 10 секунд
         }
     }
 
@@ -46,6 +50,9 @@ public class ElevatorDoorController : MonoBehaviour
             leftDoorTarget = new Vector3(closePosition, leftDoor.localPosition.y, leftDoor.localPosition.z);  // Закрытие влево
             rightDoorTarget = new Vector3(closePosition, rightDoor.localPosition.y, rightDoor.localPosition.z); // Закрытие вправо
             isOpen = false;
+            
+            // Закрываем внешние двери на текущем этаже
+            CloseFloorDoors();
         }
     }
 
@@ -56,5 +63,71 @@ public class ElevatorDoorController : MonoBehaviour
         CloseDoors();
     }
 
+    // Метод для открытия внешних дверей на текущем этаже
+    private void OpenFloorDoors()
+    {
+        // Получаем текущий этаж лифта
+        ElevatorMoving elevator = GetComponentInParent<ElevatorMoving>();
+        if (elevator != null)
+        {
+            int currentFloor = elevator.startStop; // Текущий этаж лифта
+            Debug.Log("=== OPENING FLOOR DOORS ===");
+            Debug.Log("Elevator is on floor: " + currentFloor);
+            
+            // Находим все объекты с тегом DoorOutElevator
+            GameObject[] floorDoors = GameObject.FindGameObjectsWithTag("DoorOutElevator");
+            Debug.Log("Found " + floorDoors.Length + " floor doors");
+            
+            foreach (GameObject door in floorDoors)
+            {
+                // Проверяем, находится ли дверь на том же этаже
+                FloorDoorController floorDoorController = door.GetComponent<FloorDoorController>();
+                if (floorDoorController != null)
+                {
+                    Debug.Log("Checking door: " + door.name + " on floor: " + floorDoorController.floorNumber + ", isOpen: " + floorDoorController.isOpen);
+                    if (floorDoorController.floorNumber == currentFloor)
+                    {
+                        Debug.Log("✓ MATCH! Opening floor door on floor " + currentFloor);
+                        floorDoorController.OpenDoors();
+                    }
+                    else
+                    {
+                        Debug.Log("✗ NO MATCH! Door floor " + floorDoorController.floorNumber + " != elevator floor " + currentFloor);
+                    }
+                }
+                else
+                {
+                    Debug.Log("ERROR: No FloorDoorController found on " + door.name);
+                }
+            }
+            Debug.Log("=== END OPENING FLOOR DOORS ===");
+        }
+        else
+        {
+            Debug.Log("ERROR: No ElevatorMoving component found!");
+        }
+    }
 
+    // Метод для закрытия внешних дверей на текущем этаже
+    private void CloseFloorDoors()
+    {
+        // Получаем текущий этаж лифта
+        ElevatorMoving elevator = GetComponentInParent<ElevatorMoving>();
+        if (elevator != null)
+        {
+            int currentFloor = elevator.startStop; // Текущий этаж лифта
+            
+            // Находим все объекты с тегом DoorOutElevator
+            GameObject[] floorDoors = GameObject.FindGameObjectsWithTag("DoorOutElevator");
+            foreach (GameObject door in floorDoors)
+            {
+                // Проверяем, находится ли дверь на том же этаже
+                FloorDoorController floorDoorController = door.GetComponent<FloorDoorController>();
+                if (floorDoorController != null && floorDoorController.floorNumber == currentFloor)
+                {
+                    floorDoorController.CloseDoors();
+                }
+            }
+        }
+    }
 }
