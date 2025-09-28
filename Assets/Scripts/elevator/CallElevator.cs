@@ -5,33 +5,33 @@ using UnityEngine;
 public class CallElevator : MonoBehaviour
 {
     [SerializeField] int floorNumber; // Конечная точка
+    [SerializeField] float maxDistance = 5f; // Максимальное расстояние активации (в единицах Unity)
     ElevatorMoving platform;
 
-    // Start is called before the first frame update
     void Start()
     {
         GameObject elevator = GameObject.FindGameObjectWithTag("Elevator");
         platform = elevator.GetComponent<ElevatorMoving>();
     }
 
-
-    void OnTriggerStay(Collider other)
+    void Update()
     {
-        // Проверяем, что объект, находящийся в триггере, — это игрок
-        if (other.CompareTag("Player"))
+        // Проверяем нажатие левой кнопки мыши
+        if (Input.GetMouseButtonDown(0))
         {
-            // Проверяем, была ли нажата левая кнопка мыши
-            if (Input.GetMouseButtonDown(0))
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            // Проверяем, попал ли луч в этот триггер
+            if (Physics.Raycast(ray, out hit) && hit.collider.gameObject == gameObject)
             {
-                if (platform != null)
+                // Проверяем расстояние от камеры до триггера
+                float distance = Vector3.Distance(Camera.main.transform.position, transform.position);
+                if (distance <= maxDistance && platform != null && !platform.canMove)
                 {
                     // Устанавливаем конечную точку (этаж) и включаем движение
-                    if (platform.canMove == false)
-                    {
-                        platform.endStop = floorNumber;
-                        platform.canMove = true;
-                    }
-                    
+                    platform.endStop = floorNumber;
+                    platform.canMove = true;
                 }
             }
         }
