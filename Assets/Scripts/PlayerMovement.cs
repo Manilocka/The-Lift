@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public CharacterController controller;
 
-    public float speed = 250f;
+    public float speed = 325f; // Увеличено на 30% (250 * 1.3 = 325)
     public float gravity = -9.8f;
 
     public Transform groundCheck; // to check if the player is on the ground
