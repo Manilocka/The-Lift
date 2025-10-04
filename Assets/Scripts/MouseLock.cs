@@ -111,6 +111,7 @@ public class MouseLock : MonoBehaviour
                 // Проверяем на NPCDialogue компонент
                 NPCDialogue npcDialogue = hit.collider.GetComponent<NPCDialogue>();
                 if (npcDialogue != null && npcDialogue.dialogue != null)
+
                 {
                     Vector3 lookDirection = playerBody.position - hit.collider.transform.position;
                     lookDirection.y = 0;
@@ -126,6 +127,16 @@ public class MouseLock : MonoBehaviour
                     canLook = false;
                     crosshair.gameObject.SetActive(false);
                 }
+
+                LevelChange levelChange = hit.collider.GetComponent<LevelChange>();
+                if (levelChange != null)
+                {
+                    // Вызываем Update() кнопки для обработки клика
+                    levelChange.SendMessage("OnMouseDown");
+                    return;
+                }
+
+
             }
         }
         // Дополнительная проверка для дверей и кнопок через обычный Raycast (для Mesh Collider)
@@ -229,3 +240,4 @@ public class MouseLock : MonoBehaviour
         }
     }
 }
+
