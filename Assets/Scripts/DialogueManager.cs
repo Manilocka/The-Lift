@@ -11,6 +11,8 @@ public class DialogueManager : MonoBehaviour
     private bool hasChoices = false;
     private int selectedChoice = 0; // Индекс выбранной опции
 
+    public bool DialogueDone = false; //это Олесечкин костыль
+
     // Добавляем ссылки на кнопки
     public Button choice1Button; // Первая кнопка выбора
     public Button choice2Button; // Вторая кнопка выбора (опционально)
@@ -95,6 +97,7 @@ public class DialogueManager : MonoBehaviour
             mouseLock.crosshair.gameObject.SetActive(true);
         }
         IsDialogueActive = false;
+        DialogueDone = true;
     }
     
     public DialogueLine? GetCurrentLine()

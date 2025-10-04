@@ -8,6 +8,8 @@ public class CallElevator : MonoBehaviour
     [SerializeField] float maxDistance = 5f; // Максимальное расстояние активации (в единицах Unity)
     ElevatorMoving platform;
 
+    
+
     void Start()
     {
         GameObject elevator = GameObject.FindGameObjectWithTag("Elevator");
@@ -34,7 +36,7 @@ public class CallElevator : MonoBehaviour
     {
         // Проверяем расстояние от камеры до триггера
         float distance = Vector3.Distance(Camera.main.transform.position, transform.position);
-        if (distance <= maxDistance && platform != null && !platform.canMove)
+        if (distance <= maxDistance && platform != null && !platform.canMove && DialogueManager.Instance.DialogueDone)
         {
             // Устанавливаем конечную точку (этаж) и включаем движение
             platform.endStop = floorNumber;
