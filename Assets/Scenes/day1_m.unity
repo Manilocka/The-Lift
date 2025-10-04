@@ -10569,7 +10569,7 @@ Transform:
   m_GameObject: {fileID: 1433134825}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -131.2, y: 15.2, z: -5781.8}
+  m_LocalPosition: {x: -131.2, y: 352, z: -5781.8}
   m_LocalScale: {x: 38.60713, y: 38.60713, z: 38.60713}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12962,7 +12962,7 @@ Transform:
   m_GameObject: {fileID: 1754734508}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -854, y: 3149, z: -2360}
+  m_LocalPosition: {x: -754, y: -425, z: -2279}
   m_LocalScale: {x: 38.60713, y: 72.66437, z: 38.60713}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -42005,6 +42005,7 @@ GameObject:
   - component: {fileID: 5791817661634721773}
   - component: {fileID: 8042334084304623651}
   - component: {fileID: 8042334084304623652}
+  - component: {fileID: 8042334084304623653}
   m_Layer: 6
   m_Name: main_door
   m_TagString: Untagged
@@ -50380,6 +50381,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 222.05103, y: 365.85748, z: 50.077393}
   m_Center: {x: -9.810913, y: -425.3257, z: -1178.5482}
+--- !u!114 &8042334084304623653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6224996000785005874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e5360ba28acb284d99c351d118a4ef1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SceneName: day1_e
 --- !u!1 &8045361710062060297
 GameObject:
   m_ObjectHideFlags: 0
