@@ -15,18 +15,23 @@ public class TriggerButton : MonoBehaviour
             {
                 if (hit.collider == GetComponent<Collider>())
                 {
-                    if (doorController != null)
-                    {
-                        if (doorController.isOpen) // Если двери открыты, закрываем
-                        {
-                            doorController.CloseDoors();
-                        }
-                        else // Если закрыты, открываем
-                        {
-                            doorController.OpenDoors();
-                        }
-                    }
+                    OnMouseDown();
                 }
+            }
+        }
+    }
+    
+    void OnMouseDown()
+    {
+        if (doorController != null)
+        {
+            if (doorController.isOpen) // Если двери открыты, закрываем
+            {
+                doorController.CloseDoors();
+            }
+            else // Если закрыты, открываем
+            {
+                doorController.OpenDoors();
             }
         }
     }

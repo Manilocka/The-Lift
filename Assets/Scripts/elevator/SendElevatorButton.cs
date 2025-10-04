@@ -27,25 +27,30 @@ public class SendElevatorButton : MonoBehaviour
             // Проверяем, попал ли луч в этот триггер
             if (Physics.Raycast(ray, out hit) && hit.collider.gameObject == gameObject)
             {
-                if (platform != null && !platform.canMove)
+                OnMouseDown();
+            }
+        }
+    }
+    
+    void OnMouseDown()
+    {
+        if (platform != null && !platform.canMove)
+        {
+            // Проверяем, не находится ли лифт уже на этом этаже
+            if (platform.startStop == floorNumber)
+            {
+                // Лифт уже на нужном этаже - просто открываем двери
+                if (doorController != null && !doorController.isOpen)
                 {
-                    // Проверяем, не находится ли лифт уже на этом этаже
-                    if (platform.startStop == floorNumber)
-                    {
-                        // Лифт уже на нужном этаже - просто открываем двери
-                        if (doorController != null && !doorController.isOpen)
-                        {
-                            doorController.OpenDoors();
-                        }
-                    }
-                    else
-                    {
-                        // Лифт на другом этаже - устанавливаем конечную точку и запускаем движение
-                        platform.endStop = floorNumber;
-                        StartCoroutine(DelayedDoorClose(2f));
-                        StartCoroutine(DelayedStart(7f)); // Запускаем корутину для задержки старта лифта
-                    }
+                    doorController.OpenDoors();
                 }
+            }
+            else
+            {
+                // Лифт на другом этаже - устанавливаем конечную точку и запускаем движение
+                platform.endStop = floorNumber;
+                StartCoroutine(DelayedDoorClose(2f));
+                StartCoroutine(DelayedStart(7f)); // Запускаем корутину для задержки старта лифта
             }
         }
     }

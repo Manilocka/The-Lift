@@ -17,6 +17,11 @@ public class DialogueUI : MonoBehaviour
     // Цвета для подсветки выбора
     private Color normalChoiceColor = Color.white;
     private Color selectedChoiceColor = Color.yellow;
+    
+    // Переменные для мигания
+    private bool isBlinking = false;
+    private float blinkSpeed = 4f; // Увеличено с 2f до 4f для более быстрого мигания
+    private float blinkTimer = 0f;
 
     public void Show()
     {
@@ -25,6 +30,7 @@ public class DialogueUI : MonoBehaviour
 
     public void Hide()
     {
+        isBlinking = false;
         gameObject.SetActive(false);
     }
     
@@ -35,14 +41,41 @@ public class DialogueUI : MonoBehaviour
         if (choice2Text != null)
             choice2Text.color = normalChoiceColor;
         
-        // Подсвечиваем выбранную кнопку
-        if (selectedChoice == 0 && totalChoices > 0)
+        // Включаем мигание для выбранной опции
+        isBlinking = true;
+        blinkTimer = 0f;
+    }
+    
+    void Update()
+    {
+        if (isBlinking)
         {
-            choice1Text.color = selectedChoiceColor;
-        }
-        else if (selectedChoice == 1 && totalChoices > 1)
-        {
-            choice2Text.color = selectedChoiceColor;
+            blinkTimer += Time.deltaTime * blinkSpeed;
+            float alpha = (Mathf.Sin(blinkTimer) + 1f) / 2f; // От 0 до 1
+            
+            // Получаем текущий выбранный выбор из DialogueManager
+            if (DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActive)
+            {
+                var currentLine = DialogueManager.Instance.GetCurrentLine();
+                if (currentLine.HasValue && currentLine.Value.choices.Count > 0)
+                {
+                    int selectedChoice = DialogueManager.Instance.GetSelectedChoice();
+                    
+                    // Применяем мигание к выбранной опции
+                    if (selectedChoice == 0)
+                    {
+                        Color blinkColor = selectedChoiceColor;
+                        blinkColor.a = alpha;
+                        choice1Text.color = blinkColor;
+                    }
+                    if (selectedChoice == 1 && currentLine.Value.choices.Count > 1)
+                    {
+                        Color blinkColor = selectedChoiceColor;
+                        blinkColor.a = alpha;
+                        choice2Text.color = blinkColor;
+                    }
+                }
+            }
         }
     }
 
@@ -79,6 +112,14 @@ public class DialogueUI : MonoBehaviour
         {
             dialogueText.text += c;
             yield return new WaitForSeconds(0.05f);
+            
+            // Проверяем, не нажал ли пользователь левую кнопку мыши или Enter для пропуска
+            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+            {
+                // Показываем весь текст сразу
+                dialogueText.text = fullText;
+                break;
+            }
         }
         isTyping = false;
         if (line.choices.Count > 0)

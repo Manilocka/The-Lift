@@ -14,9 +14,10 @@ public class MouseLock : MonoBehaviour
     public Image crosshair;
     public Color defaultColor = Color.white;
     public Color highlightColor = Color.yellow;
+    
 
     [Header("Interaction")]
-    public float maxInteractDistance = 1000f; // Увеличено до 1000 для лучшей видимости
+    public float maxInteractDistance = 170.0f;
     public float sphereCastRadius = 0.5f;
     // --- THIS IS THE FIX ---
     // We create a LayerMask to tell the SphereCast which layers to check.
@@ -41,9 +42,8 @@ public class MouseLock : MonoBehaviour
         }
         crosshair.color = defaultColor;
         
-        // Debug: Log the interactable layer mask
-        Debug.Log("Interactable Layer Mask: " + interactableLayer.value);
-        Debug.Log("Max Interact Distance: " + maxInteractDistance);
+        // Принудительно устанавливаем дистанцию
+        maxInteractDistance = 170.0f;
     }
 
     void Update()
@@ -52,6 +52,7 @@ public class MouseLock : MonoBehaviour
         {
             return;
         }
+        
 
         if (canLook)
         {
@@ -67,27 +68,43 @@ public class MouseLock : MonoBehaviour
 
         Ray ray = mainCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         
-        // Debug: Always try a regular raycast first to see if we're hitting anything
-        if (Physics.Raycast(ray, out RaycastHit debugHit, maxInteractDistance))
-        {
-            Debug.Log("Raycast hit: " + debugHit.collider.name + " on layer " + debugHit.collider.gameObject.layer + " (Collider type: " + debugHit.collider.GetType().Name + ")");
-        }
-        
         // Try with LayerMask first
         if (Physics.SphereCast(ray, sphereCastRadius, out RaycastHit hit, maxInteractDistance, interactableLayer))
         {
-            Debug.Log("SphereCast with LayerMask hit: " + hit.collider.name);
             crosshair.color = highlightColor;
 
             if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log("Clicked Interactable: " + hit.collider.name);
-                
                 // Проверяем на Door компонент
                 Door door = hit.collider.GetComponent<Door>();
                 if (door != null)
                 {
                     door.Interact();
+                    return;
+                }
+                
+                // Проверяем на кнопки лифта
+                CallElevator callElevator = hit.collider.GetComponent<CallElevator>();
+                if (callElevator != null)
+                {
+                    // Вызываем Update() кнопки для обработки клика
+                    callElevator.SendMessage("OnMouseDown");
+                    return;
+                }
+                
+                SendElevatorButton sendButton = hit.collider.GetComponent<SendElevatorButton>();
+                if (sendButton != null)
+                {
+                    // Вызываем Update() кнопки для обработки клика
+                    sendButton.SendMessage("OnMouseDown");
+                    return;
+                }
+                
+                TriggerButton triggerButton = hit.collider.GetComponent<TriggerButton>();
+                if (triggerButton != null)
+                {
+                    // Вызываем Update() кнопки для обработки клика
+                    triggerButton.SendMessage("OnMouseDown");
                     return;
                 }
                 
@@ -109,33 +126,44 @@ public class MouseLock : MonoBehaviour
                     canLook = false;
                     crosshair.gameObject.SetActive(false);
                 }
-                else
-                {
-                    Debug.Log("Interactable has no DialogueSO: " + hit.collider.name);
-                }
             }
         }
-        // Дополнительная проверка для дверей через обычный Raycast (для Mesh Collider)
+        // Дополнительная проверка для дверей и кнопок через обычный Raycast (для Mesh Collider)
         else if (Physics.Raycast(ray, out RaycastHit doorHit, maxInteractDistance, interactableLayer))
         {
             Door door = doorHit.collider.GetComponent<Door>();
             if (door != null)
             {
-                Debug.Log("Raycast hit Door: " + doorHit.collider.name);
                 crosshair.color = highlightColor;
                 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Debug.Log("Clicked Door via Raycast: " + doorHit.collider.name);
                     door.Interact();
+                }
+            }
+            else
+            {
+                // Проверяем на кнопки лифта
+                CallElevator callElevator = doorHit.collider.GetComponent<CallElevator>();
+                SendElevatorButton sendButton = doorHit.collider.GetComponent<SendElevatorButton>();
+                TriggerButton triggerButton = doorHit.collider.GetComponent<TriggerButton>();
+                
+                if (callElevator != null || sendButton != null || triggerButton != null)
+                {
+                    crosshair.color = highlightColor;
+                    
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        if (callElevator != null) callElevator.SendMessage("OnMouseDown");
+                        if (sendButton != null) sendButton.SendMessage("OnMouseDown");
+                        if (triggerButton != null) triggerButton.SendMessage("OnMouseDown");
+                    }
                 }
             }
         }
         // Fallback: Try without LayerMask if the above doesn't work
         else if (Physics.SphereCast(ray, sphereCastRadius, out RaycastHit fallbackHit, maxInteractDistance))
         {
-            Debug.Log("SphereCast without LayerMask hit: " + fallbackHit.collider.name);
-            
             // Проверяем на Door компонент
             Door door = fallbackHit.collider.GetComponent<Door>();
             if (door != null)
@@ -144,8 +172,25 @@ public class MouseLock : MonoBehaviour
                 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Debug.Log("Clicked Door (fallback): " + fallbackHit.collider.name);
                     door.Interact();
+                }
+                return;
+            }
+            
+            // Проверяем на кнопки лифта
+            CallElevator callElevator = fallbackHit.collider.GetComponent<CallElevator>();
+            SendElevatorButton sendButton = fallbackHit.collider.GetComponent<SendElevatorButton>();
+            TriggerButton triggerButton = fallbackHit.collider.GetComponent<TriggerButton>();
+            
+            if (callElevator != null || sendButton != null || triggerButton != null)
+            {
+                crosshair.color = highlightColor;
+                
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (callElevator != null) callElevator.SendMessage("OnMouseDown");
+                    if (sendButton != null) sendButton.SendMessage("OnMouseDown");
+                    if (triggerButton != null) triggerButton.SendMessage("OnMouseDown");
                 }
                 return;
             }
@@ -158,8 +203,6 @@ public class MouseLock : MonoBehaviour
                 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Debug.Log("Clicked Interactable (fallback): " + fallbackHit.collider.name);
-                    
                     if (npcDialogue.dialogue != null)
                     {
                         Vector3 lookDirection = playerBody.position - fallbackHit.collider.transform.position;
@@ -175,10 +218,6 @@ public class MouseLock : MonoBehaviour
                         }
                         canLook = false;
                         crosshair.gameObject.SetActive(false);
-                    }
-                    else
-                    {
-                        Debug.Log("Interactable has no DialogueSO (fallback): " + fallbackHit.collider.name);
                     }
                 }
             }

@@ -49,10 +49,6 @@ public class Door : MonoBehaviour, IInteractable
         isOpen = !isOpen;
         m_Animator.SetBool("isOpen", isOpen);
         
-        Debug.Log("Door " + gameObject.name + " is now " + (isOpen ? "open" : "closed"));
-        Debug.Log("Animator enabled: " + m_Animator.enabled);
-        Debug.Log("Animator isInitialized: " + m_Animator.isInitialized);
-        Debug.Log("Current state: " + m_Animator.GetCurrentAnimatorStateInfo(0).shortNameHash);
     }
 
 }

@@ -96,6 +96,20 @@ public class DialogueManager : MonoBehaviour
         }
         IsDialogueActive = false;
     }
+    
+    public DialogueLine? GetCurrentLine()
+    {
+        if (currentDialogue != null && currentIndex < currentDialogue.lines.Count)
+        {
+            return currentDialogue.lines[currentIndex];
+        }
+        return null;
+    }
+    
+    public int GetSelectedChoice()
+    {
+        return selectedChoice;
+    }
 
     void Update()
     {
@@ -105,25 +119,35 @@ public class DialogueManager : MonoBehaviour
             //EditorUtility.DisplayDialog("TUTA", "Message", "OK");
         }
 
-        if (ui.gameObject.activeSelf && Input.GetMouseButtonDown(0) && !hasChoices && !ui.isTyping)
+        if (ui.gameObject.activeSelf && !ui.isTyping)
         {
-            Continue();
-        }
-        if (hasChoices)
-        {
-            if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+            if (!hasChoices)
             {
-                selectedChoice = Mathf.Max(0, selectedChoice - 1);
-                UpdateChoiceSelection();
+                // Продолжение диалога - левая кнопка мыши или Enter
+                if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+                {
+                    Continue();
+                }
             }
-            if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+            else
             {
-                selectedChoice = Mathf.Min(currentDialogue.lines[currentIndex].choices.Count - 1, selectedChoice + 1);
-                UpdateChoiceSelection();
-            }
-            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
-            {
-                OnChoiceSelected(selectedChoice);
+                // Навигация по выбору
+                if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetAxis("Mouse ScrollWheel") > 0f)
+                {
+                    selectedChoice = Mathf.Max(0, selectedChoice - 1);
+                    UpdateChoiceSelection();
+                }
+                if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetAxis("Mouse ScrollWheel") < 0f)
+                {
+                    selectedChoice = Mathf.Min(currentDialogue.lines[currentIndex].choices.Count - 1, selectedChoice + 1);
+                    UpdateChoiceSelection();
+                }
+                
+                // Выбор опции - Enter или левая кнопка мыши
+                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetMouseButtonDown(0))
+                {
+                    OnChoiceSelected(selectedChoice);
+                }
             }
         }
     }

@@ -25,15 +25,20 @@ public class CallElevator : MonoBehaviour
             // Проверяем, попал ли луч в этот триггер
             if (Physics.Raycast(ray, out hit) && hit.collider.gameObject == gameObject)
             {
-                // Проверяем расстояние от камеры до триггера
-                float distance = Vector3.Distance(Camera.main.transform.position, transform.position);
-                if (distance <= maxDistance && platform != null && !platform.canMove)
-                {
-                    // Устанавливаем конечную точку (этаж) и включаем движение
-                    platform.endStop = floorNumber;
-                    platform.canMove = true;
-                }
+                OnMouseDown();
             }
+        }
+    }
+    
+    void OnMouseDown()
+    {
+        // Проверяем расстояние от камеры до триггера
+        float distance = Vector3.Distance(Camera.main.transform.position, transform.position);
+        if (distance <= maxDistance && platform != null && !platform.canMove)
+        {
+            // Устанавливаем конечную точку (этаж) и включаем движение
+            platform.endStop = floorNumber;
+            platform.canMove = true;
         }
     }
 }
