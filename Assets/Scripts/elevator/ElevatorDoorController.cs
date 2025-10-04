@@ -6,7 +6,7 @@ public class ElevatorDoorController : MonoBehaviour
     [SerializeField] private Transform rightDoor; // Ссылка на правую дверь
     [SerializeField] private float openPosition = 50f; // Расстояние открытия (в единицах Unity)
     [SerializeField] private float closePosition = 0f; // Начальная (закрытая) позиция
-    [SerializeField] private float speed = 2f; // Скорость движения дверей
+    [SerializeField] private float speed = 23f; // Скорость движения дверей
 
     public bool isOpen = false; // Состояние дверей
     private Vector3 leftDoorTarget;

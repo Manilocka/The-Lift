@@ -49,8 +49,8 @@ public class SendElevatorButton : MonoBehaviour
             {
                 // Лифт на другом этаже - устанавливаем конечную точку и запускаем движение
                 platform.endStop = floorNumber;
-                StartCoroutine(DelayedDoorClose(2f));
-                StartCoroutine(DelayedStart(7f)); // Запускаем корутину для задержки старта лифта
+                StartCoroutine(DelayedDoorClose(1f));
+                StartCoroutine(DelayedStart(5f)); // Запускаем корутину для задержки старта лифта
             }
         }
     }
