@@ -20,8 +20,7 @@ public class RetroMainMenu : MonoBehaviour
     public TextMeshProUGUI exitText;
     public TextMeshProUGUI versionText;
     
-    [Header("Selection Background")]
-    public Image selectionBackground; // Прямоугольник 700x70 цвета #43FCBD
+    // Убрали прямоугольник - только моргающий текст
     
     [Header("Retro Effects")]
     public Image scanlinesOverlay;
@@ -82,8 +81,7 @@ public class RetroMainMenu : MonoBehaviour
             menuButtons[i].onClick.AddListener(() => SelectOption(index));
         }
         
-        // Настройка фона выделения
-        SetupSelectionBackground();
+        // Убрали прямоугольник - только моргающий текст
         
         // Установка начального выделения
         UpdateSelection(0);
@@ -96,16 +94,7 @@ public class RetroMainMenu : MonoBehaviour
         }
     }
     
-    void SetupSelectionBackground()
-    {
-        if (selectionBackground != null)
-        {
-            // Настройка прямоугольника выделения
-            selectionBackground.color = new Color(0.26f, 0.99f, 0.74f, 1f); // #43FCBD
-            selectionBackground.rectTransform.sizeDelta = new Vector2(700, 70);
-            selectionBackground.gameObject.SetActive(false);
-        }
-    }
+    // Убрали прямоугольник - только моргающий текст
     
     void SetupRetroEffects()
     {
@@ -167,28 +156,7 @@ public class RetroMainMenu : MonoBehaviour
     
     void UpdateSelection(int index)
     {
-        // Сброс всех выделений - НЕ МЕНЯЕМ цвет и стиль текста
-        for (int i = 0; i < menuTexts.Length; i++)
-        {
-            if (menuTexts[i] != null)
-            {
-                // НЕ ТРОГАЕМ цвет и стиль - оставляем как настроено в Unity
-                // menuTexts[i].color = retroGreen; // УБРАНО
-                // menuTexts[i].fontStyle = FontStyles.Bold; // УБРАНО
-            }
-        }
-        
-        // Показываем/скрываем фон выделения
-        if (selectionBackground != null)
-        {
-            selectionBackground.gameObject.SetActive(true);
-            // Позиционируем фон под выбранным элементом
-            if (menuTexts[index] != null)
-            {
-                selectionBackground.rectTransform.position = menuTexts[index].rectTransform.position;
-            }
-        }
-        
+        // Простое выделение - только моргающий текст
         currentSelection = index;
     }
     

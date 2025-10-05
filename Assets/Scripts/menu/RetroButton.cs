@@ -11,8 +11,7 @@ public class RetroButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public TextMeshProUGUI buttonText;
     public Image buttonImage;
     
-    [Header("Selection Background")]
-    public Image selectionBackground; // Прямоугольник 700x70 цвета #43FCBD
+    // Убрали прямоугольник - только моргающий текст
     
     [Header("Hover Effects")]
     public Color hoverTextColor = Color.black; // Черный цвет при наведении
@@ -54,34 +53,17 @@ public class RetroButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             
         originalScale = transform.localScale;
         
-        // Настройка фона выделения
-        SetupSelectionBackground();
+        // Убрали прямоугольник - только моргающий текст
     }
     
-    void SetupSelectionBackground()
-    {
-        if (selectionBackground != null)
-        {
-            // Настройка прямоугольника выделения
-            selectionBackground.color = new Color(0.26f, 0.99f, 0.74f, 1f); // #43FCBD
-            selectionBackground.rectTransform.sizeDelta = new Vector2(700, 70);
-            selectionBackground.gameObject.SetActive(false);
-        }
-    }
+    // Убрали прямоугольник - только моргающий текст
     
     public void OnPointerEnter(PointerEventData eventData)
     {
         isHovered = true;
         PlaySound(hoverSound);
         
-        // Показываем фон выделения
-        if (selectionBackground != null)
-        {
-            selectionBackground.gameObject.SetActive(true);
-            selectionBackground.rectTransform.position = transform.position;
-        }
-        
-        // Начинаем моргание
+        // Начинаем моргание текста
         if (enableBlinking && buttonText != null)
         {
             if (blinkCoroutine != null)
@@ -94,12 +76,6 @@ public class RetroButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         isHovered = false;
         isPressed = false;
-        
-        // Скрываем фон выделения
-        if (selectionBackground != null)
-        {
-            selectionBackground.gameObject.SetActive(false);
-        }
         
         // Останавливаем моргание и возвращаем оригинальный цвет
         if (blinkCoroutine != null)
