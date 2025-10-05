@@ -1,6 +1,8 @@
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
+
 public class DialogueManager : MonoBehaviour
 {
     public bool IsDialogueActive { get; private set; }
@@ -21,6 +23,9 @@ public class DialogueManager : MonoBehaviour
     [Header("Диалог для повторных попыток")]
     public DialogueSO tiredDialogue; // Диалог "я устала говорить"
 
+    // Простое отслеживание пройденных диалогов
+    private static HashSet<string> completedDialogues = new HashSet<string>();
+
     // Добавляем ссылки на кнопки
     public Button choice1Button; // Первая кнопка выбора
     public Button choice2Button; // Вторая кнопка выбора (опционально)
@@ -32,9 +37,12 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(DialogueSO dialogue)
     {
-        if (oneTimeDialogueOnly && IsDialogueCompleted(dialogue))
+        Debug.Log($"Попытка начать диалог: {dialogue.name}");
+        
+        // Простая проверка через HashSet
+        if (oneTimeDialogueOnly && completedDialogues.Contains(dialogue.name))
         {
-            // Показываем диалог "я устала говорить"
+            Debug.Log("Диалог уже пройден, показываем tiredDialogue");
             if (tiredDialogue != null)
             {
                 StartTiredDialogue();
@@ -42,6 +50,7 @@ public class DialogueManager : MonoBehaviour
             return;
         }
         
+        Debug.Log("Начинаем обычный диалог");
         IsDialogueActive = true;
         currentDialogue = dialogue;
         currentIndex = 0;
@@ -52,7 +61,7 @@ public class DialogueManager : MonoBehaviour
     
     public void StartDialogueWithMain(DialogueSO dialogue)
     {
-        if (oneTimeDialogueOnly && IsDialogueCompleted(dialogue))
+        if (oneTimeDialogueOnly && completedDialogues.Contains(dialogue.name))
         {
             if (tiredDialogue != null)
             {
@@ -83,8 +92,10 @@ public class DialogueManager : MonoBehaviour
         DisplayLine();
     }
     
-    private void StartTiredDialogue()
+    public void StartTiredDialogue()
     {
+        Debug.Log("Запускаем tiredDialogue");
+        
         IsDialogueActive = true;
         currentDialogue = tiredDialogue;
         currentIndex = 0;
@@ -214,6 +225,8 @@ public class DialogueManager : MonoBehaviour
 
     public void EndDialogue()
     {
+        Debug.Log($"Завершаем диалог: {currentDialogue?.name}");
+        
         ui.Hide();
         PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>();
         if (playerMovement != null) playerMovement.canMove = true;
@@ -223,14 +236,18 @@ public class DialogueManager : MonoBehaviour
             mouseLock.canLook = true;
             mouseLock.crosshair.gameObject.SetActive(true);
         }
+        
+        // Простое добавление в HashSet
+        if (oneTimeDialogueOnly && currentDialogue != null)
+        {
+            Debug.Log($"Отмечаем диалог как пройденный: {currentDialogue.name}");
+            completedDialogues.Add(currentDialogue.name);
+        }
+        
         IsDialogueActive = false;
         DialogueDone = true;
         
-        // Отмечаем диалог как пройденный, если включено ограничение
-        if (oneTimeDialogueOnly && currentDialogue != null)
-        {
-            MarkDialogueAsCompleted(currentDialogue);
-        }
+        Debug.Log("Диалог полностью завершен, IsDialogueActive = false");
     }
     
     public DialogueLine? GetCurrentLine()
@@ -247,25 +264,11 @@ public class DialogueManager : MonoBehaviour
         return selectedChoice;
     }
     
-    // Методы для отслеживания пройденных диалогов
-    private bool IsDialogueCompleted(DialogueSO dialogue)
-    {
-        string key = "DialogueCompleted_" + dialogue.name;
-        return PlayerPrefs.GetInt(key, 0) == 1;
-    }
-    
-    private void MarkDialogueAsCompleted(DialogueSO dialogue)
-    {
-        string key = "DialogueCompleted_" + dialogue.name;
-        PlayerPrefs.SetInt(key, 1);
-        PlayerPrefs.Save();
-    }
-    
-    // Метод для сброса всех пройденных диалогов (для тестирования)
+    // Простые методы для отслеживания пройденных диалогов
     public void ResetAllDialogueProgress()
     {
-        PlayerPrefs.DeleteAll();
-        PlayerPrefs.Save();
+        completedDialogues.Clear();
+        Debug.Log("Прогресс всех диалогов сброшен!");
     }
 
     void Update()

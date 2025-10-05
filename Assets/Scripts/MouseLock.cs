@@ -57,8 +57,10 @@ public class MouseLock : MonoBehaviour
 
     void Update()
     {
+        // Полностью блокируем взаимодействие во время диалога
         if (DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActive)
         {
+            Debug.Log("Диалог активен, блокируем все взаимодействия");
             return;
         }
 
@@ -120,11 +122,40 @@ public class MouseLock : MonoBehaviour
     {
         if (npcDialogue != null && npcDialogue.dialogue != null)
         {
+            // Проверяем, не активен ли уже диалог
+            if (DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActive)
+            {
+                Debug.Log("Диалог уже активен, игнорируем повторное взаимодействие");
+                return;
+            }
+
             Vector3 lookDirection = playerBody.position - hit.collider.transform.position;
             lookDirection.y = 0;
             hit.collider.transform.rotation = Quaternion.LookRotation(lookDirection);
 
-            DialogueManager.Instance.StartDialogue(npcDialogue.dialogue);
+            // Проверяем, можно ли говорить с этим NPC
+            if (!npcDialogue.CanTalk())
+            {
+                Debug.Log($"С NPC {npcDialogue.gameObject.name} уже говорили, показываем tiredDialogue");
+                
+                // Показываем tiredDialogue вместо блокировки
+                if (DialogueManager.Instance != null && DialogueManager.Instance.tiredDialogue != null)
+                {
+                    DialogueManager.Instance.StartTiredDialogue();
+                }
+                else
+                {
+                    Debug.LogError("tiredDialogue не назначен в DialogueManager!");
+                }
+            }
+            else
+            {
+                Debug.Log($"Начинаем диалог с NPC: {npcDialogue.dialogue.name}");
+                DialogueManager.Instance.StartDialogue(npcDialogue.dialogue);
+
+                // Отмечаем, что с этим NPC уже говорили
+                npcDialogue.MarkAsTalkedTo();
+            }
 
             PlayerMovement playerMovement = playerBody.GetComponent<PlayerMovement>();
             if (playerMovement != null)

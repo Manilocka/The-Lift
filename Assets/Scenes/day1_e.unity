@@ -10929,6 +10929,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogue: {fileID: 11400000, guid: a68584f5efb471f46a186c2175fec2ca, type: 2}
+  oneTimeOnly: 0
 --- !u!143 &1433134831
 CharacterController:
   m_ObjectHideFlags: 0
@@ -12338,6 +12339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogue: {fileID: 11400000, guid: e18a0ebca0fab684892a671d23043b94, type: 2}
+  oneTimeOnly: 1
 --- !u!136 &1560687317
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -13908,7 +13910,6 @@ GameObject:
   - component: {fileID: 1754734510}
   - component: {fileID: 1754734512}
   - component: {fileID: 1754734513}
-  - component: {fileID: 1754734514}
   - component: {fileID: 1754734515}
   m_Layer: 0
   m_Name: Player
@@ -14004,20 +14005,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &1754734514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1754734508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98d7320461d897244bbef7629804cb0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  trashDialogue: {fileID: 11400000, guid: 79eeb4fa1fca16c47bc474f4e17b13cd, type: 2}
-  dialogueDuration: 3
 --- !u!114 &1754734515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54947,7 +54934,6 @@ GameObject:
   - component: {fileID: 6331925719998032590}
   - component: {fileID: 3541396357901130628}
   - component: {fileID: 8638182845486141693}
-  - component: {fileID: 8638182845486141695}
   m_Layer: 6
   m_Name: house_done:group14_Object_28
   m_TagString: trash
@@ -54976,20 +54962,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 246.18762, y: 191.08862, z: 132.58234}
   m_Center: {x: 137.64056, y: 92.28775, z: 315.56137}
---- !u!114 &8638182845486141695
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8638182845486141692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf9c126f394a5dd419ed36dcb8c3d77f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  trashDialogue: {fileID: 11400000, guid: 79eeb4fa1fca16c47bc474f4e17b13cd, type: 2}
-  dialogueDuration: 3
 --- !u!23 &8638280537413623696
 MeshRenderer:
   m_ObjectHideFlags: 0
