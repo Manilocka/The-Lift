@@ -36,7 +36,7 @@ public class CallElevator : MonoBehaviour
     {
         // Проверяем расстояние от камеры до триггера
         float distance = Vector3.Distance(Camera.main.transform.position, transform.position);
-        if (distance <= maxDistance && platform != null && !platform.canMove && DialogueManager.Instance.DialogueDone)
+        if (distance <= maxDistance && platform != null && !platform.canMove)
         {
             // Устанавливаем конечную точку (этаж) и включаем движение
             platform.endStop = floorNumber;

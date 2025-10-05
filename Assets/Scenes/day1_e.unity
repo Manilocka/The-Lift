@@ -6675,8 +6675,8 @@ Transform:
   m_GameObject: {fileID: 864071695}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.8, z: 1.2}
+  m_LocalPosition: {x: 0, y: 0.22, z: 0}
+  m_LocalScale: {x: 1.2, y: 1.143486, z: 1.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1433134828}
@@ -9048,7 +9048,7 @@ Transform:
   m_GameObject: {fileID: 1167865254}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.807, z: 0}
+  m_LocalPosition: {x: 0, y: -0.94, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10889,7 +10889,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1433134828}
   - component: {fileID: 1433134830}
-  - component: {fileID: 1433134829}
+  - component: {fileID: 1433134832}
+  - component: {fileID: 1433134831}
   m_Layer: 0
   m_Name: NPC
   m_TagString: NPC
@@ -10906,8 +10907,8 @@ Transform:
   m_GameObject: {fileID: 1433134825}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -880, y: -436, z: -3196}
-  m_LocalScale: {x: 38.60713, y: 54.43219, z: 38.60713}
+  m_LocalPosition: {x: -823, y: -132, z: -1140}
+  m_LocalScale: {x: 38.60713, y: 91.32633, z: 38.60713}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 864071696}
@@ -10915,8 +10916,21 @@ Transform:
   - {fileID: 1120061045}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1433134829
-BoxCollider:
+--- !u!114 &1433134830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1433134825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1936daf5873d4d540b47161781431b6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue: {fileID: 11400000, guid: a68584f5efb471f46a186c2175fec2ca, type: 2}
+--- !u!143 &1433134831
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -10930,13 +10944,18 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.3815268, y: 5.1208878, z: 1.6815594}
-  m_Center: {x: 0.0035335335, y: -0.07923591, z: 0.51340836}
---- !u!114 &1433134830
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 40
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1433134832
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10945,10 +10964,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1433134825}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1936daf5873d4d540b47161781431b6b, type: 3}
+  m_Script: {fileID: 11500000, guid: 6ceb895aab67b8c408501561f3185418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: {fileID: 11400000, guid: e18a0ebca0fab684892a671d23043b94, type: 2}
+  controller: {fileID: 1433134831}
+  speed: 325
+  gravity: -60
+  groundCheck: {fileID: 1167865255}
+  groundDistance: 0.4
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
+  canMove: 1
 --- !u!64 &1443725681
 MeshCollider:
   m_ObjectHideFlags: 0
