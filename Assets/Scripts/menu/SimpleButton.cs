@@ -82,3 +82,4 @@ public class SimpleButton : MonoBehaviour
         isBackButton = isBack;
     }
 }
+

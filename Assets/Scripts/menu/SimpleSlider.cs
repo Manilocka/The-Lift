@@ -109,3 +109,4 @@ public class SimpleSlider : MonoBehaviour
         Debug.Log("SimpleSlider: Чувствительность мыши установлена на " + sensitivity);
     }
 }
+

@@ -32,6 +32,7 @@ public class MouseLock : MonoBehaviour
     void Start()
     {
         clickActions.Add(typeof(Door), (obj, hit) => ((Door)obj).Interact());
+        clickActions.Add(typeof(FloorDoorController), (obj, hit) => ((FloorDoorController)obj).OpenDoors());
         clickActions.Add(typeof(CallElevator), (obj, hit) => sendClick(obj));
         clickActions.Add(typeof(SendElevatorButton), (obj, hit) => sendClick(obj));
         clickActions.Add(typeof(SendElevatorNew), (obj, hit) => sendClick(obj));
@@ -57,6 +58,10 @@ public class MouseLock : MonoBehaviour
 
     void Update()
     {
+        // Проверяем интерактивность и обновляем цвет crosshair ПЕРЕД блокировкой диалога
+        bool isInteractable = hasInteractable(out RaycastHit hit);
+        crosshair.color = isInteractable ? highlightColor : defaultColor;
+
         // Полностью блокируем взаимодействие во время диалога
         if (DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActive)
         {
@@ -75,9 +80,6 @@ public class MouseLock : MonoBehaviour
             transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
             playerBody.Rotate(Vector3.up * mouseX);
         }
-
-        bool isInteractable = hasInteractable(out RaycastHit hit);
-        crosshair.color = isInteractable ? highlightColor : defaultColor;
 
         if (!isInteractable) return;
 
