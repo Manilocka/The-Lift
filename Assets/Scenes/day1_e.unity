@@ -13907,6 +13907,9 @@ GameObject:
   - component: {fileID: 1754734511}
   - component: {fileID: 1754734510}
   - component: {fileID: 1754734512}
+  - component: {fileID: 1754734513}
+  - component: {fileID: 1754734514}
+  - component: {fileID: 1754734515}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -13979,6 +13982,57 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   canMove: 1
+--- !u!64 &1754734513
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754734508}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
+--- !u!114 &1754734514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754734508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98d7320461d897244bbef7629804cb0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trashDialogue: {fileID: 11400000, guid: 79eeb4fa1fca16c47bc474f4e17b13cd, type: 2}
+  dialogueDuration: 3
+--- !u!114 &1754734515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754734508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf058fdc72c0c3d4ab87d7c32f49de75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRadius: 170
+  trashDialogue: {fileID: 11400000, guid: 79eeb4fa1fca16c47bc474f4e17b13cd, type: 2}
+  dialogueDuration: 2
 --- !u!1 &1760371212
 GameObject:
   m_ObjectHideFlags: 0
@@ -16432,6 +16486,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ui: {fileID: 327984211}
   DialogueDone: 0
+  oneTimeDialogueOnly: 0
+  tiredDialogue: {fileID: 11400000, guid: 434f125a1f281cc4f92ad2e394de33a5, type: 2}
   choice1Button: {fileID: 472903759}
   choice2Button: {fileID: 2066080654}
 --- !u!4 &2047004920
@@ -54890,11 +54946,11 @@ GameObject:
   - component: {fileID: 1891070450558756546}
   - component: {fileID: 6331925719998032590}
   - component: {fileID: 3541396357901130628}
-  - component: {fileID: 8638182845486141694}
   - component: {fileID: 8638182845486141693}
+  - component: {fileID: 8638182845486141695}
   m_Layer: 6
   m_Name: house_done:group14_Object_28
-  m_TagString: Untagged
+  m_TagString: trash
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54918,30 +54974,22 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 246.18762, y: 191.08862, z: 105.38324}
-  m_Center: {x: 137.64056, y: 92.28775, z: 301.96182}
---- !u!64 &8638182845486141694
-MeshCollider:
+  m_Size: {x: 246.18762, y: 191.08862, z: 132.58234}
+  m_Center: {x: 137.64056, y: 92.28775, z: 315.56137}
+--- !u!114 &8638182845486141695
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8638182845486141692}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 8578680354735676320, guid: 45299e38a19b4d94382f3e2a111ee075, type: 3}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf9c126f394a5dd419ed36dcb8c3d77f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trashDialogue: {fileID: 11400000, guid: 79eeb4fa1fca16c47bc474f4e17b13cd, type: 2}
+  dialogueDuration: 3
 --- !u!23 &8638280537413623696
 MeshRenderer:
   m_ObjectHideFlags: 0
