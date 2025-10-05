@@ -7,7 +7,9 @@ public class DialogueManager : MonoBehaviour
     public static DialogueManager Instance;
     public DialogueUI ui;
     private DialogueSO currentDialogue;
+    private DialogueSO mainDialogue; // Основной диалог
     private int currentIndex = 0;
+    private int mainDialogueIndex = 0; // Индекс в основном диалоге
     private bool hasChoices = false;
     private int selectedChoice = 0; // Индекс выбранной опции
 
@@ -32,41 +34,173 @@ public class DialogueManager : MonoBehaviour
         DisplayLine();
         Debug.Log("started dialog");
     }
+    
+    public void StartDialogueWithMain(DialogueSO dialogue)
+    {
+        IsDialogueActive = true;
+        mainDialogue = dialogue; // Инициализируем основной диалог
+        currentDialogue = dialogue;
+        mainDialogueIndex = 0;
+        currentIndex = 0;
+        selectedChoice = 0;
+        ui.Show();
+        DisplayLine();
+        Debug.Log("started dialog with main reference");
+    }
+    
+    public void StartMainDialogue(DialogueSO dialogue)
+    {
+        IsDialogueActive = true;
+        mainDialogue = dialogue; // Сохраняем основной диалог
+        currentDialogue = dialogue;
+        mainDialogueIndex = 0;
+        currentIndex = 0;
+        selectedChoice = 0;
+        ui.Show();
+        DisplayLine();
+        Debug.Log("started main dialog");
+    }
 
     void DisplayLine()
     {
+        // Проверяем, что диалог активен и индекс валидный
+        if (!IsDialogueActive || currentDialogue == null)
+        {
+            Debug.LogWarning("Dialogue is not active or dialogue is null");
+            return;
+        }
 
         if (currentIndex >= currentDialogue.lines.Count)
         {
+            Debug.Log("Dialogue ended - reached end of lines");
             EndDialogue();
             return;
         }
+
         var line = currentDialogue.lines[currentIndex];
         hasChoices = line.choices.Count > 0;
+        
+        Debug.Log($"Displaying line {currentIndex}: '{line.text}' (hasChoices: {hasChoices})");
+        
         ui.ShowLine(line, OnChoiceSelected);
+        
         if (hasChoices)
         {
             UpdateChoiceSelection(); // Обновляем выделение опций
         }
-        Debug.Log("Displayed a line with index "+currentIndex+" = "+line );
-
     }
 
     public void Continue()
     {
+        if (!IsDialogueActive || currentDialogue == null)
+        {
+            Debug.LogWarning("Cannot continue - dialogue is not active");
+            return;
+        }
+
         currentIndex++;
         selectedChoice = 0; // Сбрасываем выбор при переходе
+        
+        // Если это основной диалог, обновляем индекс основного диалога
+        if (currentDialogue == mainDialogue)
+        {
+            mainDialogueIndex = currentIndex;
+        }
+        
+        Debug.Log($"Continuing dialogue to index {currentIndex}");
         DisplayLine();
-        Debug.Log("Continued dialog index"+ currentIndex);
-
     }
 
     void OnChoiceSelected(int choice)
     {
-        currentIndex = currentDialogue.lines[currentIndex].choices[choice].nextLineIndex;
-        hasChoices = false;
-        selectedChoice = 0;
-        DisplayLine();
+        // Получаем текущую строку диалога
+        var currentLine = currentDialogue.lines[currentIndex];
+        
+        // Проверяем, что выбор существует
+        if (choice >= 0 && choice < currentLine.choices.Count)
+        {
+            var selectedChoice = currentLine.choices[choice];
+            
+            // Проверяем, есть ли реплики для этого выбора
+            if (selectedChoice.dialogueLines != null && selectedChoice.dialogueLines.Count > 0)
+            {
+                // Если основной диалог не установлен, устанавливаем текущий
+                if (mainDialogue == null)
+                {
+                    mainDialogue = currentDialogue;
+                    Debug.Log("Устанавливаем текущий диалог как основной");
+                }
+                
+                // Сохраняем индекс основного диалога
+                mainDialogueIndex = currentIndex;
+                
+                // Создаем временный диалог из реплик выбора
+                var tempDialogue = ScriptableObject.CreateInstance<DialogueSO>();
+                tempDialogue.lines = selectedChoice.dialogueLines;
+                
+                Debug.Log($"Показываем {selectedChoice.dialogueLines.Count} реплик для выбора '{selectedChoice.choiceText}'");
+                Debug.Log($"Сохраняем индекс основного диалога: {mainDialogueIndex}");
+                
+                // Запускаем временный диалог
+                StartDialogue(tempDialogue);
+                
+                // Автоматически продолжаем диалог после выбора
+                StartCoroutine(ContinueAfterChoice());
+            }
+            else
+            {
+                Debug.LogWarning($"Нет реплик для выбора '{selectedChoice.choiceText}'. Завершаем диалог.");
+                EndDialogue();
+            }
+        }
+        else
+        {
+            Debug.LogError($"Неверный индекс выбора: {choice}. Доступно выборов: {currentLine.choices.Count}");
+        }
+    }
+    
+    private System.Collections.IEnumerator ContinueAfterChoice()
+    {
+        Debug.Log("Начинаем ожидание окончания временного диалога...");
+        
+        // Ждем, пока текущий диалог не закончится
+        while (IsDialogueActive)
+        {
+            yield return null;
+        }
+        
+        Debug.Log("Временный диалог закончился, ждем 0.5 секунды...");
+        
+        // Небольшая задержка для плавного перехода
+        yield return new WaitForSeconds(0.5f);
+        
+        // Проверяем, что основной диалог существует
+        if (mainDialogue == null)
+        {
+            Debug.LogError("Основной диалог не найден! Завершаем диалог.");
+            EndDialogue();
+            yield break;
+        }
+        
+        // Возвращаемся к основному диалогу
+        currentDialogue = mainDialogue;
+        mainDialogueIndex++;
+        
+        Debug.Log($"Индекс основного диалога: {mainDialogueIndex}, Всего элементов в основном диалоге: {mainDialogue.lines.Count}");
+        
+        if (mainDialogueIndex < mainDialogue.lines.Count)
+        {
+            Debug.Log($"Возвращаемся к основному диалогу, переходим к элементу: {mainDialogueIndex}");
+            currentIndex = mainDialogueIndex;
+            IsDialogueActive = true;
+            ui.Show();
+            DisplayLine();
+        }
+        else
+        {
+            Debug.Log("Основной диалог завершен - больше нет элементов");
+            EndDialogue();
+        }
     }
 
     void UpdateChoiceSelection()

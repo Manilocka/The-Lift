@@ -11,5 +11,5 @@ public struct DialogueLine {
 [Serializable]
 public struct Choice {
     public string choiceText;
-    public int nextLineIndex;
+    public List<DialogueLine> dialogueLines; // Список реплик для этого выбора
 }
