@@ -19,7 +19,7 @@ public class NPCMovement : MonoBehaviour
 
     private Vector3 velocity;
     private bool isGrounded;
-    public bool canMove = true;
+    public bool canMove = false;
 
     void Update()
     {
@@ -29,6 +29,8 @@ public class NPCMovement : MonoBehaviour
         {
             velocity.y = -2f;
         }
+
+        canMove = AdditionalCheck.CanNPCMove();
 
         // Если разрешено движение и есть цель
         if (canMove && targetPoint != null)
