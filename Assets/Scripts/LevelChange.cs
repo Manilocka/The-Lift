@@ -10,7 +10,10 @@ public class LevelChange : MonoBehaviour
 
     void OnMouseDown()
     {
+        DialogueManager.ResetDialogueDone();
+        Debug.Log("DialogueDone " + DialogueManager.DialogueDone);
         SceneManager.LoadScene(SceneName);
+        
     }
 
 

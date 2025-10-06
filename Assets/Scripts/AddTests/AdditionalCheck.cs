@@ -22,7 +22,7 @@ public class AdditionalCheck : MonoBehaviour
         if (dialogueManager != null)
         {
             // Возвращаем значение свойства dialogueDone
-            return dialogueManager.DialogueDone;
+            return DialogueManager.DialogueDone;
         }
         else
         {
@@ -64,6 +64,7 @@ public class AdditionalCheck : MonoBehaviour
         if (scene == "day1_e")
         {
             Debug.Log("00000000000000");
+            Debug.Log("IsPlayerInsideElevator" + playerLiftCheck.IsPlayerInsideElevator());
 
             if (playerLiftCheck.IsPlayerInsideElevator() && (IsDialogueDone() == true))
             {
@@ -84,7 +85,7 @@ public class AdditionalCheck : MonoBehaviour
         
 
         
-        return false;
+        return true;
     }
 
 

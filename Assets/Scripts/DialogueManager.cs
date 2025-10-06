@@ -15,7 +15,11 @@ public class DialogueManager : MonoBehaviour
     private bool hasChoices = false;
     private int selectedChoice = 0; // Индекс выбранной опции
 
-    public bool DialogueDone = false; //это Олесечкин костыль
+    public static bool DialogueDone = false; //это Олесечкин костыль
+    public static void ResetDialogueDone()
+    {
+        DialogueDone = false;
+    }
     //PlayerInLiftCheck playerLiftCheck;
     //public ElevatorMoving elevator;
 
