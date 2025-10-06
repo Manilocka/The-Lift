@@ -38,23 +38,19 @@ public class ElevatorDoorController : MonoBehaviour
     {
         if (!isOpen && AdditionalCheck.ElevatorDoorsCanBeOpened())
         {
+            Debug.Log("Открываем двери лифта!");
             leftDoorTarget = leftDoor.localPosition + Vector3.left * openPosition;  // Движение влево
             rightDoorTarget = rightDoor.localPosition + Vector3.right * openPosition; // Движение вправо
             isOpen = true;
-
-            if (AdditionalCheck.ElevatorDoorsCanBeOpened())
-            {
-                Debug.Log("!!!!!! ElevatorDoorsCanBeOpened!!!");
-            }
-            else
-            {
-                Debug.Log("XXXXXX ElevatorDoorsCanBeOpened FALSE XXXX");
-            }
 
             // Открываем внешние двери на текущем этаже
             OpenFloorDoors();
             
             StartCoroutine(CloseDoorsAfterDelay(10f)); // Запускаем корутину для закрытия через 10 секунд
+        }
+        else
+        {
+            Debug.Log($"Не удалось открыть двери: isOpen={isOpen}, ElevatorDoorsCanBeOpened={AdditionalCheck.ElevatorDoorsCanBeOpened()}");
         }
     }
 

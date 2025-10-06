@@ -29,14 +29,24 @@ public class ElevatorMoving : MonoBehaviour
     void FixedUpdate() // Используем FixedUpdate для физики
     {
         if (!canMove) return; // Проверяем, можно ли двигаться
+        
+        // Проверяем, что endStop не превышает количество доступных этажей
+        if (endStop >= stops.Length)
+        {
+            endStop = stops.Length - 1; // Устанавливаем максимально доступный этаж
+            Debug.LogWarning($"endStop превышает количество этажей! Устанавливаем максимально доступный: {endStop}");
+        }
+        
         if (Vector3.Distance(transform.position, stops[currentTarget].position) < 0.1f) // Проверка достижения точки
         {
             if (currentTarget == endStop)
             {
+                Debug.Log($"Лифт достиг конечной точки: этаж {endStop}");
                 currentTarget = endStop; // Останавливаемся на конечной точке
                 canMove = false;
                 rememberStartStop = startStop; 
                 startStop = endStop;
+                Debug.Log("Открываем двери лифта...");
                 doorController.OpenDoors(); // Открываем двери
                 return;
             }
