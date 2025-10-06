@@ -12,6 +12,13 @@ public class ElevatorDoorController : MonoBehaviour
     private Vector3 leftDoorTarget;
     private Vector3 rightDoorTarget;
 
+    //public static ElevatorDoorController Instance;
+
+    //void Awake()
+    //{
+    //    Instance = this;
+    //}
+
     void Start()
     {
         // Устанавливаем начальные позиции (закрыто)
@@ -29,12 +36,21 @@ public class ElevatorDoorController : MonoBehaviour
     // Метод для открытия дверей
     public void OpenDoors()
     {
-        if (!isOpen)
+        if (!isOpen && AdditionalCheck.ElevatorDoorsCanBeOpened())
         {
             leftDoorTarget = leftDoor.localPosition + Vector3.left * openPosition;  // Движение влево
             rightDoorTarget = rightDoor.localPosition + Vector3.right * openPosition; // Движение вправо
             isOpen = true;
-            
+
+            if (AdditionalCheck.ElevatorDoorsCanBeOpened())
+            {
+                Debug.Log("!!!!!! ElevatorDoorsCanBeOpened!!!");
+            }
+            else
+            {
+                Debug.Log("XXXXXX ElevatorDoorsCanBeOpened FALSE XXXX");
+            }
+
             // Открываем внешние двери на текущем этаже
             OpenFloorDoors();
             

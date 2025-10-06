@@ -13,6 +13,7 @@ public class ElevatorMoving : MonoBehaviour
     private Rigidbody rb;
     private int currentTarget;
     private bool reverse;
+    public int rememberStartStop = -10; // Переменная для запоминания начальной точки
 
     void Start()
     {
@@ -34,6 +35,7 @@ public class ElevatorMoving : MonoBehaviour
             {
                 currentTarget = endStop; // Останавливаемся на конечной точке
                 canMove = false;
+                rememberStartStop = startStop; 
                 startStop = endStop;
                 doorController.OpenDoors(); // Открываем двери
                 return;

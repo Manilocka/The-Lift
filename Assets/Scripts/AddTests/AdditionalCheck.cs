@@ -31,11 +31,13 @@ public class AdditionalCheck : MonoBehaviour
         }
     }
 
+
+
     public static bool CanNPCMove()
     {
         string scene = SceneManager.GetActiveScene().name;
-        Debug.Log("Current scene: '" + scene + "'");  // Посмотрим точное имя
-        Debug.Log("IsDialogueDone(): " + IsDialogueDone());
+        //Debug.Log("Current scene: '" + scene + "'");  // Посмотрим точное имя
+
 
         // Пример: в сцене "d1_e" движение разрешено только если someCondition == true
         if (scene == "day1_e" && IsDialogueDone() == true)
@@ -51,4 +53,39 @@ public class AdditionalCheck : MonoBehaviour
 
         return false;
     }
+
+    public static bool ElevatorDoorsCanBeOpened()
+    {
+        string scene = SceneManager.GetActiveScene().name;
+        Debug.Log("Current scene: '" + scene + "'");  // Посмотрим точное имя
+        Debug.Log("IsDialogueDone(): " + IsDialogueDone());
+        PlayerInLiftCheck playerLiftCheck = GameObject.FindObjectOfType<PlayerInLiftCheck>();
+        // Пример: в сцене "d1_e" движение разрешено только если someCondition == true
+        if (scene == "day1_e")
+        {
+            Debug.Log("00000000000000");
+
+            if (playerLiftCheck.IsPlayerInsideElevator() && (IsDialogueDone() == true))
+            {
+                Debug.Log("1");
+                return true;
+            }
+            else
+            {
+                if (!playerLiftCheck.IsPlayerInsideElevator() && (IsDialogueDone() == false))
+                {
+                    Debug.Log("2");
+                    return true;
+                }
+            }
+            Debug.Log("3");
+            return false;
+        }   
+        
+
+        
+        return false;
+    }
+
+
 }

@@ -16,6 +16,12 @@ public class DialogueManager : MonoBehaviour
     private int selectedChoice = 0; // Индекс выбранной опции
 
     public bool DialogueDone = false; //это Олесечкин костыль
+    //PlayerInLiftCheck playerLiftCheck;
+    //public ElevatorMoving elevator;
+
+
+
+
 
     [Header("Настройки диалогов")]
     public bool oneTimeDialogueOnly = true;
@@ -33,6 +39,7 @@ public class DialogueManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
+        //playerLiftCheck = GameObject.FindObjectOfType<PlayerInLiftCheck>();
     }
 
     public void StartDialogue(DialogueSO dialogue)
@@ -243,10 +250,20 @@ public class DialogueManager : MonoBehaviour
             Debug.Log($"Отмечаем диалог как пройденный: {currentDialogue.name}");
             completedDialogues.Add(currentDialogue.name);
         }
-        
+
+        // Проверяем, внутри ли игрок в лифте и можно ли открывать двери, не костыль, а кресло  инвалидное
+
+
         IsDialogueActive = false;
         DialogueDone = true;
-        
+        //if (playerLiftCheck != null && playerLiftCheck.IsPlayerInsideElevator())
+        //{
+        //    if (!elevator.canMove && elevator.rememberStartStop == elevator.startStop)
+        //    {
+        //        ElevatorDoorController.Instance.OpenDoors();
+        //    }
+        //}
+
         Debug.Log("Диалог полностью завершен, IsDialogueActive = false");
     }
     
