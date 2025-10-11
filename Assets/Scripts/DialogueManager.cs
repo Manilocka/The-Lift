@@ -264,7 +264,11 @@ public class DialogueManager : MonoBehaviour
 
 
         IsDialogueActive = false;
-        DialogueDone = true;
+        if (GetCurrentLine()?.hasImpact == true)
+        {
+            DialogueDone = true;
+        }
+        
         if (playerLiftCheck != null && playerLiftCheck.IsPlayerInsideElevator())
         {
             if (!elevator.canMove && elevator.rememberStartStop != elevator.startStop)

@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Video;
 
@@ -47,7 +46,7 @@ public class VideoBackground : MonoBehaviour
         }
     }
     
-    IEnumerator StartVideoDelayed()
+    System.Collections.IEnumerator StartVideoDelayed()
     {
         yield return new WaitForSeconds(0.1f);
         if (videoPlayer != null)

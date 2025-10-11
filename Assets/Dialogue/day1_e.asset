@@ -18,6 +18,7 @@ MonoBehaviour:
     isPlayer: 0
     isThought: 0
     choices: []
+    hasImpact: 1
   - speakerName: "\u0411\u0410\u0411\u0423\u0428\u041A\u0410 \u041D\u0418\u041D\u0410"
     text: "\u0412\u043E\u0437\u044C\u043C\u0438, \u0434\u0435\u0442\u043E\u0447\u043A\u0430,
       \u0441 \u0440\u0430\u0431\u043E\u0442\u044B \u0432\u0435\u0440\u043D\u0443\u043B\u0430\u0441\u044C
@@ -25,6 +26,7 @@ MonoBehaviour:
     isPlayer: 0
     isThought: 0
     choices: []
+    hasImpact: 1
   - speakerName: 
     text: 
     isPlayer: 1
@@ -37,12 +39,14 @@ MonoBehaviour:
         isPlayer: 1
         isThought: 1
         choices: []
+        hasImpact: 1
       - speakerName: 
         text: "\u0421\u043F\u0430\u0441\u0438\u0431\u043E! \u041A\u0430\u043A \u0440\u0430\u0437
           \u043A\u0441\u0442\u0430\u0442\u0438!"
         isPlayer: 1
         isThought: 0
         choices: []
+        hasImpact: 1
       - speakerName: 
         text: 
         isPlayer: 0
@@ -59,12 +63,14 @@ MonoBehaviour:
             isPlayer: 1
             isThought: 1
             choices: []
+            hasImpact: 1
           - speakerName: 
             text: "\u0421\u043F\u0430\u0441\u0438\u0431\u043E,\u043E\u0447\u0435\u043D\u044C
               \u0432\u043A\u0443\u0441\u043D\u043E!"
             isPlayer: 1
             isThought: 0
             choices: []
+            hasImpact: 1
           - speakerName: "\u0411\u0430\u0431\u0443\u0448\u043A\u0430 \u041D\u0438\u043D\u0430"
             text: "\u041D\u0435 \u0437\u0430 \u0447\u0442\u043E! \u041C\u043E\u0438
               \u0432\u043D\u0443\u043A\u0438 \u0440\u0430\u043D\u044C\u0448\u0435
@@ -73,6 +79,7 @@ MonoBehaviour:
             isPlayer: 0
             isThought: 0
             choices: []
+            hasImpact: 1
         - choiceText: "\u041D\u0435 \u0435\u0441\u0442\u044C"
           dialogueLines:
           - speakerName: 
@@ -83,12 +90,15 @@ MonoBehaviour:
             isPlayer: 1
             isThought: 1
             choices: []
+            hasImpact: 1
           - speakerName: 
             text: "\u0421\u043F\u0430\u0441\u0438\u0431\u043E, \u0441\u044A\u0435\u043C
               \u043F\u043E\u0441\u043B\u0435 \u0443\u0436\u0438\u043D\u0430!"
             isPlayer: 1
             isThought: 0
             choices: []
+            hasImpact: 1
+        hasImpact: 1
     - choiceText: "\u041E\u0442\u043A\u0430\u0437\u0430\u0442\u044C\u0441\u044F"
       dialogueLines:
       - speakerName: 
@@ -98,12 +108,14 @@ MonoBehaviour:
         isPlayer: 1
         isThought: 1
         choices: []
+        hasImpact: 0
       - speakerName: 
         text: "\u041F\u0440\u043E\u0441\u0442\u0438\u0442\u0435, \u044F \u043D\u0430
           \u0434\u0438\u0435\u0442\u0435"
         isPlayer: 1
         isThought: 0
         choices: []
+        hasImpact: 1
       - speakerName: "\u0411\u0430\u0431\u0443\u0448\u043A\u0430 \u041D\u0438\u043D\u0430"
         text: "\u0427\u0442\u043E \u0437\u0430 \u043C\u043E\u0434\u0430 \u0442\u0430\u043A\u0430\u044F.
           \u041A\u0443\u0434\u0430 \u0442\u0435\u0431\u0435 \u0445\u0443\u0434\u0435\u0442\u044C?
@@ -111,3 +123,5 @@ MonoBehaviour:
         isPlayer: 0
         isThought: 0
         choices: []
+        hasImpact: 1
+    hasImpact: 1
