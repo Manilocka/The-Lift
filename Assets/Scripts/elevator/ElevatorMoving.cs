@@ -5,7 +5,7 @@ public class ElevatorMoving : MonoBehaviour
     public bool canMove; // Переменная для включения/выключения движения
     [SerializeField] float speed = 120f; // Скорость движения лифта
     [SerializeField] Transform[] stops; // Массив точек остановки
-    [SerializeField] public int startStop = 0; // Начальная точка
+    [SerializeField] public int startStop; // Начальная точка
     [SerializeField] public int endStop = 1; // Конечная точка
     ElevatorDoorController doorController;
 
