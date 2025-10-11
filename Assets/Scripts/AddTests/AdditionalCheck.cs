@@ -37,7 +37,8 @@ public class AdditionalCheck : MonoBehaviour
 
 
         // Пример: в сцене "d1_e" движение разрешено только если someCondition == true
-        if (scene == "day1_e" && IsDialogueDone() == true)
+        ElevatorMoving elevator = FindObjectOfType<ElevatorMoving>();
+        if (scene == "day1_e" && IsDialogueDone() == true && elevator != null && elevator.currentTarget == 3)
         {
             return true;
         }

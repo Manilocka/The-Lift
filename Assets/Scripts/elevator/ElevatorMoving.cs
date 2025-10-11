@@ -10,7 +10,7 @@ public class ElevatorMoving : MonoBehaviour
     ElevatorDoorController doorController;
 
     private Rigidbody rb;
-    private int currentTarget;
+    public int currentTarget;
     private bool reverse;
     public int rememberStartStop = -10; // Переменная для запоминания начальной точки
 
