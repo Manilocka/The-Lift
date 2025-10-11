@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ElevatorDoorController : MonoBehaviour
@@ -11,13 +12,6 @@ public class ElevatorDoorController : MonoBehaviour
     public bool isOpen = false; // Состояние дверей
     private Vector3 leftDoorTarget;
     private Vector3 rightDoorTarget;
-
-    //public static ElevatorDoorController Instance;
-
-    //void Awake()
-    //{
-    //    Instance = this;
-    //}
 
     void Start()
     {
@@ -73,7 +67,7 @@ public class ElevatorDoorController : MonoBehaviour
     }
 
     // Корутина для задержки закрытия дверей
-    public System.Collections.IEnumerator CloseDoorsAfterDelay(float delay)
+    public IEnumerator CloseDoorsAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         CloseDoors();

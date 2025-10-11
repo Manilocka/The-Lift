@@ -1,4 +1,3 @@
-using OpenCover.Framework.Model;
 using UnityEngine;
 
 public class ElevatorMoving : MonoBehaviour
@@ -29,14 +28,22 @@ public class ElevatorMoving : MonoBehaviour
     void FixedUpdate() // Используем FixedUpdate для физики
     {
         if (!canMove) return; // Проверяем, можно ли двигаться
+        
+        // Отладка состояния лифта
+        if (canMove)
+        {
+            Debug.Log($"Elevator moving: startStop = {startStop}, endStop = {endStop}, currentTarget = {currentTarget}");
+        }
         if (Vector3.Distance(transform.position, stops[currentTarget].position) < 0.1f) // Проверка достижения точки
         {
             if (currentTarget == endStop)
             {
+                Debug.Log($"Elevator reached target floor {endStop}");
                 currentTarget = endStop; // Останавливаемся на конечной точке
                 canMove = false;
                 rememberStartStop = startStop; 
                 startStop = endStop;
+                Debug.Log($"After reaching target: startStop = {startStop}, endStop = {endStop}");
                 doorController.OpenDoors(); // Открываем двери
                 return;
             }

@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,7 +15,7 @@ public class AdditionalCheck : MonoBehaviour
     public static bool IsDialogueDone()
     {
         // Проверяем, существует ли объект DialogueManager в сцене
-        DialogueManager dialogueManager = GameObject.FindObjectOfType<DialogueManager>();
+        DialogueManager dialogueManager = FindObjectOfType<DialogueManager>();
         if (dialogueManager != null)
         {
             // Возвращаем значение свойства dialogueDone
@@ -59,7 +56,7 @@ public class AdditionalCheck : MonoBehaviour
         string scene = SceneManager.GetActiveScene().name;
         Debug.Log("Current scene: '" + scene + "'");  // Посмотрим точное имя
         Debug.Log("IsDialogueDone(): " + IsDialogueDone());
-        PlayerInLiftCheck playerLiftCheck = GameObject.FindObjectOfType<PlayerInLiftCheck>();
+        PlayerInLiftCheck playerLiftCheck = FindObjectOfType<PlayerInLiftCheck>();
         // Пример: в сцене "d1_e" движение разрешено только если someCondition == true
         if (scene == "day1_e")
         {

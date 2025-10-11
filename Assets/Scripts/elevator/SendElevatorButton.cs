@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SendElevatorButton : MonoBehaviour
@@ -48,7 +47,9 @@ public class SendElevatorButton : MonoBehaviour
             else
             {
                 // Лифт на другом этаже - устанавливаем конечную точку и запускаем движение
+                Debug.Log($"SendElevatorButton: Setting endStop from {platform.endStop} to {floorNumber}");
                 platform.endStop = floorNumber;
+                Debug.Log($"SendElevatorButton: After setting - startStop = {platform.startStop}, endStop = {platform.endStop}");
                 StartCoroutine(DelayedDoorClose(1f));
                 StartCoroutine(DelayedStart(5f)); // Запускаем корутину для задержки старта лифта
             }
@@ -60,6 +61,7 @@ public class SendElevatorButton : MonoBehaviour
         yield return new WaitForSeconds(delay);
         if (platform != null)
         {
+            Debug.Log($"DelayedStart: Starting movement - startStop = {platform.startStop}, endStop = {platform.endStop}");
             platform.canMove = true; // Запускаем движение лифта после задержки
         }
     }

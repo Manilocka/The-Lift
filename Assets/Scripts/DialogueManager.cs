@@ -1,7 +1,7 @@
-using UnityEditor;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -39,11 +39,16 @@ public class DialogueManager : MonoBehaviour
     // Добавляем ссылки на кнопки
     public Button choice1Button; // Первая кнопка выбора
     public Button choice2Button; // Вторая кнопка выбора (опционально)
+    private PlayerInLiftCheck playerLiftCheck;
+    private ElevatorMoving elevator;
+    private ElevatorDoorController elevatorDoorController;
 
-    void Awake()
+    void Start()
     {
         Instance = this;
-        //playerLiftCheck = GameObject.FindObjectOfType<PlayerInLiftCheck>();
+        playerLiftCheck = FindObjectOfType<PlayerInLiftCheck>();
+        elevator = FindObjectOfType<ElevatorMoving>();
+        elevatorDoorController = FindObjectOfType<ElevatorDoorController>();
     }
 
     public void StartDialogue(DialogueSO dialogue)
@@ -187,7 +192,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
     
-    private System.Collections.IEnumerator ContinueAfterChoice()
+    private IEnumerator ContinueAfterChoice()
     {
         while (IsDialogueActive)
         {
@@ -260,13 +265,13 @@ public class DialogueManager : MonoBehaviour
 
         IsDialogueActive = false;
         DialogueDone = true;
-        //if (playerLiftCheck != null && playerLiftCheck.IsPlayerInsideElevator())
-        //{
-        //    if (!elevator.canMove && elevator.rememberStartStop == elevator.startStop)
-        //    {
-        //        ElevatorDoorController.Instance.OpenDoors();
-        //    }
-        //}
+        if (playerLiftCheck != null && playerLiftCheck.IsPlayerInsideElevator())
+        {
+            if (!elevator.canMove && elevator.rememberStartStop != elevator.startStop)
+            {
+                elevatorDoorController.OpenDoors();
+            }
+        }
 
         Debug.Log("Диалог полностью завершен, IsDialogueActive = false");
     }

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class TrashProximityDetector : MonoBehaviour
@@ -55,7 +56,7 @@ public class TrashProximityDetector : MonoBehaviour
         }
     }
     
-    private System.Collections.IEnumerator HideDialogueAfterTime()
+    private IEnumerator HideDialogueAfterTime()
     {
         yield return new WaitForSeconds(dialogueDuration);
         

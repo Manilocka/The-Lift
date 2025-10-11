@@ -1,4 +1,6 @@
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ExitButton : MonoBehaviour
 {
@@ -6,7 +8,7 @@ public class ExitButton : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip clickSound;
     
-    private UnityEngine.UI.Button button;
+    private Button button;
     
     void Start()
     {
@@ -15,7 +17,7 @@ public class ExitButton : MonoBehaviour
     
     void SetupButton()
     {
-        button = GetComponent<UnityEngine.UI.Button>();
+        button = GetComponent<Button>();
         
         if (button != null)
         {
@@ -42,7 +44,7 @@ public class ExitButton : MonoBehaviour
         Application.Quit();
         
         #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
+        EditorApplication.isPlaying = false;
         #endif
     }
 }

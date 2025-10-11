@@ -1,5 +1,6 @@
-using UnityEngine;
+using System.Collections;
 using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class SimpleTextBlink : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
@@ -57,7 +58,7 @@ public class SimpleTextBlink : MonoBehaviour, IPointerEnterHandler, IPointerExit
         }
     }
     
-    System.Collections.IEnumerator BlinkText()
+    IEnumerator BlinkText()
     {
         while (isHovered && buttonText != null)
         {
