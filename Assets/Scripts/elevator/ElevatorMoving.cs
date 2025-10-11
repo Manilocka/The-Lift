@@ -6,7 +6,7 @@ public class ElevatorMoving : MonoBehaviour
     [SerializeField] float speed = 120f; // Скорость движения лифта
     [SerializeField] Transform[] stops; // Массив точек остановки
     [SerializeField] public int startStop; // Начальная точка
-    [SerializeField] public int endStop = 1; // Конечная точка
+    [SerializeField] public int endStop; // Конечная точка
     ElevatorDoorController doorController;
 
     private Rigidbody rb;
@@ -34,6 +34,15 @@ public class ElevatorMoving : MonoBehaviour
         {
             Debug.Log($"Elevator moving: startStop = {startStop}, endStop = {endStop}, currentTarget = {currentTarget}");
         }
+        
+        // Если мы на стартовой позиции и нужно ехать к конечной, обновляем цель
+        if (currentTarget == startStop && startStop != endStop)
+        {
+            currentTarget = endStop;
+            UpdateDirection();
+            Debug.Log($"Updated currentTarget from {startStop} to {endStop}");
+        }
+        
         if (Vector3.Distance(transform.position, stops[currentTarget].position) < 0.1f) // Проверка достижения точки
         {
             if (currentTarget == endStop)
