@@ -26,6 +26,7 @@ public class ElevatorDoorController : MonoBehaviour
         rightDoorTarget = rightDoor.localPosition;
     }
 
+    //lol
     void Update()
     {
         // Плавное перемещение дверей к целевой позиции
