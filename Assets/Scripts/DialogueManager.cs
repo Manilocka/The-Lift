@@ -1,7 +1,7 @@
-using UnityEditor;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -22,7 +22,7 @@ public class DialogueManager : MonoBehaviour
     }
     //PlayerInLiftCheck playerLiftCheck;
     //public ElevatorMoving elevator;
-    //check
+
 
 
 
@@ -39,11 +39,16 @@ public class DialogueManager : MonoBehaviour
     // Добавляем ссылки на кнопки
     public Button choice1Button; // Первая кнопка выбора
     public Button choice2Button; // Вторая кнопка выбора (опционально)
+    private PlayerInLiftCheck playerLiftCheck;
+    private ElevatorMoving elevator;
+    private ElevatorDoorController elevatorDoorController;
 
-    void Awake()
+    void Start()
     {
         Instance = this;
-        //playerLiftCheck = GameObject.FindObjectOfType<PlayerInLiftCheck>();
+        playerLiftCheck = FindObjectOfType<PlayerInLiftCheck>();
+        elevator = FindObjectOfType<ElevatorMoving>();
+        elevatorDoorController = FindObjectOfType<ElevatorDoorController>();
     }
 
     public void StartDialogue(DialogueSO dialogue)
@@ -187,7 +192,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
     
-    private System.Collections.IEnumerator ContinueAfterChoice()
+    private IEnumerator ContinueAfterChoice()
     {
         while (IsDialogueActive)
         {
@@ -255,32 +260,22 @@ public class DialogueManager : MonoBehaviour
             completedDialogues.Add(currentDialogue.name);
         }
 
-        // Проверяем, внутри ли игрок в лифте и можно ли открывать двери
+        // Проверяем, внутри ли игрок в лифте и можно ли открывать двери, не костыль, а кресло  инвалидное
+
+
         IsDialogueActive = false;
-        DialogueDone = true;
-        
-        // Запускаем лифт к нужному этажу после завершения диалога в сцене day1_e
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "day1_e")
+        if (GetCurrentLine()?.hasImpact == true)
         {
-            // Находим лифт и запускаем его к максимально доступному этажу
-            GameObject elevator = GameObject.FindGameObjectWithTag("Elevator");
-            if (elevator != null)
-            {
-                ElevatorMoving elevatorMoving = elevator.GetComponent<ElevatorMoving>();
-                if (elevatorMoving != null && !elevatorMoving.canMove)
-                {
-                    // Используем максимально доступный этаж (последний в массиве stops)
-                    // Это будет последний этаж, который может дать кнопка в лифте
-                    int maxFloor = 3; // Судя по SendElevatorNew.cs, максимальный этаж = 3
-                    
-                    Debug.Log($"Запускаем лифт к максимально доступному этажу {maxFloor} после завершения диалога");
-                    elevatorMoving.endStop = maxFloor; // Устанавливаем максимально доступный этаж
-                    elevatorMoving.canMove = true; // Запускаем движение лифта
-                }
-            }
+            DialogueDone = true;
         }
         
-        
+        if (playerLiftCheck != null && playerLiftCheck.IsPlayerInsideElevator())
+        {
+            if (!elevator.canMove && elevator.rememberStartStop != elevator.startStop)
+            {
+                elevatorDoorController.OpenDoors();
+            }
+        }
 
         Debug.Log("Диалог полностью завершен, IsDialogueActive = false");
     }

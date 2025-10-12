@@ -1203,8 +1203,10 @@ MonoBehaviour:
   - {fileID: 1265568081}
   - {fileID: 1581509947}
   startStop: 2
-  endStop: 2
+  endStop: 0
+  midStop: -1
   rememberStartStop: -10
+  rememberEndStop: -10
 --- !u!64 &153134452
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -8607,7 +8609,9 @@ MonoBehaviour:
   - {fileID: 1623617146}
   startStop: 0
   endStop: 2
+  midStop: 0
   rememberStartStop: -10
+  rememberEndStop: -10
 --- !u!64 &1070755135
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -14040,7 +14044,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 1754734510}
-  speed: 400
+  speed: 325
   gravity: -60
   groundCheck: {fileID: 1619680374}
   groundDistance: 0.4
