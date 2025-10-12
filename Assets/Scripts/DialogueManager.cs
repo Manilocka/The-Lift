@@ -279,6 +279,8 @@ public class DialogueManager : MonoBehaviour
                 }
             }
         }
+        
+        
 
         Debug.Log("Диалог полностью завершен, IsDialogueActive = false");
     }
