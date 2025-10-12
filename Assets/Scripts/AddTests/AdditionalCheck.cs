@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,7 +15,7 @@ public class AdditionalCheck : MonoBehaviour
     public static bool IsDialogueDone()
     {
         // Проверяем, существует ли объект DialogueManager в сцене
-        DialogueManager dialogueManager = GameObject.FindObjectOfType<DialogueManager>();
+        DialogueManager dialogueManager = FindObjectOfType<DialogueManager>();
         if (dialogueManager != null)
         {
             // Возвращаем значение свойства dialogueDone
@@ -38,52 +35,56 @@ public class AdditionalCheck : MonoBehaviour
         string scene = SceneManager.GetActiveScene().name;
         //Debug.Log("Current scene: '" + scene + "'");  // Посмотрим точное имя
 
-        // В сцене "day1_e" движение разрешено только если диалог завершен И двери лифта открыты
-        if (scene == "day1_e")
+
+        // Пример: в сцене "d1_e" движение разрешено только если someCondition == true
+        ElevatorMoving elevator = FindObjectOfType<ElevatorMoving>();
+        if (scene == "day1_e" && IsDialogueDone() == true && elevator != null && elevator.currentTarget == 3)
         {
-            // Проверяем, завершен ли диалог
-            if (!IsDialogueDone())
-            {
-                return false;
-            }
-            
-            // Проверяем, открыты ли двери лифта
-            ElevatorDoorController doorController = GameObject.FindObjectOfType<ElevatorDoorController>();
-            if (doorController != null && doorController.isOpen)
-            {
-                return true;
-            }
-            
-            return false;
+            return true;
         }
 
         // В других сценах — разрешаем движение сразу
+        if (scene != "day1_e")
+        {
+            return false;
+        }
+
         return false;
     }
 
     public static bool ElevatorDoorsCanBeOpened()
     {
         string scene = SceneManager.GetActiveScene().name;
-        Debug.Log("Current scene: '" + scene + "'");
-        Debug.Log("IsDialogueDone(): " +IsDialogueDone());
-        
-
+        Debug.Log("Current scene: '" + scene + "'");  // Посмотрим точное имя
+        Debug.Log("IsDialogueDone(): " + IsDialogueDone());
+        PlayerInLiftCheck playerLiftCheck = FindObjectOfType<PlayerInLiftCheck>();
+        // Пример: в сцене "d1_e" движение разрешено только если someCondition == true
         if (scene == "day1_e")
         {
-            Debug.Log("Разрешаем открытие дверей в day1_e");
-            return true;
+            Debug.Log("00000000000000");
+            Debug.Log("IsPlayerInsideElevator" + playerLiftCheck.IsPlayerInsideElevator());
+
+            if (playerLiftCheck.IsPlayerInsideElevator() && (IsDialogueDone() == true))
+            {
+                Debug.Log("1");
+                return true;
+            }
+            else
+            {
+                if (!playerLiftCheck.IsPlayerInsideElevator() && (IsDialogueDone() == false))
+                {
+                    Debug.Log("2");
+                    return true;
+                }
+            }
+            Debug.Log("3");
+            return false;
         }   
-        if (scene == "day1_m")
-        {
-            Debug.Log("Разрешаем открытие дверей в day1_m");
-            return true;
-        } 
         
-        // В других сценах разрешаем открытие дверей
+
+        
         return true;
     }
-    
-
 
 
 }

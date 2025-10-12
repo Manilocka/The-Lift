@@ -1,21 +1,16 @@
-using System.Collections.Generic;
-using OpenCover.Framework.Model;
 using UnityEngine;
 
 public class ElevatorMoving : MonoBehaviour
 {
-    
-    //sss
     public bool canMove; // Переменная для включения/выключения движения
     [SerializeField] float speed = 120f; // Скорость движения лифта
     [SerializeField] Transform[] stops; // Массив точек остановки
     [SerializeField] public int startStop; // Начальная точка
-    [SerializeField] public int endStop; 
-
+    [SerializeField] public int endStop; // Конечная точка
     ElevatorDoorController doorController;
 
     private Rigidbody rb;
-    private int currentTarget;
+    public int currentTarget;
     private bool reverse;
     public int rememberStartStop = -10; // Переменная для запоминания начальной точки
 
@@ -28,34 +23,39 @@ public class ElevatorMoving : MonoBehaviour
         transform.position = stops[startStop].position; // Устанавливаем начальную позицию
         currentTarget = startStop;
         UpdateDirection();
-
     }
 
     void FixedUpdate() // Используем FixedUpdate для физики
     {
         if (!canMove) return; // Проверяем, можно ли двигаться
         
-        // Проверяем, что endStop не превышает количество доступных этажей
-        if (endStop >= stops.Length)
+        // Отладка состояния лифта
+        if (canMove)
         {
-            endStop = stops.Length - 1; // Устанавливаем максимально доступный этаж
-            Debug.LogWarning($"endStop превышает количество этажей! Устанавливаем максимально доступный: {endStop}");
+            Debug.Log($"Elevator moving: startStop = {startStop}, endStop = {endStop}, currentTarget = {currentTarget}");
+        }
+        
+        // Если мы на стартовой позиции и нужно ехать к конечной, обновляем цель
+        if (currentTarget == startStop && startStop != endStop)
+        {
+            currentTarget = endStop;
+            UpdateDirection();
+            Debug.Log($"Updated currentTarget from {startStop} to {endStop}");
         }
         
         if (Vector3.Distance(transform.position, stops[currentTarget].position) < 0.1f) // Проверка достижения точки
         {
             if (currentTarget == endStop)
             {
-                Debug.Log($"Лифт достиг конечной точки: этаж {endStop}");
+                Debug.Log($"Elevator reached target floor {endStop}");
                 currentTarget = endStop; // Останавливаемся на конечной точке
                 canMove = false;
                 rememberStartStop = startStop; 
                 startStop = endStop;
-                Debug.Log("Открываем двери лифта...");
+                Debug.Log($"After reaching target: startStop = {startStop}, endStop = {endStop}");
                 doorController.OpenDoors(); // Открываем двери
                 return;
             }
-            UpdateDirection();
             if (reverse)
             {
                 currentTarget--;
