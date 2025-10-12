@@ -1,0 +1,37 @@
+Index: Assets/Scenes/day1_e.unity
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Assets/Scenes/day1_e.unity b/Assets/Scenes/day1_e.unity
+--- a/Assets/Scenes/day1_e.unity	(revision bcdbc97dcb53263757e477bf9b5aa5add91920df)
++++ b/Assets/Scenes/day1_e.unity	(date 1760275778274)
+@@ -5769,7 +5769,7 @@
+   m_GameObject: {fileID: 676817906}
+   serializedVersion: 2
+   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+-  m_LocalPosition: {x: -792.9, y: 2685.1, z: -2355.6}
++  m_LocalPosition: {x: -669.1, y: 2768.4, z: -2371.7}
+   m_LocalScale: {x: 1, y: 1, z: 1}
+   m_ConstrainProportionsScale: 0
+   m_Children: []
+@@ -11042,8 +11042,8 @@
+   m_Name: 
+   m_EditorClassIdentifier: 
+   controller: {fileID: 1433134833}
+-  speed: 300
+-  gravity: -60
++  speed: 150
++  gravity: -3.2
+   groundCheck: {fileID: 1619680374}
+   groundDistance: 0.4
+   groundMask:
+@@ -14150,7 +14150,7 @@
+   m_Name: 
+   m_EditorClassIdentifier: 
+   controller: {fileID: 1754734510}
+-  speed: 400
++  speed: 325
+   gravity: -60
+   groundCheck: {fileID: 1619680374}
+   groundDistance: 0.4

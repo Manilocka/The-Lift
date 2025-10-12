@@ -78,6 +78,8 @@ public class AdditionalCheck : MonoBehaviour
         // В других сценах разрешаем открытие дверей
         return true;
     }
+    
+
 
 
 }

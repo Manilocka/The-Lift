@@ -1,19 +1,25 @@
+using System.Collections.Generic;
 using OpenCover.Framework.Model;
 using UnityEngine;
 
 public class ElevatorMoving : MonoBehaviour
 {
+    
+    //sss
     public bool canMove; // Переменная для включения/выключения движения
     [SerializeField] float speed = 120f; // Скорость движения лифта
     [SerializeField] Transform[] stops; // Массив точек остановки
-    [SerializeField] public int startStop = 0; // Начальная точка
-    [SerializeField] public int endStop = 1; // Конечная точка
+    [SerializeField] public int startStop; // Начальная точка
+    [SerializeField] public int endStop; 
+    [SerializeField] public int midStop; 
+
     ElevatorDoorController doorController;
 
     private Rigidbody rb;
     private int currentTarget;
     private bool reverse;
     public int rememberStartStop = -10; // Переменная для запоминания начальной точки
+    public int rememberEndStop = -10;
 
     void Start()
     {
@@ -24,6 +30,11 @@ public class ElevatorMoving : MonoBehaviour
         transform.position = stops[startStop].position; // Устанавливаем начальную позицию
         currentTarget = startStop;
         UpdateDirection();
+        
+        // if (midStop > startStop && midStop < endStop){
+        //     rememberStartStop = startStop;
+        //     endStop
+        // }
     }
 
     void FixedUpdate() // Используем FixedUpdate для физики
