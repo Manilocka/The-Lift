@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CallElevator : MonoBehaviour
@@ -37,9 +39,7 @@ public class CallElevator : MonoBehaviour
         if (distance <= maxDistance && platform != null && !platform.canMove)
         {
             // Устанавливаем конечную точку (этаж) и включаем движение
-            Debug.Log($"CallElevator: Setting endStop from {platform.endStop} to {floorNumber}");
             platform.endStop = floorNumber;
-            Debug.Log($"CallElevator: After setting - startStop = {platform.startStop}, endStop = {platform.endStop}");
             platform.canMove = true;
         }
     }

@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class ElevatorDoorController : MonoBehaviour
@@ -12,6 +11,13 @@ public class ElevatorDoorController : MonoBehaviour
     public bool isOpen = false; // Состояние дверей
     private Vector3 leftDoorTarget;
     private Vector3 rightDoorTarget;
+
+    //public static ElevatorDoorController Instance;
+
+    //void Awake()
+    //{
+    //    Instance = this;
+    //}
 
     void Start()
     {
@@ -32,23 +38,19 @@ public class ElevatorDoorController : MonoBehaviour
     {
         if (!isOpen && AdditionalCheck.ElevatorDoorsCanBeOpened())
         {
+            Debug.Log("Открываем двери лифта!");
             leftDoorTarget = leftDoor.localPosition + Vector3.left * openPosition;  // Движение влево
             rightDoorTarget = rightDoor.localPosition + Vector3.right * openPosition; // Движение вправо
             isOpen = true;
-
-            if (AdditionalCheck.ElevatorDoorsCanBeOpened())
-            {
-                Debug.Log("!!!!!! ElevatorDoorsCanBeOpened!!!");
-            }
-            else
-            {
-                Debug.Log("XXXXXX ElevatorDoorsCanBeOpened FALSE XXXX");
-            }
 
             // Открываем внешние двери на текущем этаже
             OpenFloorDoors();
             
             StartCoroutine(CloseDoorsAfterDelay(10f)); // Запускаем корутину для закрытия через 10 секунд
+        }
+        else
+        {
+            Debug.Log($"Не удалось открыть двери: isOpen={isOpen}, ElevatorDoorsCanBeOpened={AdditionalCheck.ElevatorDoorsCanBeOpened()}");
         }
     }
 
@@ -67,7 +69,7 @@ public class ElevatorDoorController : MonoBehaviour
     }
 
     // Корутина для задержки закрытия дверей
-    public IEnumerator CloseDoorsAfterDelay(float delay)
+    public System.Collections.IEnumerator CloseDoorsAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         CloseDoors();

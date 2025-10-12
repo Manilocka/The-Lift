@@ -620,6 +620,63 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -3000977565341855863, guid: be74100b312f6a2499cb61c8a32d8719, type: 3}
+--- !u!1001 &97695141
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7651263372811706876, guid: 966f05bc7dfbcef47bc419fb7720eaf8, type: 3}
+      propertyPath: m_Name
+      value: for_lift
+      objectReference: {fileID: 0}
+    - target: {fileID: 8889158848780146948, guid: 966f05bc7dfbcef47bc419fb7720eaf8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -557.81573
+      objectReference: {fileID: 0}
+    - target: {fileID: 8889158848780146948, guid: 966f05bc7dfbcef47bc419fb7720eaf8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 206.83511
+      objectReference: {fileID: 0}
+    - target: {fileID: 8889158848780146948, guid: 966f05bc7dfbcef47bc419fb7720eaf8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1452.2031
+      objectReference: {fileID: 0}
+    - target: {fileID: 8889158848780146948, guid: 966f05bc7dfbcef47bc419fb7720eaf8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8889158848780146948, guid: 966f05bc7dfbcef47bc419fb7720eaf8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8889158848780146948, guid: 966f05bc7dfbcef47bc419fb7720eaf8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8889158848780146948, guid: 966f05bc7dfbcef47bc419fb7720eaf8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8889158848780146948, guid: 966f05bc7dfbcef47bc419fb7720eaf8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8889158848780146948, guid: 966f05bc7dfbcef47bc419fb7720eaf8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8889158848780146948, guid: 966f05bc7dfbcef47bc419fb7720eaf8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 966f05bc7dfbcef47bc419fb7720eaf8, type: 3}
 --- !u!64 &107395006
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -16520,7 +16577,7 @@ GameObject:
   - component: {fileID: 2048553877}
   - component: {fileID: 2048553876}
   - component: {fileID: 2048553875}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: elevator_elevator_2:Object607_lift_down_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16561,8 +16618,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 160.45135, y: 324.98022, z: 172.61475}
-  m_Center: {x: 65.06717, y: -47.02771, z: 1242.3516}
+  m_Size: {x: 160.45135, y: 18.073715, z: 172.61475}
+  m_Center: {x: 65.06717, y: -200.48096, z: 1242.3516}
 --- !u!64 &2048553876
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -58450,3 +58507,4 @@ SceneRoots:
   - {fileID: 1785994319797490731}
   - {fileID: 1930531985}
   - {fileID: 543450652038171617}
+  - {fileID: 97695141}

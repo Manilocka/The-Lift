@@ -1,10 +1,9 @@
-using System.Collections;
-using TMPro;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using UnityEngine.Video;
+using TMPro;
+using System.Collections;
 
 public class RetroMainMenu : MonoBehaviour
 {
@@ -234,7 +233,7 @@ public class RetroMainMenu : MonoBehaviour
         Application.Quit();
         
         #if UNITY_EDITOR
-        EditorApplication.isPlaying = false;
+        UnityEditor.EditorApplication.isPlaying = false;
         #endif
     }
     

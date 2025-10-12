@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-
 [Serializable]
 public struct DialogueLine {
     public string speakerName;
@@ -8,7 +7,6 @@ public struct DialogueLine {
     public bool isPlayer;
     public bool isThought;
     public List<Choice> choices;
-    public bool hasImpact;
 }
 [Serializable]
 public struct Choice {
