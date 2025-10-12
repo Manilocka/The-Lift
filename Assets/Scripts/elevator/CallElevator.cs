@@ -28,6 +28,7 @@ public class CallElevator : MonoBehaviour
             if (Physics.Raycast(ray, out hit) && hit.collider.gameObject == gameObject)
             {
                 OnMouseDown();
+                Debug.Log("Elevator call button pressed on floor" + floorNumber);
             }
         }
     }

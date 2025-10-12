@@ -11,7 +11,6 @@ public class ElevatorMoving : MonoBehaviour
     [SerializeField] Transform[] stops; // Массив точек остановки
     [SerializeField] public int startStop; // Начальная точка
     [SerializeField] public int endStop; 
-    [SerializeField] public int midStop; 
 
     ElevatorDoorController doorController;
 
@@ -19,7 +18,6 @@ public class ElevatorMoving : MonoBehaviour
     private int currentTarget;
     private bool reverse;
     public int rememberStartStop = -10; // Переменная для запоминания начальной точки
-    public int rememberEndStop = -10;
 
     void Start()
     {
@@ -30,11 +28,7 @@ public class ElevatorMoving : MonoBehaviour
         transform.position = stops[startStop].position; // Устанавливаем начальную позицию
         currentTarget = startStop;
         UpdateDirection();
-        
-        // if (midStop > startStop && midStop < endStop){
-        //     rememberStartStop = startStop;
-        //     endStop
-        // }
+
     }
 
     void FixedUpdate() // Используем FixedUpdate для физики
@@ -61,6 +55,7 @@ public class ElevatorMoving : MonoBehaviour
                 doorController.OpenDoors(); // Открываем двери
                 return;
             }
+            UpdateDirection();
             if (reverse)
             {
                 currentTarget--;

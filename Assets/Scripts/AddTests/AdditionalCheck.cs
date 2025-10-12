@@ -67,13 +67,17 @@ public class AdditionalCheck : MonoBehaviour
         Debug.Log("Current scene: '" + scene + "'");
         Debug.Log("IsDialogueDone(): " +IsDialogueDone());
         
-        // В сцене day1_e разрешаем открытие дверей всегда
-        // (для входа в лифт в начале и для выхода после диалога)
+
         if (scene == "day1_e")
         {
             Debug.Log("Разрешаем открытие дверей в day1_e");
             return true;
         }   
+        if (scene == "day1_m")
+        {
+            Debug.Log("Разрешаем открытие дверей в day1_m");
+            return true;
+        } 
         
         // В других сценах разрешаем открытие дверей
         return true;
