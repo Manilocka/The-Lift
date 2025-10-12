@@ -64,7 +64,7 @@ public class AdditionalCheck : MonoBehaviour
             Debug.Log("00000000000000");
             Debug.Log("IsPlayerInsideElevator" + playerLiftCheck.IsPlayerInsideElevator());
 
-            if (playerLiftCheck.IsPlayerInsideElevator() && (IsDialogueDone() == true))
+            if (playerLiftCheck.IsPlayerInsideElevator() && IsDialogueDone())
             {
                 Debug.Log("1");
                 return true;

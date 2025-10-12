@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+
 [Serializable]
 public struct DialogueLine {
     public string speakerName;

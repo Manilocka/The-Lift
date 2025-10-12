@@ -8397,6 +8397,7 @@ MonoBehaviour:
   - {fileID: 1623617146}
   startStop: 0
   endStop: 2
+  currentTarget: 0
   rememberStartStop: -10
 --- !u!64 &1070755135
 MeshCollider:
@@ -9826,6 +9827,7 @@ MonoBehaviour:
   - {fileID: 1581509947}
   startStop: 0
   endStop: 2
+  currentTarget: 0
   rememberStartStop: -10
 --- !u!64 &1250877951
 MeshCollider:
@@ -16521,6 +16523,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2047004920}
   - component: {fileID: 2047004919}
+  - component: {fileID: 2047004921}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -16560,6 +16563,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2047004921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047004918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948ed2423153ac04683aa867e3c05af6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ui: {fileID: 0}
+  oneTimeDialogueOnly: 1
+  tiredDialogue: {fileID: 11400000, guid: 434f125a1f281cc4f92ad2e394de33a5, type: 2}
+  choice1Button: {fileID: 0}
+  choice2Button: {fileID: 0}
 --- !u!64 &2053773277
 MeshCollider:
   m_ObjectHideFlags: 0

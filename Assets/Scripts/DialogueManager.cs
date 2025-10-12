@@ -264,7 +264,7 @@ public class DialogueManager : MonoBehaviour
 
 
         IsDialogueActive = false;
-        if (GetCurrentLine()?.hasImpact == true)
+        if (GetLastLine()?.hasImpact == true)
         {
             DialogueDone = true;
         }
@@ -285,6 +285,15 @@ public class DialogueManager : MonoBehaviour
         if (currentDialogue != null && currentIndex < currentDialogue.lines.Count)
         {
             return currentDialogue.lines[currentIndex];
+        }
+        return null;
+    }
+    
+    public DialogueLine? GetLastLine()
+    {
+        if (currentDialogue != null && currentIndex <= currentDialogue.lines.Count)
+        {
+            return currentDialogue.lines[currentIndex-1];
         }
         return null;
     }
