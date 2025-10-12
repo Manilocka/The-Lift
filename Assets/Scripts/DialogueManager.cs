@@ -22,7 +22,7 @@ public class DialogueManager : MonoBehaviour
     }
     //PlayerInLiftCheck playerLiftCheck;
     //public ElevatorMoving elevator;
-
+    //check
 
 
 

@@ -7,7 +7,7 @@ public class NPCMovement : MonoBehaviour
 
     [Header("Movement Settings")]
     public float speed = 3.25f; // скорость передвижения
-    public float gravity = -60f;
+    public float gravity = -3.2f;
 
     [Header("Ground Check")]
     public Transform groundCheck;
