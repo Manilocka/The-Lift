@@ -24,7 +24,7 @@ public class CallElevator : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            // Проверяем, попал ли луч в этот триггер
+            // Проверяем, попал ли луч в этот триггер.
             if (Physics.Raycast(ray, out hit) && hit.collider.gameObject == gameObject)
             {
                 OnMouseDown();
