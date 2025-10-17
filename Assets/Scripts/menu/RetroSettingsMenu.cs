@@ -42,17 +42,21 @@ public class RetroSettingsMenu : MonoBehaviour
     private Slider[] settingsSliders;
     private bool isNavigating = false;
     
-    void Start()
+    void Awake()
     {
         InitializeSettings();
         SetupRetroEffects();
+    }
+    
+    void Start()
+    {
         StartCoroutine(GlitchEffect());
     }
     
     void OnEnable()
     {
-        // При каждом входе в сцену настроек синхронизируемся с текущими runtime-настройками
-        SyncFromSettingsManager();
+        // Синхронизируемся кадром позже, чтобы переопределить значения после Start других компонентов (SimpleSlider)
+        StartCoroutine(SyncNextFrame());
     }
     
     void InitializeSettings()
@@ -68,10 +72,10 @@ public class RetroSettingsMenu : MonoBehaviour
             menuButtons[i].onClick.AddListener(() => SelectOption(index));
         }
         
-        // Настройка слайдеров
+        // Настройка слайдеров (без установки значений)
         SetupSliders();
         
-        // Загружаем сохраненные настройки
+        // Загружаем сохраненные настройки (Awake-фаза, до Start других систем)
         LoadSettings();
         
         // Установка начального выделения
@@ -85,7 +89,6 @@ public class RetroSettingsMenu : MonoBehaviour
         {
             volumeSlider.minValue = 0f;
             volumeSlider.maxValue = 100f;
-            volumeSlider.value = 100f;
             volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
             Debug.Log("RetroSettingsMenu: Volume slider настроен");
         }
@@ -95,7 +98,6 @@ public class RetroSettingsMenu : MonoBehaviour
         {
             brightnessSlider.minValue = 0f;
             brightnessSlider.maxValue = 100f;
-            brightnessSlider.value = 50f;
             brightnessSlider.onValueChanged.AddListener(OnBrightnessChanged);
             Debug.Log("RetroSettingsMenu: Brightness slider настроен");
         }
@@ -105,7 +107,6 @@ public class RetroSettingsMenu : MonoBehaviour
         {
             mouseSensitivitySlider.minValue = 0.1f;
             mouseSensitivitySlider.maxValue = 2f;
-            mouseSensitivitySlider.value = 1f;
             mouseSensitivitySlider.onValueChanged.AddListener(OnMouseSensitivityChanged);
             Debug.Log("RetroSettingsMenu: Mouse sensitivity slider настроен");
         }
@@ -305,6 +306,12 @@ public class RetroSettingsMenu : MonoBehaviour
         if (brightnessSlider != null) brightnessSlider.value = SettingsManager.Instance.brightness;
         if (mouseSensitivitySlider != null) mouseSensitivitySlider.value = SettingsManager.Instance.mouseSensitivity;
         UpdateValueDisplays();
+    }
+
+    System.Collections.IEnumerator SyncNextFrame()
+    {
+        yield return null; // дождаться выполнения Start у других компонентов
+        SyncFromSettingsManager();
     }
     
     void ApplyBrightness(float brightness)

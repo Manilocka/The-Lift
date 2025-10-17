@@ -13,9 +13,19 @@ public class SimpleSlider : MonoBehaviour
     public float maxValue = 100f;
     public string valueFormat = "F0";
     
-    void Start()
+    void Awake()
     {
         SetupSlider();
+    }
+    
+    void Start()
+    {
+        // На всякий случай продублируем применение, когда все Awake уже отработали
+        if (slider != null)
+        {
+            ApplySetting(slider.value);
+            UpdateValueDisplay(slider.value);
+        }
     }
     
     void SetupSlider()
@@ -27,8 +37,45 @@ public class SimpleSlider : MonoBehaviour
         {
             slider.minValue = minValue;
             slider.maxValue = maxValue;
-            slider.value = PlayerPrefs.GetFloat(settingKey, defaultValue);
+            // Значение: дефолт только при первом запуске, дальше — только сохранённые
+            float loadedValue;
+            if (SettingsManager.Instance != null)
+            {
+                // Берём из менеджера, он уже загрузил из PlayerPrefs
+                switch (settingKey)
+                {
+                    case "Volume":
+                        loadedValue = SettingsManager.Instance.volume;
+                        break;
+                    case "Brightness":
+                        loadedValue = SettingsManager.Instance.brightness;
+                        break;
+                    case "MouseSensitivity":
+                        loadedValue = SettingsManager.Instance.mouseSensitivity;
+                        break;
+                    default:
+                        loadedValue = PlayerPrefs.HasKey(settingKey) ? PlayerPrefs.GetFloat(settingKey) : defaultValue;
+                        break;
+                }
+            }
+            else
+            {
+                loadedValue = PlayerPrefs.HasKey(settingKey) ? PlayerPrefs.GetFloat(settingKey) : defaultValue;
+            }
+            // Ставим значение без нотификации, чтобы не поймать каскады при инициализации
+            slider.SetValueWithoutNotify(loadedValue);
             slider.onValueChanged.AddListener(OnValueChanged);
+            
+            // Обновим отображение и немедленно применим загруженное значение
+            UpdateValueDisplay(slider.value);
+            ApplySetting(slider.value);
+            
+            // Если ключа ещё не было, фиксируем дефолт как сохранённый только один раз
+            if (!string.IsNullOrEmpty(settingKey) && !PlayerPrefs.HasKey(settingKey))
+            {
+                PlayerPrefs.SetFloat(settingKey, slider.value);
+                PlayerPrefs.Save();
+            }
             
             Debug.Log("SimpleSlider: Слайдер настроен - " + gameObject.name);
         }
