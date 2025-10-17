@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// Инициализируемся максимально рано, чтобы другие скрипты могли читать значения
+[DefaultExecutionOrder(-10000)]
 public class SettingsManager : MonoBehaviour
 {
     public static SettingsManager Instance { get; private set; }
@@ -42,9 +44,10 @@ public class SettingsManager : MonoBehaviour
 
     public void LoadFromPrefs()
     {
-        volume = PlayerPrefs.GetFloat("Volume", 100f);
-        brightness = PlayerPrefs.GetFloat("Brightness", 50f);
-        mouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 1f);
+        // Дефолты только если ключей нет; после первого раза используем сохранённые значения
+        volume = PlayerPrefs.HasKey("Volume") ? PlayerPrefs.GetFloat("Volume") : 100f;
+        brightness = PlayerPrefs.HasKey("Brightness") ? PlayerPrefs.GetFloat("Brightness") : 50f;
+        mouseSensitivity = PlayerPrefs.HasKey("MouseSensitivity") ? PlayerPrefs.GetFloat("MouseSensitivity") : 1f;
     }
 
     public void SaveToPrefs()
@@ -71,12 +74,21 @@ public class SettingsManager : MonoBehaviour
     public void ApplyBrightness(float value)
     {
         brightness = value;
-        // Простая реализация: изменяем фон камеры. Для продакшна лучше постпроцесс.
-        var cam = Camera.main;
-        if (cam != null)
+        // Пытаемся применить через UI Overlay, если он есть
+        var applier = Object.FindObjectOfType<BrightnessApplier>();
+        if (applier != null)
         {
-            float brightnessValue = value / 100f;
-            cam.backgroundColor = Color.Lerp(Color.black, Color.white, brightnessValue * 0.1f);
+            applier.Apply(value);
+        }
+        else
+        {
+            // Фолбэк: Camera.main background (если видимая)
+            var cam = Camera.main;
+            if (cam != null)
+            {
+                float brightnessValue = value / 100f;
+                cam.backgroundColor = Color.Lerp(Color.black, Color.white, brightnessValue * 0.1f);
+            }
         }
     }
 
