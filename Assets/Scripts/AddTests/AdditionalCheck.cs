@@ -38,15 +38,16 @@ public class AdditionalCheck : MonoBehaviour
 
         // Пример: в сцене "d1_e" движение разрешено только если someCondition == true
         ElevatorMoving elevator = FindObjectOfType<ElevatorMoving>();
+        ElevatorDoorController doors = Object.FindObjectOfType<ElevatorDoorController>();
+
         if (scene == "day1_e" && IsDialogueDone() && elevator != null && Vector3.Distance(elevator.transform.position, elevator.stops[elevator.currentTarget].position) < 0.1f)
         {
             return true;
         }
-
-        // В других сценах — разрешаем движение сразу
-        if (scene != "day1_e")
+        if (scene == "day2_m" && elevator.midStop  >= 0 && Vector3.Distance(elevator.transform.position, elevator.stops[elevator.midStop].position) < 0.1f && doors.isOpen)
         {
-            return false;
+            
+            return true;
         }
 
         return false;

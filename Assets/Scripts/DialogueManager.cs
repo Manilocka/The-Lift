@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -291,9 +292,9 @@ public class DialogueManager : MonoBehaviour
     
     public DialogueLine? GetLastLine()
     {
-        if (currentDialogue != null && currentIndex <= currentDialogue.lines.Count)
+        if (currentDialogue != null && currentIndex < currentDialogue.lines.Count)
         {
-            return currentDialogue.lines[currentIndex-1];
+            return currentDialogue.lines[Math.Max(0, currentIndex-1)];
         }
         return null;
     }
