@@ -273,6 +273,9 @@ public class RetroMainMenu : MonoBehaviour
         // Загружаем сцену настроек (если есть)
         if (!string.IsNullOrEmpty(settingsSceneName))
         {
+            // Запоминаем, что вернуться нужно в главное меню
+            PlayerPrefs.SetString("ReturnScene", SceneManager.GetActiveScene().name);
+            PlayerPrefs.Save();
             SceneManager.LoadScene(settingsSceneName);
         }
     }

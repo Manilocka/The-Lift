@@ -261,8 +261,20 @@ public class RetroSettingsMenu : MonoBehaviour
     
     void ReturnToMainMenu()
     {
-        Debug.Log("RetroSettingsMenu: Загрузка сцены " + mainMenuSceneName);
-        SceneManager.LoadScene(mainMenuSceneName);
+        // Если пришли из паузы, возвращаемся назад в игровую сцену
+        string returnScene = PlayerPrefs.GetString("ReturnScene", string.Empty);
+        if (!string.IsNullOrEmpty(returnScene))
+        {
+            PlayerPrefs.DeleteKey("ReturnScene");
+            PlayerPrefs.Save();
+            Debug.Log("RetroSettingsMenu: Возврат в сцену " + returnScene);
+            SceneManager.LoadScene(returnScene);
+        }
+        else
+        {
+            Debug.Log("RetroSettingsMenu: Загрузка сцены " + mainMenuSceneName);
+            SceneManager.LoadScene(mainMenuSceneName);
+        }
     }
     
     // Обработчики слайдеров

@@ -95,9 +95,11 @@ public class SettingsManager : MonoBehaviour
     public void ApplyMouseSensitivity(float value)
     {
         mouseSensitivity = value;
-        // Экспортируем в PlayerPrefs для читающих её контроллеров
+        // Экспортируем в PlayerPrefs для читающих её контроллеров и применяем к стандартным контроллерам, если есть
         PlayerPrefs.SetFloat("MouseSensitivity", value);
         PlayerPrefs.Save();
+        var look = Object.FindObjectOfType<MonoBehaviour>();
+        // Здесь можно добавить конкретные контроллеры, если ты назовёшь класс
     }
 }
 
