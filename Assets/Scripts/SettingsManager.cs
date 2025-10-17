@@ -74,21 +74,26 @@ public class SettingsManager : MonoBehaviour
     public void ApplyBrightness(float value)
     {
         brightness = value;
-        // Пытаемся применить через UI Overlay, если он есть
+        // 1) URP Volume ColorAdjustments (если есть)
+        var post = Object.FindObjectOfType<PostExposureBrightnessController>();
+        if (post != null)
+        {
+            post.Apply(value);
+            return;
+        }
+        // 2) UI Overlay как универсальный способ
         var applier = Object.FindObjectOfType<BrightnessApplier>();
         if (applier != null)
         {
             applier.Apply(value);
+            return;
         }
-        else
+        // 3) Фолбэк: Camera.main
+        var cam = Camera.main;
+        if (cam != null)
         {
-            // Фолбэк: Camera.main background (если видимая)
-            var cam = Camera.main;
-            if (cam != null)
-            {
-                float brightnessValue = value / 100f;
-                cam.backgroundColor = Color.Lerp(Color.black, Color.white, brightnessValue * 0.1f);
-            }
+            float brightnessValue = value / 100f;
+            cam.backgroundColor = Color.Lerp(Color.black, Color.white, brightnessValue * 0.1f);
         }
     }
 

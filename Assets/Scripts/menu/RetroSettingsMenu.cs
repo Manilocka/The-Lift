@@ -250,7 +250,7 @@ public class RetroSettingsMenu : MonoBehaviour
         switch (optionIndex)
         {
             case 0: // Назад
-                Debug.Log("RetroSettingsMenu: Возврат в главное меню");
+                Debug.Log("RetroSettingsMenu: Настройки отключены, просто сохраняем и выходим");
                 SaveSettings();
                 ReturnToMainMenu();
                 break;

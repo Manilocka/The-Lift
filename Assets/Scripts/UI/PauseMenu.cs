@@ -20,7 +20,11 @@ public class PauseMenu : MonoBehaviour
     {
         if (pauseCanvas != null) pauseCanvas.SetActive(false);
         if (resumeButton != null) resumeButton.onClick.AddListener(ResumeGame);
-        if (settingsButton != null) settingsButton.onClick.AddListener(OpenSettings);
+        if (settingsButton != null)
+        {
+            // ВРЕМЕННО: скрываем кнопку Настройки
+            settingsButton.gameObject.SetActive(false);
+        }
         if (exitButton != null) exitButton.onClick.AddListener(ExitToMainMenu);
 
         // Если вернулись из настроек по паузному сценарию — сразу открыть паузу
@@ -53,25 +57,31 @@ public class PauseMenu : MonoBehaviour
 
     public void ResumeGame()
     {
-        if (!isPaused) return;
+        // Всегда просто снимаем паузу, не перегружаем сцену и не меняем ReturnScene
+        if (!isPaused)
+        {
+            // На случай если кто-то вызвал Continue после возврата из настроек
+            if (pauseCanvas != null) pauseCanvas.SetActive(false);
+            Time.timeScale = 1f;
+            AudioListener.pause = false;
+            // Прячем курсор обратно
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            return;
+        }
         isPaused = false;
         if (pauseCanvas != null) pauseCanvas.SetActive(false);
         Time.timeScale = 1f;
         AudioListener.pause = false;
-        // Не принудительно прячем курсор — зависит от твоего контроллера
+        // Прячем курсор обратно
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void OpenSettings()
     {
-        // Сохраняем текущую сцену для возврата из настроек
-        PlayerPrefs.SetString("ReturnScene", SceneManager.GetActiveScene().name);
-        // Флаг: при возврате из настроек снова открыть меню паузы
-        PlayerPrefs.SetInt("ReturnOpenPause", 1);
-        PlayerPrefs.Save();
-        // Выходим из паузы, чтобы сцена настроек работала нормально
-        Time.timeScale = 1f;
-        AudioListener.pause = false;
-        SceneManager.LoadScene(settingsSceneName);
+        // ВРЕМЕННО ОТКЛЮЧЕНО
+        Debug.Log("Settings disabled temporarily");
     }
 
     public void ExitToMainMenu()

@@ -97,6 +97,11 @@ public class RetroMainMenu : MonoBehaviour
             versionText.text = "v 1.0";
             versionText.color = retroGreen;
         }
+        // ВРЕМЕННО: скрываем пункт "Настройки"
+        if (settingsButton != null)
+        {
+            settingsButton.gameObject.SetActive(false);
+        }
     }
     
     // Убрали прямоугольник - только моргающий текст
@@ -269,15 +274,9 @@ public class RetroMainMenu : MonoBehaviour
     
     void OpenSettings()
     {
-        Debug.Log("Открыть настройки");
-        // Загружаем сцену настроек (если есть)
-        if (!string.IsNullOrEmpty(settingsSceneName))
-        {
-            // Запоминаем, что вернуться нужно в главное меню
-            PlayerPrefs.SetString("ReturnScene", SceneManager.GetActiveScene().name);
-            PlayerPrefs.Save();
-            SceneManager.LoadScene(settingsSceneName);
-        }
+        // ВРЕМЕННО ОТКЛЮЧЕНО
+        Debug.Log("Settings disabled temporarily");
+        return;
     }
     
     void ExitGame()
