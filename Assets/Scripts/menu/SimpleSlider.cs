@@ -47,9 +47,6 @@ public class SimpleSlider : MonoBehaviour
                     case "Volume":
                         loadedValue = SettingsManager.Instance.volume;
                         break;
-                    case "Brightness":
-                        loadedValue = SettingsManager.Instance.brightness;
-                        break;
                     case "MouseSensitivity":
                         loadedValue = SettingsManager.Instance.mouseSensitivity;
                         break;
@@ -119,9 +116,6 @@ public class SimpleSlider : MonoBehaviour
             case "Volume":
                 ApplyVolume(value);
                 break;
-            case "Brightness":
-                ApplyBrightness(value);
-                break;
             case "MouseSensitivity":
                 ApplyMouseSensitivity(value);
                 break;
@@ -138,13 +132,6 @@ public class SimpleSlider : MonoBehaviour
         }
     }
     
-    void ApplyBrightness(float brightness)
-    {
-        if (SettingsManager.Instance != null)
-        {
-            SettingsManager.Instance.ApplyBrightness(brightness);
-        }
-    }
     
     void ApplyMouseSensitivity(float sensitivity)
     {

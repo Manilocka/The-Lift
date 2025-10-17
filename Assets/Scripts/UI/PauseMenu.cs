@@ -1,14 +1,20 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class PauseMenu : MonoBehaviour
 {
     [Header("UI")] 
     public GameObject pauseCanvas; // один Canvas паузы
     public Button resumeButton;
-    public Button settingsButton;
     public Button exitButton;
+    
+    [Header("Settings UI")]
+    public Slider volumeSlider;
+    public Slider mouseSensitivitySlider;
+    public TextMeshProUGUI volumeValueText;
+    public TextMeshProUGUI mouseSensitivityValueText;
 
     [Header("Scenes")] 
     public string settingsSceneName = "Settings";
@@ -20,12 +26,20 @@ public class PauseMenu : MonoBehaviour
     {
         if (pauseCanvas != null) pauseCanvas.SetActive(false);
         if (resumeButton != null) resumeButton.onClick.AddListener(ResumeGame);
-        if (settingsButton != null)
-        {
-            // ВРЕМЕННО: скрываем кнопку Настройки
-            settingsButton.gameObject.SetActive(false);
-        }
         if (exitButton != null) exitButton.onClick.AddListener(ExitToMainMenu);
+        
+        // Настройка слайдеров
+        if (volumeSlider != null)
+        {
+            volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
+            LoadVolumeSettings();
+        }
+        
+        if (mouseSensitivitySlider != null)
+        {
+            mouseSensitivitySlider.onValueChanged.AddListener(OnMouseSensitivitySliderChanged);
+            LoadMouseSensitivitySettings();
+        }
 
         // Если вернулись из настроек по паузному сценарию — сразу открыть паузу
         if (PlayerPrefs.GetInt("ReturnOpenPause", 0) == 1)
@@ -78,21 +92,134 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = false;
     }
 
-    public void OpenSettings()
+    void LoadVolumeSettings()
     {
-        // ВРЕМЕННО ОТКЛЮЧЕНО
-        Debug.Log("Settings disabled temporarily");
+        if (volumeSlider != null)
+        {
+            float volume = PlayerPrefs.GetFloat("Volume", 100f);
+            volumeSlider.value = volume;
+            UpdateVolumeDisplay(volume);
+        }
+    }
+    
+    void LoadMouseSensitivitySettings()
+    {
+        if (mouseSensitivitySlider != null)
+        {
+            float sensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 1f);
+            mouseSensitivitySlider.value = sensitivity;
+            UpdateMouseSensitivityDisplay(sensitivity);
+        }
+    }
+    
+    public void OnVolumeChanged(float value)
+    {
+        UpdateVolumeDisplay(value);
+        PlayerPrefs.SetFloat("Volume", value);
+        PlayerPrefs.Save();
+        
+        // Применяем настройку ко всем источникам звука
+        ApplyVolumeToAllAudioSources(value);
+        
+        // Применяем через SettingsManager
+        if (SettingsManager.Instance != null)
+        {
+            SettingsManager.Instance.ApplyVolume(value);
+        }
+        else
+        {
+            AudioListener.volume = value / 100f;
+        }
+    }
+    
+    void ApplyVolumeToAllAudioSources(float volumePercent)
+    {
+        // Находим все AudioSource в сцене
+        AudioSource[] allAudioSources = FindObjectsOfType<AudioSource>();
+        
+        float volumeMultiplier = volumePercent / 100f;
+        
+        foreach (AudioSource audioSource in allAudioSources)
+        {
+            // Сохраняем оригинальную громкость если еще не сохранена
+            if (!audioSource.gameObject.GetComponent<OriginalVolume>())
+            {
+                var originalVolume = audioSource.gameObject.AddComponent<OriginalVolume>();
+                originalVolume.originalVolume = audioSource.volume;
+            }
+            
+            // Применяем глобальную громкость
+            var originalVol = audioSource.gameObject.GetComponent<OriginalVolume>();
+            if (originalVol != null)
+            {
+                audioSource.volume = originalVol.originalVolume * volumeMultiplier;
+            }
+        }
+        
+        Debug.Log($"PauseMenu: Применена громкость {volumePercent}% к {allAudioSources.Length} источникам звука");
+    }
+    
+    public void OnMouseSensitivityChanged(float value)
+    {
+        UpdateMouseSensitivityDisplay(value);
+        PlayerPrefs.SetFloat("MouseSensitivity", value);
+        PlayerPrefs.Save();
+        
+        // Применяем настройку
+        if (SettingsManager.Instance != null)
+        {
+            SettingsManager.Instance.ApplyMouseSensitivity(value);
+        }
+    }
+    
+    void UpdateVolumeDisplay(float value)
+    {
+        if (volumeValueText != null)
+        {
+            volumeValueText.text = Mathf.RoundToInt(value).ToString();
+        }
+    }
+    
+    void UpdateMouseSensitivityDisplay(float value)
+    {
+        if (mouseSensitivityValueText != null)
+        {
+            mouseSensitivityValueText.text = value.ToString("F1");
+        }
+    }
+    
+    // Округляем значение чувствительности до 0.1
+    public void OnMouseSensitivitySliderChanged(float value)
+    {
+        // Округляем до ближайшего 0.1
+        float roundedValue = Mathf.Round(value * 10f) / 10f;
+        
+        // Устанавливаем округленное значение обратно в слайдер
+        if (mouseSensitivitySlider != null)
+        {
+            mouseSensitivitySlider.value = roundedValue;
+        }
+        
+        // Применяем округленное значение
+        OnMouseSensitivityChanged(roundedValue);
     }
 
     public void ExitToMainMenu()
     {
+        Debug.Log("PauseMenu: Выход в главное меню");
+        
         // Фиксируем текущую сцену как последнюю (на случай Продолжить)
         if (SaveManager.Instance != null)
         {
             SaveManager.Instance.SaveCurrentScene();
         }
+        
+        // Сбрасываем паузу
         Time.timeScale = 1f;
         AudioListener.pause = false;
+        
+        // Загружаем главное меню
+        Debug.Log($"PauseMenu: Загружаем сцену '{mainMenuSceneName}'");
         SceneManager.LoadScene(mainMenuSceneName);
     }
 

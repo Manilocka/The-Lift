@@ -73,9 +73,9 @@ public class RetroMainMenu : MonoBehaviour
     
     void InitializeMenu()
     {
-        // Инициализация массивов кнопок и текстов
-        menuButtons = new Button[] { continueButton, newGameButton, settingsButton, exitButton };
-        menuTexts = new TextMeshProUGUI[] { continueText, newGameText, settingsText, exitText };
+        // Инициализация массивов кнопок и текстов (убираем settingsButton)
+        menuButtons = new Button[] { continueButton, newGameButton, exitButton };
+        menuTexts = new TextMeshProUGUI[] { continueText, newGameText, exitText };
         
         // Настройка кнопок
         for (int i = 0; i < menuButtons.Length; i++)
@@ -200,10 +200,7 @@ public class RetroMainMenu : MonoBehaviour
             case 1: // Новая игра
                 StartNewGame();
                 break;
-            case 2: // Настройки
-                OpenSettings();
-                break;
-            case 3: // Выйти
+            case 2: // Выйти
                 ExitGame();
                 break;
         }
@@ -274,8 +271,8 @@ public class RetroMainMenu : MonoBehaviour
     
     void OpenSettings()
     {
-        // ВРЕМЕННО ОТКЛЮЧЕНО
-        Debug.Log("Settings disabled temporarily");
+        // Настройки теперь в меню паузы
+        Debug.Log("Settings moved to pause menu");
         return;
     }
     

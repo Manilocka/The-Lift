@@ -9,7 +9,6 @@ public class SettingsManager : MonoBehaviour
 
     [Header("Runtime Settings")]
     public float volume = 100f;
-    public float brightness = 50f;
     public float mouseSensitivity = 1f;
 
     void Awake()
@@ -46,14 +45,12 @@ public class SettingsManager : MonoBehaviour
     {
         // Дефолты только если ключей нет; после первого раза используем сохранённые значения
         volume = PlayerPrefs.HasKey("Volume") ? PlayerPrefs.GetFloat("Volume") : 100f;
-        brightness = PlayerPrefs.HasKey("Brightness") ? PlayerPrefs.GetFloat("Brightness") : 50f;
         mouseSensitivity = PlayerPrefs.HasKey("MouseSensitivity") ? PlayerPrefs.GetFloat("MouseSensitivity") : 1f;
     }
 
     public void SaveToPrefs()
     {
         PlayerPrefs.SetFloat("Volume", volume);
-        PlayerPrefs.SetFloat("Brightness", brightness);
         PlayerPrefs.SetFloat("MouseSensitivity", mouseSensitivity);
         PlayerPrefs.Save();
     }
@@ -61,7 +58,6 @@ public class SettingsManager : MonoBehaviour
     public void ApplyAll()
     {
         ApplyVolume(volume);
-        ApplyBrightness(brightness);
         ApplyMouseSensitivity(mouseSensitivity);
     }
 
@@ -69,33 +65,33 @@ public class SettingsManager : MonoBehaviour
     {
         volume = value;
         AudioListener.volume = value / 100f;
+        
+        // Применяем громкость ко всем AudioSource в сцене
+        ApplyVolumeToAllAudioSources(value);
+    }
+    
+    void ApplyVolumeToAllAudioSources(float volumePercent)
+    {
+        // Находим все AudioSource в сцене
+        AudioSource[] allAudioSources = Object.FindObjectsOfType<AudioSource>();
+        
+        float volumeMultiplier = volumePercent / 100f;
+        
+        foreach (AudioSource audioSource in allAudioSources)
+        {
+            // Получаем или создаем компонент OriginalVolume
+            OriginalVolume originalVol = audioSource.GetComponent<OriginalVolume>();
+            if (originalVol == null)
+            {
+                originalVol = audioSource.gameObject.AddComponent<OriginalVolume>();
+                originalVol.originalVolume = audioSource.volume;
+            }
+            
+            // Применяем глобальную громкость
+            audioSource.volume = originalVol.originalVolume * volumeMultiplier;
+        }
     }
 
-    public void ApplyBrightness(float value)
-    {
-        brightness = value;
-        // 1) URP Volume ColorAdjustments (если есть)
-        var post = Object.FindObjectOfType<PostExposureBrightnessController>();
-        if (post != null)
-        {
-            post.Apply(value);
-            return;
-        }
-        // 2) UI Overlay как универсальный способ
-        var applier = Object.FindObjectOfType<BrightnessApplier>();
-        if (applier != null)
-        {
-            applier.Apply(value);
-            return;
-        }
-        // 3) Фолбэк: Camera.main
-        var cam = Camera.main;
-        if (cam != null)
-        {
-            float brightnessValue = value / 100f;
-            cam.backgroundColor = Color.Lerp(Color.black, Color.white, brightnessValue * 0.1f);
-        }
-    }
 
     public void ApplyMouseSensitivity(float value)
     {
