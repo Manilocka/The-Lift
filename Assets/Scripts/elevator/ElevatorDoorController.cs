@@ -52,6 +52,22 @@ public class ElevatorDoorController : MonoBehaviour
         }
     }
 
+    // Метод для открытия дверей с настраиваемой задержкой автозакрытия
+    public void OpenDoorsWithAutoClose(float delay)
+    {
+        if (!isOpen && AdditionalCheck.ElevatorDoorsCanBeOpened())
+        {
+            leftDoorTarget = leftDoor.localPosition + Vector3.left * openPosition;
+            rightDoorTarget = rightDoor.localPosition + Vector3.right * openPosition;
+            isOpen = true;
+
+            // Открываем внешние двери на текущем этаже
+            OpenFloorDoors();
+
+            StartCoroutine(CloseDoorsAfterDelay(delay));
+        }
+    }
+
     // Метод для закрытия дверей
     public void CloseDoors()
     {
@@ -71,6 +87,14 @@ public class ElevatorDoorController : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         CloseDoors();
+    }
+
+    // Проверка, что двери полностью закрыты (а не просто начали закрываться)
+    public bool AreDoorsFullyClosed()
+    {
+        bool leftClosed = Mathf.Approximately(leftDoor.localPosition.x, closePosition);
+        bool rightClosed = Mathf.Approximately(rightDoor.localPosition.x, closePosition);
+        return !isOpen && leftClosed && rightClosed;
     }
 
     // Метод для открытия внешних дверей на текущем этаже

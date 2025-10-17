@@ -4,15 +4,18 @@ public class ElevatorMoving : MonoBehaviour
 {
     public bool canMove; // Переменная для включения/выключения движения
     [SerializeField] float speed = 120f; // Скорость движения лифта
-    [SerializeField] Transform[] stops; // Массив точек остановки
+    [SerializeField] public Transform[] stops; // Массив точек остановки
     [SerializeField] public int startStop; // Начальная точка
     [SerializeField] public int endStop; // Конечная точка
+    [SerializeField] public int midStop = -10;
+
     ElevatorDoorController doorController;
 
     private Rigidbody rb;
     public int currentTarget;
     private bool reverse;
-    public int rememberStartStop = -10; // Переменная для запоминания начальной точки
+    public int rememberStartStop; // Переменная для запоминания начальной точки
+    public int rememberEndStop;
 
     void Start()
     {
@@ -22,6 +25,7 @@ public class ElevatorMoving : MonoBehaviour
         rb.useGravity = false; // Отключаем гравитацию
         transform.position = stops[startStop].position; // Устанавливаем начальную позицию
         currentTarget = startStop;
+        rememberEndStop = endStop;
         UpdateDirection();
     }
 
@@ -34,7 +38,12 @@ public class ElevatorMoving : MonoBehaviour
         {
             Debug.Log($"Elevator moving: startStop = {startStop}, endStop = {endStop}, currentTarget = {currentTarget}");
         }
-        
+        if (midStop > Mathf.Min(startStop, endStop) && 
+            midStop < Mathf.Max(startStop, endStop))
+        {
+            // Едем сначала до промежуточной остановки
+            endStop = midStop;
+        }
         // Если мы на стартовой позиции и нужно ехать к конечной, обновляем цель
         if (currentTarget == startStop && startStop != endStop)
         {
@@ -52,6 +61,16 @@ public class ElevatorMoving : MonoBehaviour
                 canMove = false;
                 rememberStartStop = startStop; 
                 startStop = endStop;
+
+                // Если мы достигли midStop (промежуточная остановка), открыть двери, подождать 3с, закрыть и продолжить до rememberEndStop
+                if (midStop == currentTarget)
+                {
+                    StartCoroutine(HandleMidStopAndContinue());
+                    return;
+                }
+
+                // Обычная остановка на конечном этаже: открыть двери и остаться ждать команды
+                endStop = rememberEndStop;
                 Debug.Log($"After reaching target: startStop = {startStop}, endStop = {endStop}");
                 doorController.OpenDoors(); // Открываем двери
                 return;
@@ -83,5 +102,28 @@ public class ElevatorMoving : MonoBehaviour
         {
             reverse = true;
         }
+    }
+
+    private System.Collections.IEnumerator HandleMidStopAndContinue()
+    {
+        // Открыть двери, подождать 3 секунды, закрыть и продолжить до запомненного конечного этажа
+        if (doorController != null)
+        {
+            doorController.OpenDoorsWithAutoClose(3f);
+        }
+
+        // Ждем, пока двери фактически закроются
+        while (doorController != null && !doorController.AreDoorsFullyClosed())
+        {
+            yield return null;
+        }
+
+        // Сбрасываем промежуточную остановку и продолжаем движение до rememberEndStop
+        midStop = -10;
+        endStop = rememberEndStop;
+        currentTarget = startStop; // текущее положение уже равно startStop после остановки
+        UpdateDirection();
+        canMove = true;
+
     }
 }
