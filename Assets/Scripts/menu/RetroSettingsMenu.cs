@@ -49,6 +49,12 @@ public class RetroSettingsMenu : MonoBehaviour
         StartCoroutine(GlitchEffect());
     }
     
+    void OnEnable()
+    {
+        // При каждом входе в сцену настроек синхронизируемся с текущими runtime-настройками
+        SyncFromSettingsManager();
+    }
+    
     void InitializeSettings()
     {
         // Инициализация массивов
@@ -107,10 +113,10 @@ public class RetroSettingsMenu : MonoBehaviour
     
     void LoadSettings()
     {
-        // Загружаем сохраненные настройки
-        float volume = PlayerPrefs.GetFloat("Volume", 100f);
-        float brightness = PlayerPrefs.GetFloat("Brightness", 50f);
-        float mouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 1f);
+        // Загружаем сохраненные настройки (или из SettingsManager, если он есть)
+        float volume = SettingsManager.Instance != null ? SettingsManager.Instance.volume : PlayerPrefs.GetFloat("Volume", 100f);
+        float brightness = SettingsManager.Instance != null ? SettingsManager.Instance.brightness : PlayerPrefs.GetFloat("Brightness", 50f);
+        float mouseSensitivity = SettingsManager.Instance != null ? SettingsManager.Instance.mouseSensitivity : PlayerPrefs.GetFloat("MouseSensitivity", 1f);
         
         if (volumeSlider != null)
             volumeSlider.value = volume;
@@ -136,7 +142,21 @@ public class RetroSettingsMenu : MonoBehaviour
             PlayerPrefs.SetFloat("MouseSensitivity", mouseSensitivitySlider.value);
         
         PlayerPrefs.Save();
+        if (SettingsManager.Instance != null)
+        {
+            SettingsManager.Instance.volume = volumeSlider != null ? volumeSlider.value : SettingsManager.Instance.volume;
+            SettingsManager.Instance.brightness = brightnessSlider != null ? brightnessSlider.value : SettingsManager.Instance.brightness;
+            SettingsManager.Instance.mouseSensitivity = mouseSensitivitySlider != null ? mouseSensitivitySlider.value : SettingsManager.Instance.mouseSensitivity;
+            SettingsManager.Instance.ApplyAll();
+            SettingsManager.Instance.SaveToPrefs();
+        }
         Debug.Log("RetroSettingsMenu: Настройки сохранены");
+    }
+
+    void OnDisable()
+    {
+        // Автосохранение при выходе из меню настроек
+        SaveSettings();
     }
     
     void Update()
@@ -249,10 +269,10 @@ public class RetroSettingsMenu : MonoBehaviour
     {
         UpdateValueDisplays();
         // Применяем громкость к аудио
-        if (audioSource != null)
-        {
+        if (SettingsManager.Instance != null)
+            SettingsManager.Instance.ApplyVolume(value);
+        else if (audioSource != null)
             audioSource.volume = value / 100f;
-        }
         Debug.Log("RetroSettingsMenu: Громкость изменена на " + value);
     }
     
@@ -260,7 +280,10 @@ public class RetroSettingsMenu : MonoBehaviour
     {
         UpdateValueDisplays();
         // Применяем яркость
-        ApplyBrightness(value);
+        if (SettingsManager.Instance != null)
+            SettingsManager.Instance.ApplyBrightness(value);
+        else
+            ApplyBrightness(value);
         Debug.Log("RetroSettingsMenu: Яркость изменена на " + value);
     }
     
@@ -268,8 +291,20 @@ public class RetroSettingsMenu : MonoBehaviour
     {
         UpdateValueDisplays();
         // Применяем чувствительность мыши
-        ApplyMouseSensitivity(value);
+        if (SettingsManager.Instance != null)
+            SettingsManager.Instance.ApplyMouseSensitivity(value);
+        else
+            ApplyMouseSensitivity(value);
         Debug.Log("RetroSettingsMenu: Чувствительность мыши изменена на " + value);
+    }
+
+    void SyncFromSettingsManager()
+    {
+        if (SettingsManager.Instance == null) return;
+        if (volumeSlider != null) volumeSlider.value = SettingsManager.Instance.volume;
+        if (brightnessSlider != null) brightnessSlider.value = SettingsManager.Instance.brightness;
+        if (mouseSensitivitySlider != null) mouseSensitivitySlider.value = SettingsManager.Instance.mouseSensitivity;
+        UpdateValueDisplays();
     }
     
     void ApplyBrightness(float brightness)

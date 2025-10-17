@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Video;
 using TMPro;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class RetroMainMenu : MonoBehaviour
 {
@@ -59,12 +60,14 @@ public class RetroMainMenu : MonoBehaviour
     void CheckForSaveGame()
     {
         // Проверяем наличие сохранения игры
-        hasSaveGame = PlayerPrefs.HasKey("GameProgress") && PlayerPrefs.GetInt("GameProgress", 0) > 0;
+        hasSaveGame = (PlayerPrefs.HasKey("GameProgress") && PlayerPrefs.GetInt("GameProgress", 0) > 0)
+            || (PlayerPrefs.HasKey("LastScene") && !string.IsNullOrEmpty(PlayerPrefs.GetString("LastScene", "")));
         
-        // Если нет сохранения, делаем кнопку "Продолжить" неактивной
+        // Если нет сохранения, скрываем кнопку "Продолжить"
         if (continueButton != null)
         {
             continueButton.interactable = hasSaveGame;
+            continueButton.gameObject.SetActive(hasSaveGame);
         }
     }
     
@@ -79,6 +82,8 @@ public class RetroMainMenu : MonoBehaviour
         {
             int index = i; // Захват для замыкания
             menuButtons[i].onClick.AddListener(() => SelectOption(index));
+            // Добавляем звук при наведении курсора
+            AddPointerEnterSound(menuButtons[i]);
         }
         
         // Убрали прямоугольник - только моргающий текст
@@ -200,12 +205,56 @@ public class RetroMainMenu : MonoBehaviour
         
         isNavigating = false;
     }
+
+    void AddPointerEnterSound(Button button)
+    {
+        if (button == null) return;
+        EventTrigger trigger = button.GetComponent<EventTrigger>();
+        if (trigger == null)
+        {
+            trigger = button.gameObject.AddComponent<EventTrigger>();
+        }
+
+        // Ищем существующее правило PointerEnter, чтобы не дублировать
+        EventTrigger.Entry existing = null;
+        foreach (var entry in trigger.triggers)
+        {
+            if (entry.eventID == EventTriggerType.PointerEnter)
+            {
+                existing = entry;
+                break;
+            }
+        }
+
+        if (existing == null)
+        {
+            existing = new EventTrigger.Entry { eventID = EventTriggerType.PointerEnter };
+            trigger.triggers.Add(existing);
+        }
+
+        existing.callback.RemoveAllListeners();
+        existing.callback.AddListener(_ => { if (button.interactable) PlaySound(selectSound); });
+    }
     
     void ContinueGame()
     {
         // Загрузка последнего сохранения
         Debug.Log("Продолжить игру");
-        SceneManager.LoadScene(gameSceneName);
+        // Пытаемся загрузить сохраненную сцену, иначе fallback на gameSceneName
+        string lastScene = PlayerPrefs.GetString("LastScene", string.Empty);
+        if (!string.IsNullOrEmpty(lastScene))
+        {
+            SceneManager.LoadScene(lastScene);
+        }
+        else if (SaveManager.Instance != null && SaveManager.Instance.HasSaveData())
+        {
+            // Если используется числовой прогресс — маппинг сцен должен быть настроен отдельно
+            SceneManager.LoadScene(gameSceneName);
+        }
+        else
+        {
+            SceneManager.LoadScene(gameSceneName);
+        }
     }
     
     void StartNewGame()
@@ -213,6 +262,7 @@ public class RetroMainMenu : MonoBehaviour
         Debug.Log("Новая игра");
         // Очищаем сохранение при новой игре
         PlayerPrefs.DeleteKey("GameProgress");
+        PlayerPrefs.DeleteKey("LastScene");
         PlayerPrefs.Save();
         SceneManager.LoadScene(gameSceneName);
     }

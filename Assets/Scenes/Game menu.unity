@@ -803,6 +803,69 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
+--- !u!1 &311588001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 311588003}
+  - component: {fileID: 311588002}
+  - component: {fileID: 311588004}
+  m_Layer: 0
+  m_Name: Save
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &311588002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 311588001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 539f3db58520ca84088a333fe00611e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLevel: 0
+  hasSaveData: 0
+  lastSceneName: 
+--- !u!4 &311588003
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 311588001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960, y: 540, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &311588004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 311588001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e10254bc13ef5f44e94f15b651039590, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volume: 100
+  brightness: 50
+  mouseSensitivity: 1
 --- !u!1 &522824435
 GameObject:
   m_ObjectHideFlags: 0
@@ -947,7 +1010,7 @@ GameObject:
   m_Component:
   - component: {fileID: 531278300}
   - component: {fileID: 531278299}
-  - component: {fileID: 531278298}
+  - component: {fileID: 531278301}
   m_Layer: 0
   m_Name: Menu Manager
   m_TagString: Untagged
@@ -955,7 +1018,55 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!82 &531278298
+--- !u!114 &531278299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531278297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb4112e080b5fa46bb221100443b1e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  continueButton: {fileID: 143146623}
+  newGameButton: {fileID: 1501646131}
+  settingsButton: {fileID: 1736219464}
+  exitButton: {fileID: 1125607330}
+  continueText: {fileID: 0}
+  newGameText: {fileID: 0}
+  settingsText: {fileID: 0}
+  exitText: {fileID: 0}
+  versionText: {fileID: 0}
+  scanlinesOverlay: {fileID: 0}
+  glitchOverlay: {fileID: 0}
+  backgroundVideo: {fileID: 1200953898}
+  audioSource: {fileID: 0}
+  selectSound: {fileID: 8300000, guid: eca609e450cd8284f854c02f549cf89b, type: 3}
+  confirmSound: {fileID: 8300000, guid: 20e17c853928bc948851e89dc0bf5bb0, type: 3}
+  glitchIntensity: 0.1
+  scanlineSpeed: 1
+  retroGreen: {r: 0.2, g: 1, b: 0.2, a: 1}
+  retroHighlight: {r: 0.4, g: 1, b: 0.4, a: 1}
+  gameSceneName: day1_m
+  settingsSceneName: Settings
+--- !u!4 &531278300
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531278297}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1011.47284, y: 568.5141, z: -1111.6786}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &531278301
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -969,7 +1080,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1051,54 +1162,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &531278299
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 531278297}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bb4112e080b5fa46bb221100443b1e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  continueButton: {fileID: 143146623}
-  newGameButton: {fileID: 1501646131}
-  settingsButton: {fileID: 1736219464}
-  exitButton: {fileID: 1125607330}
-  continueText: {fileID: 0}
-  newGameText: {fileID: 0}
-  settingsText: {fileID: 0}
-  exitText: {fileID: 0}
-  versionText: {fileID: 0}
-  scanlinesOverlay: {fileID: 0}
-  glitchOverlay: {fileID: 0}
-  backgroundVideo: {fileID: 1200953898}
-  audioSource: {fileID: 531278298}
-  selectSound: {fileID: 0}
-  confirmSound: {fileID: 0}
-  glitchIntensity: 0.1
-  scanlineSpeed: 1
-  retroGreen: {r: 0.2, g: 1, b: 0.2, a: 1}
-  retroHighlight: {r: 0.4, g: 1, b: 0.4, a: 1}
-  gameSceneName: day1_m
-  settingsSceneName: Settings
---- !u!4 &531278300
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 531278297}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1011.47284, y: 568.5141, z: -1111.6786}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &559082774
 GameObject:
   m_ObjectHideFlags: 0
@@ -1724,10 +1787,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a40a9b4dc09520143b51f1db64e43128, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  videoPlayer: {fileID: 1200953898}
-  videoImage: {fileID: 0}
-  renderTexture: {fileID: 8400000, guid: 500f88b847186464ea61b54a274be152, type: 2}
-  videoFileName: menu_screen.mp4
 --- !u!114 &1097808829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2125,10 +2184,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6da81706f1df1f48b6b74adf9e1d3aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  videoPlayer: {fileID: 1200953898}
-  videoFileName: menu_screen.mp4
-  playOnStart: 1
-  loopVideo: 1
 --- !u!114 &1200953902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2141,9 +2196,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46944880f3939a04fafeac2d34a074bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  videoPlayer: {fileID: 1200953898}
-  rawImage: {fileID: 0}
-  image: {fileID: 0}
 --- !u!1 &1253408299
 GameObject:
   m_ObjectHideFlags: 0
@@ -2595,6 +2647,50 @@ MonoBehaviour:
   buttonText: {fileID: 0}
   blinkColor: {r: 0, g: 0, b: 0, a: 1}
   blinkSpeed: 0.1
+--- !u!1 &1825951824
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1825951826}
+  - component: {fileID: 1825951825}
+  m_Layer: 0
+  m_Name: SceneSave
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1825951825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825951824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b3b381297673774ab4c06a5b87fd3db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1825951826
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825951824}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960, y: 540, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1832884979
 GameObject:
   m_ObjectHideFlags: 0
@@ -2727,3 +2823,5 @@ SceneRoots:
   - {fileID: 245861994}
   - {fileID: 531278300}
   - {fileID: 1097808831}
+  - {fileID: 311588003}
+  - {fileID: 1825951826}

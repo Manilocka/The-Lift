@@ -83,30 +83,29 @@ public class SimpleSlider : MonoBehaviour
     
     void ApplyVolume(float volume)
     {
-        // Применяем громкость
-        AudioSource[] audioSources = FindObjectsOfType<AudioSource>();
-        foreach (AudioSource source in audioSources)
+        // Применяем глобальную громкость
+        AudioListener.volume = volume / 100f;
+        if (SettingsManager.Instance != null)
         {
-            source.volume = volume / 100f;
+            SettingsManager.Instance.ApplyVolume(volume);
         }
     }
     
     void ApplyBrightness(float brightness)
     {
-        // Применяем яркость
-        Camera mainCamera = Camera.main;
-        if (mainCamera != null)
+        if (SettingsManager.Instance != null)
         {
-            float brightnessValue = brightness / 100f;
-            mainCamera.backgroundColor = Color.Lerp(Color.black, Color.white, brightnessValue * 0.1f);
+            SettingsManager.Instance.ApplyBrightness(brightness);
         }
     }
     
     void ApplyMouseSensitivity(float sensitivity)
     {
-        // Применяем чувствительность мыши
-        // Это нужно будет настроить в скриптах управления игроком
-        Debug.Log("SimpleSlider: Чувствительность мыши установлена на " + sensitivity);
+        // Применяем чувствительность мыши через менеджер
+        if (SettingsManager.Instance != null)
+        {
+            SettingsManager.Instance.ApplyMouseSensitivity(sensitivity);
+        }
     }
 }
 
