@@ -6,7 +6,7 @@ public class NPCMovement : MonoBehaviour
     public CharacterController controller;
 
     [Header("Movement Settings")]
-    public float speed = 3.25f; // скорость передвижения
+    public float speed = 3.25f;
     public float gravity = -60f;
 
     [Header("Ground Check")]
@@ -14,16 +14,26 @@ public class NPCMovement : MonoBehaviour
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
 
-    [Header("Target Point")]
-    public Transform targetPoint; // точка назначения, задаётся в инспекторе
+    [Header("Target Points")]
+    public Transform targetPoint;  // первая цель
+    public Transform targetPoint2; // вторая цель (опционально)
 
     private Vector3 velocity;
     private bool isGrounded;
     public bool canMove = false;
 
+    // Текущая цель, к которой NPC идёт
+    private Transform currentTarget;
+
+    void Start()
+    {
+        // Начинаем движение к первой цели
+        currentTarget = targetPoint;
+    }
+
     void Update()
     {
-        // Проверяем, стоит ли NPC на земле
+        // Проверка, на земле ли NPC
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         if (isGrounded && velocity.y < 0)
         {
@@ -32,8 +42,7 @@ public class NPCMovement : MonoBehaviour
 
         canMove = AdditionalCheck.CanNPCMove();
 
-        // Если разрешено движение и есть цель
-        if (canMove && targetPoint != null)
+        if (canMove && currentTarget != null)
         {
             MoveToTarget();
         }
@@ -45,35 +54,48 @@ public class NPCMovement : MonoBehaviour
 
     void MoveToTarget()
     {
-        // Получаем направление к цели
-        Vector3 direction = (targetPoint.position - transform.position).normalized;
-        direction.y = 0; // не двигаемся по вертикали
+        Vector3 direction = (currentTarget.position - transform.position).normalized;
+        direction.y = 0;
 
-        // Двигаем NPC в сторону цели
         controller.Move(direction * speed * Time.deltaTime);
 
-        // Плавно поворачиваемся в сторону цели
         if (direction != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
         }
 
-        // Останавливаемся, если почти дошли
-        float distance = Vector3.Distance(transform.position, targetPoint.position);
-        if (distance < 1f)
+        float distance = Vector3.Distance(transform.position, currentTarget.position);
+        if (distance < 30f)
         {
-            canMove = false;
+            Debug.Log("мужик едет distance < 1f");
+            // Если дошли до первой цели и есть вторая — переключаемся
+            if (currentTarget == targetPoint && targetPoint2 != null)
+            {
+                Debug.Log("targetPoint2 != null");
+                currentTarget = targetPoint2;
+            }
+            else
+            {
+                // Иначе останавливаемся
+                canMove = false;
+            }
         }
     }
 
     void OnDrawGizmosSelected()
     {
+        Gizmos.color = Color.yellow;
         if (targetPoint != null)
         {
-            Gizmos.color = Color.yellow;
             Gizmos.DrawLine(transform.position, targetPoint.position);
             Gizmos.DrawSphere(targetPoint.position, 0.2f);
+        }
+
+        if (targetPoint2 != null)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawSphere(targetPoint2.position, 0.2f);
         }
     }
 }

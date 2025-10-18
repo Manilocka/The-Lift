@@ -44,10 +44,20 @@ public class AdditionalCheck : MonoBehaviour
         {
             return true;
         }
-        if (scene == "day2_m" && elevator.midStop  >= 0 && Vector3.Distance(elevator.transform.position, elevator.stops[elevator.midStop].position) < 0.1f && doors.isOpen)
+        if (scene == "day2_m")
         {
-            
-            return true;
+            if (elevator.midStop >= 0 &&
+                Vector3.Distance(elevator.transform.position, elevator.stops[elevator.midStop].position) < 0.1f && doors.isOpen)
+            {
+                return true;
+            }
+
+            if (elevator.currentTarget == 0 && doors.isOpen && IsDialogueDone())
+            {
+                return true;
+            }
+
+
         }
 
         return false;
@@ -59,6 +69,7 @@ public class AdditionalCheck : MonoBehaviour
         Debug.Log("Current scene: '" + scene + "'");  // Посмотрим точное имя
         Debug.Log("IsDialogueDone(): " + IsDialogueDone());
         PlayerInLiftCheck playerLiftCheck = FindObjectOfType<PlayerInLiftCheck>();
+        NPCInLiftCheck npcLiftCheck = FindObjectOfType<NPCInLiftCheck>();
         // Пример: в сцене "d1_e" движение разрешено только если someCondition == true
         if (scene == "day1_e")
         {
@@ -70,17 +81,40 @@ public class AdditionalCheck : MonoBehaviour
                 Debug.Log("1");
                 return true;
             }
-            else
+
+            if (!playerLiftCheck.IsPlayerInsideElevator() && (IsDialogueDone() == false))
             {
-                if (!playerLiftCheck.IsPlayerInsideElevator() && (IsDialogueDone() == false))
-                {
-                    Debug.Log("2");
-                    return true;
-                }
+                Debug.Log("2");
+                return true;
             }
+
             Debug.Log("3");
             return false;
         }   
+        if (scene == "day2_m")
+        {
+            Debug.Log("22222222222222");
+            
+            Debug.Log("IsPlayerInsideElevator" + playerLiftCheck.IsPlayerInsideElevator());
+
+            if ( IsDialogueDone() == false && !playerLiftCheck.IsPlayerInsideElevator())
+            {
+                return true;
+            }
+            
+            if ( IsDialogueDone() == false && playerLiftCheck.IsPlayerInsideElevator() && !npcLiftCheck.IsNPCInsideElevator())
+            {
+                return true;
+            }
+            
+            if (playerLiftCheck.IsPlayerInsideElevator() && IsDialogueDone())
+            {
+                return true;
+            }
+            
+            Debug.Log("3");
+            return false;
+        } 
         
 
         
