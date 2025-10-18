@@ -292,10 +292,15 @@ public class DialogueManager : MonoBehaviour
     
     public DialogueLine? GetLastLine()
     {
-        if (currentDialogue != null && currentIndex < currentDialogue.lines.Count)
+        if (currentDialogue != null)
         {
-            return currentDialogue.lines[Math.Max(0, currentIndex-1)];
-        }
+            if (currentDialogue.lines.Count == 0) return null;
+            if (currentIndex < currentDialogue.lines.Count)
+            {
+                return currentDialogue.lines[currentIndex];
+            }
+            return currentDialogue.lines[currentDialogue.lines.Count - 1];
+        } 
         return null;
     }
     
