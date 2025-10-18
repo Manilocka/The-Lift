@@ -261,7 +261,7 @@ public class DialogueManager : MonoBehaviour
             completedDialogues.Add(currentDialogue.name);
         }
 
-        // Проверяем, внутри ли игрок в лифте и можно ли открывать двери, не костыль, а кресло  инвалидное
+        // Проверяем, внутри ли игрок в лифте и можно ли открывать двери, не костыль, а кресло инвалидное
 
 
         IsDialogueActive = false;
