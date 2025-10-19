@@ -15,7 +15,7 @@ public class Door : MonoBehaviour, IInteractable
     public bool isOpen;
     
     [Header("Audio")]
-    public AudioClip doorSound; // Звук открытия/закрытия двери
+    public AudioSource doorSound; // Звук открытия/закрытия двери
     
     void Start()
     {
@@ -55,7 +55,7 @@ public class Door : MonoBehaviour, IInteractable
         // Воспроизводим звук двери если он назначен
         if (doorSound != null)
         {
-            AudioSource.PlayClipAtPoint(doorSound, transform.position);
+            doorSound.Play();
         }
         
     }

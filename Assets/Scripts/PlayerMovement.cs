@@ -78,7 +78,8 @@ public class PlayerMovement : MonoBehaviour
             bool isMoving = Mathf.Abs(x) > 0.1f || Mathf.Abs(z) > 0.1f;
             
             if (isMoving)
-            {
+            {   
+                if (footstepTimer == 0f) footstepAudioSource.Play();
                 footstepTimer += Time.deltaTime;
                 
                 if (footstepAudioSource != null && footstepTimer >= footstepInterval)
