@@ -17,7 +17,6 @@ public class PauseMenu : MonoBehaviour
     public TextMeshProUGUI mouseSensitivityValueText;
 
     [Header("Scenes")] 
-    public string settingsSceneName = "Settings";
     public string mainMenuSceneName = "Game menu";
 
     private bool isPaused = false;
@@ -121,15 +120,8 @@ public class PauseMenu : MonoBehaviour
         // Применяем настройку ко всем источникам звука
         ApplyVolumeToAllAudioSources(value);
         
-        // Применяем через SettingsManager
-        if (SettingsManager.Instance != null)
-        {
-            SettingsManager.Instance.ApplyVolume(value);
-        }
-        else
-        {
-            AudioListener.volume = value / 100f;
-        }
+        // Применяем громкость напрямую
+        AudioListener.volume = value / 100f;
     }
     
     void ApplyVolumeToAllAudioSources(float volumePercent)
@@ -165,11 +157,9 @@ public class PauseMenu : MonoBehaviour
         PlayerPrefs.SetFloat("MouseSensitivity", value);
         PlayerPrefs.Save();
         
-        // Применяем настройку
-        if (SettingsManager.Instance != null)
-        {
-            SettingsManager.Instance.ApplyMouseSensitivity(value);
-        }
+        // Применяем настройку чувствительности мыши
+        // Здесь можно добавить логику для применения чувствительности к камере
+        Debug.Log($"Mouse sensitivity set to: {value}");
     }
     
     void UpdateVolumeDisplay(float value)

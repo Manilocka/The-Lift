@@ -38,27 +38,7 @@ public class SimpleSlider : MonoBehaviour
             slider.minValue = minValue;
             slider.maxValue = maxValue;
             // Значение: дефолт только при первом запуске, дальше — только сохранённые
-            float loadedValue;
-            if (SettingsManager.Instance != null)
-            {
-                // Берём из менеджера, он уже загрузил из PlayerPrefs
-                switch (settingKey)
-                {
-                    case "Volume":
-                        loadedValue = SettingsManager.Instance.volume;
-                        break;
-                    case "MouseSensitivity":
-                        loadedValue = SettingsManager.Instance.mouseSensitivity;
-                        break;
-                    default:
-                        loadedValue = PlayerPrefs.HasKey(settingKey) ? PlayerPrefs.GetFloat(settingKey) : defaultValue;
-                        break;
-                }
-            }
-            else
-            {
-                loadedValue = PlayerPrefs.HasKey(settingKey) ? PlayerPrefs.GetFloat(settingKey) : defaultValue;
-            }
+            float loadedValue = PlayerPrefs.HasKey(settingKey) ? PlayerPrefs.GetFloat(settingKey) : defaultValue;
             // Ставим значение без нотификации, чтобы не поймать каскады при инициализации
             slider.SetValueWithoutNotify(loadedValue);
             slider.onValueChanged.AddListener(OnValueChanged);
@@ -126,20 +106,14 @@ public class SimpleSlider : MonoBehaviour
     {
         // Применяем глобальную громкость
         AudioListener.volume = volume / 100f;
-        if (SettingsManager.Instance != null)
-        {
-            SettingsManager.Instance.ApplyVolume(volume);
-        }
     }
     
     
     void ApplyMouseSensitivity(float sensitivity)
     {
-        // Применяем чувствительность мыши через менеджер
-        if (SettingsManager.Instance != null)
-        {
-            SettingsManager.Instance.ApplyMouseSensitivity(sensitivity);
-        }
+        // Применяем чувствительность мыши
+        // Здесь можно добавить логику для применения чувствительности к камере
+        Debug.Log($"Mouse sensitivity applied: {sensitivity}");
     }
 }
 

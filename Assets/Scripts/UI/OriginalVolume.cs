@@ -26,16 +26,8 @@ public class OriginalVolume : MonoBehaviour
         AudioSource audioSource = GetComponent<AudioSource>();
         if (audioSource != null)
         {
-            // Получаем глобальную громкость из SettingsManager
-            float globalVolume = 100f;
-            if (SettingsManager.Instance != null)
-            {
-                globalVolume = SettingsManager.Instance.volume;
-            }
-            else if (PlayerPrefs.HasKey("Volume"))
-            {
-                globalVolume = PlayerPrefs.GetFloat("Volume");
-            }
+            // Получаем глобальную громкость из PlayerPrefs
+            float globalVolume = PlayerPrefs.HasKey("Volume") ? PlayerPrefs.GetFloat("Volume") : 100f;
             
             // Применяем глобальную громкость
             float volumeMultiplier = globalVolume / 100f;
@@ -43,3 +35,4 @@ public class OriginalVolume : MonoBehaviour
         }
     }
 }
+

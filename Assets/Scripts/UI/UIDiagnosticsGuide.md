@@ -87,3 +87,4 @@ rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
 - [ ] Canvas Scaler настроен правильно
 - [ ] Нет дублирующихся Canvas
 - [ ] Все кнопки имеют правильные позиции
+

@@ -19,6 +19,11 @@ public class PlayerMovement : MonoBehaviour
     // Новые переменные для диалога
     public bool canMove = true; // Переменная для блокировки движения
     private Camera mainCamera; // Для Raycast от камеры
+    
+    [Header("Footstep Audio")]
+    public AudioSource footstepAudioSource; // AudioSource для звуков шагов
+    public float footstepInterval = 1f; // Интервал между шагами (в секундах)
+    private float footstepTimer = 0f;
 
     void Start()
     {
@@ -27,6 +32,30 @@ public class PlayerMovement : MonoBehaviour
         if (mainCamera == null)
         {
             Debug.LogError("Main Camera not found! Please assign a camera with the tag 'MainCamera'.");
+        }
+        
+        // Проверяем и настраиваем AudioSource
+        if (footstepAudioSource == null)
+        {
+            Debug.LogError("Footstep AudioSource not assigned! Please assign an AudioSource in the inspector.");
+        }
+        else
+        {
+            Debug.Log("Footstep AudioSource found: " + footstepAudioSource.name);
+            if (footstepAudioSource.clip == null)
+            {
+                Debug.LogError("No audio clip assigned to Footstep AudioSource!");
+            }
+            else
+            {
+                Debug.Log("Audio clip assigned: " + footstepAudioSource.clip.name);
+                
+                // Настраиваем AudioSource для правильной работы
+                footstepAudioSource.loop = false; // Отключаем зацикливание (управляем вручную)
+                footstepAudioSource.playOnAwake = false; // Не воспроизводить автоматически
+                footstepAudioSource.volume = 1f; // Устанавливаем громкость
+                Debug.Log("AudioSource настроен: Loop=" + footstepAudioSource.loop + ", Volume=" + footstepAudioSource.volume + ", Interval=" + footstepInterval + "s");
+            }
         }
     }
 
@@ -44,6 +73,30 @@ public class PlayerMovement : MonoBehaviour
             float z = Input.GetAxis("Vertical");
             Vector3 move = transform.right * x + transform.forward * z;
             controller.Move(move * speed * Time.deltaTime);
+            
+            // Логика звуков шагов с настраиваемым интервалом
+            bool isMoving = Mathf.Abs(x) > 0.1f || Mathf.Abs(z) > 0.1f;
+            
+            if (isMoving)
+            {
+                footstepTimer += Time.deltaTime;
+                
+                if (footstepAudioSource != null && footstepTimer >= footstepInterval)
+                {
+                    Debug.Log("Playing footstep sound - interval: " + footstepInterval + "s");
+                    footstepAudioSource.Play();
+                    footstepTimer = 0f; // Сбрасываем таймер
+                }
+            }
+            else
+            {
+                footstepTimer = 0f; // Сбрасываем таймер при остановке
+                if (footstepAudioSource != null && footstepAudioSource.isPlaying)
+                {
+                    Debug.Log("Stopping footstep sound");
+                    footstepAudioSource.Stop();
+                }
+            }
         }
 
         velocity.y += gravity * Time.deltaTime;

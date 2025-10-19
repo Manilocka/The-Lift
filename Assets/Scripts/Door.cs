@@ -14,6 +14,9 @@ public class Door : MonoBehaviour, IInteractable
     public Animator m_Animator;
     public bool isOpen;
     
+    [Header("Audio")]
+    public AudioClip doorSound; // Звук открытия/закрытия двери
+    
     void Start()
     {
         // Автоматически получаем Animator если не назначен
@@ -48,6 +51,12 @@ public class Door : MonoBehaviour, IInteractable
         
         isOpen = !isOpen;
         m_Animator.SetBool("isOpen", isOpen);
+        
+        // Воспроизводим звук двери если он назначен
+        if (doorSound != null)
+        {
+            AudioSource.PlayClipAtPoint(doorSound, transform.position);
+        }
         
     }
 
