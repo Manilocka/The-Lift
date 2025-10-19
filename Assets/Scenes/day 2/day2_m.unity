@@ -238,6 +238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 45556920}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!64 &62692419
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1182,6 +1183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 159114260}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1 &165987542
 GameObject:
   m_ObjectHideFlags: 0
@@ -1987,6 +1989,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 234474380}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1 &247893114
 GameObject:
   m_ObjectHideFlags: 0
@@ -3227,6 +3230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 328925846}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1 &359774377 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7815774257066935687, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
@@ -3751,7 +3755,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -0.2}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 1000, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &472903759
 MonoBehaviour:
@@ -4127,6 +4131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 567805951}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1 &569664196
 GameObject:
   m_ObjectHideFlags: 0
@@ -4764,6 +4769,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 648483249}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1 &650257554
 GameObject:
   m_ObjectHideFlags: 0
@@ -5103,6 +5109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 674375409}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1001 &691144428
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5497,6 +5504,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 809998731}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1 &813609663 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2883090933945767687, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
@@ -5719,6 +5727,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 851287748}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1 &864071695
 GameObject:
   m_ObjectHideFlags: 0
@@ -6332,6 +6341,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 914767911}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!64 &919241839
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -7812,6 +7822,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 1174450815}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1 &1183976174
 GameObject:
   m_ObjectHideFlags: 0
@@ -8011,6 +8022,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 1193368893}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1 &1194439619 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8773885715134050170, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
@@ -8678,6 +8690,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 1280312646}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!95 &1280312646
 Animator:
   serializedVersion: 5
@@ -9015,6 +9028,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 1349889596}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!64 &1352856421
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -9396,6 +9410,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 1396629862}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1 &1398089344
 GameObject:
   m_ObjectHideFlags: 0
@@ -11045,6 +11060,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 1545673214}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1 &1552950949 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1907177570685107604, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
@@ -12112,6 +12128,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   canMove: 1
+  footstepAudioSource: {fileID: 0}
+  footstepInterval: 1
 --- !u!64 &1754734513
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -13762,6 +13780,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 1967116139}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1 &1968256379 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2272608764344248430, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
@@ -14029,6 +14048,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 2018597038}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1 &2040047932 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4094787135012952306, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
@@ -14301,7 +14321,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -6.9999986}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 1000, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2066080654
 MonoBehaviour:
@@ -14447,6 +14467,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 2072214295}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1 &2089412790 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3151999592133033060, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
@@ -29578,6 +29599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SceneName: day1_e
+  doorAudioSource: {fileID: 0}
 --- !u!33 &8057460603527814689
 MeshFilter:
   m_ObjectHideFlags: 0
