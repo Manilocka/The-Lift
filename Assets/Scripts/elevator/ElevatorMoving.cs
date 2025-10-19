@@ -8,6 +8,7 @@ public class ElevatorMoving : MonoBehaviour
     [SerializeField] public int startStop; // Начальная точка
     [SerializeField] public int endStop; // Конечная точка
     [SerializeField] public int midStop = -10;
+    
 
     ElevatorDoorController doorController;
 
@@ -27,10 +28,27 @@ public class ElevatorMoving : MonoBehaviour
         currentTarget = startStop;
         rememberEndStop = endStop;
         UpdateDirection();
+        
     }
 
     void FixedUpdate() // Используем FixedUpdate для физики
     {
+        // Управление звуком движения лифта через менеджер
+        if (canMove)
+        {
+            if (ElevatorAudioManager.Instance != null)
+            {
+                ElevatorAudioManager.Instance.StartElevatorMovement();
+            }
+        }
+        else
+        {
+            if (ElevatorAudioManager.Instance != null)
+            {
+                ElevatorAudioManager.Instance.StopElevatorMovement();
+            }
+        }
+        
         if (!canMove) return; // Проверяем, можно ли двигаться
         
         // Отладка состояния лифта

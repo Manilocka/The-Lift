@@ -8,6 +8,7 @@ public class ElevatorDoorController : MonoBehaviour
     [SerializeField] private float openPosition = 50f; // Расстояние открытия (в единицах Unity)
     [SerializeField] private float closePosition = 0f; // Начальная (закрытая) позиция
     [SerializeField] private float speed = 23f; // Скорость движения дверей
+    
 
     public bool isOpen = false; // Состояние дверей
     private Vector3 leftDoorTarget;
@@ -35,6 +36,7 @@ public class ElevatorDoorController : MonoBehaviour
             leftDoorTarget = leftDoor.localPosition + Vector3.left * openPosition;  // Движение влево
             rightDoorTarget = rightDoor.localPosition + Vector3.right * openPosition; // Движение вправо
             isOpen = true;
+            
 
             if (AdditionalCheck.ElevatorDoorsCanBeOpened())
             {
@@ -60,6 +62,7 @@ public class ElevatorDoorController : MonoBehaviour
             leftDoorTarget = leftDoor.localPosition + Vector3.left * openPosition;
             rightDoorTarget = rightDoor.localPosition + Vector3.right * openPosition;
             isOpen = true;
+            
 
             // Открываем внешние двери на текущем этаже
             OpenFloorDoors();
@@ -76,6 +79,7 @@ public class ElevatorDoorController : MonoBehaviour
             leftDoorTarget = new Vector3(closePosition, leftDoor.localPosition.y, leftDoor.localPosition.z);  // Закрытие влево
             rightDoorTarget = new Vector3(closePosition, rightDoor.localPosition.y, rightDoor.localPosition.z); // Закрытие вправо
             isOpen = false;
+            
             
             // Закрываем внешние двери на текущем этаже
             CloseFloorDoors();

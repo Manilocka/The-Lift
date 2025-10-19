@@ -8,6 +8,7 @@ public class SendElevatorButton : MonoBehaviour
     ElevatorMoving platform;
     ElevatorDoorController doorController;
     
+    
 
     void Start()
     {
@@ -34,6 +35,12 @@ public class SendElevatorButton : MonoBehaviour
     
     void OnMouseDown()
     {
+        // Воспроизводим звук нажатия кнопки через менеджер
+        if (ElevatorAudioManager.Instance != null)
+        {
+            ElevatorAudioManager.Instance.PlayButtonSound();
+        }
+        
         if (platform != null && !platform.canMove)
         {
             // Проверяем, не находится ли лифт уже на этом этаже

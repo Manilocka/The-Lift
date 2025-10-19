@@ -7,6 +7,7 @@ public class CallElevator : MonoBehaviour
     [SerializeField] int floorNumber; // Конечная точка
     [SerializeField] float maxDistance = 5f; // Максимальное расстояние активации (в единицах Unity)
     ElevatorMoving platform;
+    
 
     
 
@@ -35,6 +36,12 @@ public class CallElevator : MonoBehaviour
     
     void OnMouseDown()
     {
+        // Воспроизводим звук нажатия кнопки через менеджер
+        if (ElevatorAudioManager.Instance != null)
+        {
+            ElevatorAudioManager.Instance.PlayButtonSound();
+        }
+        
         // Проверяем расстояние от камеры до триггера
         float distance = Vector3.Distance(Camera.main.transform.position, transform.position);
         if (distance <= maxDistance && platform != null && !platform.canMove)
