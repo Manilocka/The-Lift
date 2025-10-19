@@ -397,6 +397,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 45556920}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!64 &56224353
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1214,6 +1215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 159114260}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!64 &159162836
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1937,6 +1939,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 234474380}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!64 &234675610
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2863,6 +2866,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1907177570685107604, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1552950957}
+    - targetCorrespondingSourceObject: {fileID: 1907177570685107604, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1552950959}
     - targetCorrespondingSourceObject: {fileID: 4398895916132037879, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 521179716}
@@ -3671,6 +3677,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 328925846}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!64 &338793574
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5447,6 +5454,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 567805951}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1 &569664196
 GameObject:
   m_ObjectHideFlags: 0
@@ -6347,6 +6355,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 648483249}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!64 &650043222
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6708,6 +6717,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 674375409}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1 &676817906
 GameObject:
   m_ObjectHideFlags: 0
@@ -7417,6 +7427,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 809998731}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1 &813609663 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2883090933945767687, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
@@ -7727,6 +7738,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 851287748}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!64 &854948323
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -8498,6 +8510,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 914767911}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!64 &919241839
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -10610,6 +10623,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 1174450815}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1 &1185758896
 GameObject:
   m_ObjectHideFlags: 0
@@ -10703,6 +10717,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 1193368893}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1 &1194439619 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8773885715134050170, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
@@ -11583,6 +11598,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 1280312646}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!95 &1280312646
 Animator:
   serializedVersion: 5
@@ -12480,6 +12496,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 1349889596}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!64 &1352856421
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -12737,6 +12754,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 1396629862}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!64 &1396798752
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -14326,6 +14344,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 1545673214}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1 &1552950949 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1907177570685107604, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
@@ -14366,6 +14385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SceneName: day2_m
+  doorAudioSource: {fileID: 0}
 --- !u!65 &1552950958
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14387,6 +14407,102 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.34522834, y: 3.2331324, z: 1.3363097}
   m_Center: {x: -0.057432823, y: -0.00000061035155, z: -0.66815484}
+--- !u!82 &1552950959
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552950949}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1555796184 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6823813679107018284, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
@@ -16394,6 +16510,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   canMove: 1
+  footstepAudioSource: {fileID: 0}
+  footstepInterval: 1
 --- !u!64 &1754734513
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -18741,6 +18859,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 1967116139}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!1 &1968256379 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2272608764344248430, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
@@ -19290,6 +19409,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 2018597038}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!64 &2022011941
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -19809,6 +19929,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 2072214295}
   isOpen: 0
+  doorSound: {fileID: 0}
 --- !u!64 &2074085338
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -55163,6 +55284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SceneName: day2_m
+  doorAudioSource: {fileID: 0}
 --- !u!1 &8045361710062060297
 GameObject:
   m_ObjectHideFlags: 0

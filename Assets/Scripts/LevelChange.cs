@@ -6,15 +6,36 @@ using UnityEngine.SceneManagement;
 public class LevelChange : MonoBehaviour
 {
     [SerializeField] string SceneName;
-
+    [SerializeField] AudioSource doorAudioSource;
 
     void OnMouseDown()
     {
         DialogueManager.ResetDialogueDone();
         Debug.Log("DialogueDone " + DialogueManager.DialogueDone);
-        SceneManager.LoadScene(SceneName);
         
+        
+        if (doorAudioSource != null)
+        {
+            doorAudioSource.Play();
+        }
+        
+        
+        StartCoroutine(LoadSceneAfterSound());
     }
 
-
+    IEnumerator LoadSceneAfterSound()
+    {
+        
+        if (doorAudioSource != null && doorAudioSource.clip != null)
+        {
+            yield return new WaitForSeconds(doorAudioSource.clip.length);
+        }
+        else
+        {
+            
+            yield return new WaitForSeconds(0.5f);
+        }
+        
+        SceneManager.LoadScene(SceneName);
+    }
 }
