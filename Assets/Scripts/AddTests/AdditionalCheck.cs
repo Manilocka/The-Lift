@@ -71,8 +71,11 @@ public class AdditionalCheck : MonoBehaviour
             {
                 return true;
             }
-
-
+        }
+        
+        if (scene == "day3_e" && elevator != null && Vector3.Distance(elevator.transform.position, elevator.stops[elevator.currentTarget].position) < 0.1f && elevator.currentTarget == elevator.midStop)
+        {
+            return true;
         }
 
         return false;
@@ -130,6 +133,8 @@ public class AdditionalCheck : MonoBehaviour
             
             Debug.Log("3");
             return false;
+            
+            
         } 
         if (scene == "day3_m")
         {
@@ -155,6 +160,8 @@ public class AdditionalCheck : MonoBehaviour
             Debug.Log("3");
             return false;
         } 
+        
+        
         
 
         
