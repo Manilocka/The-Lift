@@ -161,10 +161,16 @@ public class AdditionalCheck : MonoBehaviour
             return false;
         } 
         
-        
-        
+        return true;
+    }
 
-        
+    public static bool CanLevelBeChanged()
+    {
+        string scene = SceneManager.GetActiveScene().name;
+        if (scene == "day4_m")
+        {
+            return IsDialogueDone();
+        }
         return true;
     }
 

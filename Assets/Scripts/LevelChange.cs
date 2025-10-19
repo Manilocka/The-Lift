@@ -10,6 +10,10 @@ public class LevelChange : MonoBehaviour
 
     void OnMouseDown()
     {
+        if (!AdditionalCheck.CanLevelBeChanged())
+        {
+            return;
+        }
         DialogueManager.ResetDialogueDone();
         Debug.Log("DialogueDone " + DialogueManager.DialogueDone);
         

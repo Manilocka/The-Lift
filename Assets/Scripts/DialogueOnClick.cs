@@ -16,6 +16,11 @@ public class DialogueOnClick : MonoBehaviour
 
     public void OnMouseDown()
     {
+       ShowDialogue();
+    }
+
+    public void ShowDialogue()
+    {
         Debug.Log("SDFWSOFBNJSJDKFSBKFJBJKFBSAKJDFBJSKF");
         
         // Если диалог уже был запущен и oneTimeOnly включён — выходим
