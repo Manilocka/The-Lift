@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SendElevatorNew : MonoBehaviour
 {
@@ -34,17 +35,26 @@ public class SendElevatorNew : MonoBehaviour
     
     void OnMouseDown()
     {
+        string scene = SceneManager.GetActiveScene().name;
         if (platform != null && !platform.canMove)
         {
-            // Проверяем, не находится ли лифт уже на этом этаже
-            if (platform.startStop == 3)
+            
+            if (scene == "day4_e")
             {
-                platform.endStop = 0;
+                platform.endStop = 1;
             }
             else
             {
-                // Лифт на другом этаже - устанавливаем конечную точку и запускаем движение
-                platform.endStop = 3;
+                // Проверяем, не находится ли лифт уже на этом этаже
+                if (platform.startStop == 3)
+                {
+                    platform.endStop = 0;
+                }
+                else
+                {
+                    // Лифт на другом этаже - устанавливаем конечную точку и запускаем движение
+                    platform.endStop = 3;
+                }
             }
             StartCoroutine(DelayedDoorClose(1f));
             StartCoroutine(DelayedStart(5f)); // Запускаем корутину для задержки старта лифта
