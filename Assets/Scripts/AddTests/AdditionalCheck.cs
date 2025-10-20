@@ -77,6 +77,20 @@ public class AdditionalCheck : MonoBehaviour
         {
             return true;
         }
+        
+        if (scene == "day5_m")
+        {
+            if (elevator.midStop >= 0 &&
+                Vector3.Distance(elevator.transform.position, elevator.stops[elevator.midStop].position) < 0.1f && doors.isOpen)
+            {
+                return true;
+            }
+
+            if (elevator.currentTarget == 0 && doors.isOpen)
+            {
+                return true;
+            }
+        }
 
         return false;
     }
