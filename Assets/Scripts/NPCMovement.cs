@@ -18,9 +18,14 @@ public class NPCMovement : MonoBehaviour
     public Transform targetPoint;  // первая цель
     public Transform targetPoint2; // вторая цель (опционально)
 
+    [Header("Animation")]
+    public Animator animator; // ссылка на аниматор
+
     private Vector3 velocity;
     private bool isGrounded;
     public bool canMove = false;
+    private bool isWalking = false;
+    private bool wasWalking = false; // предыдущее состояние
 
     // Текущая цель, к которой NPC идёт
     private Transform currentTarget;
@@ -29,6 +34,22 @@ public class NPCMovement : MonoBehaviour
     {
         // Начинаем движение к первой цели
         currentTarget = targetPoint;
+        
+        // Автоматически находим аниматор если он не установлен
+        if (animator == null)
+        {
+            animator = GetComponentInChildren<Animator>();
+            if (animator == null)
+            {
+                animator = GetComponent<Animator>();
+            }
+        }
+        
+        // Инициализируем аниматор
+        if (animator != null)
+        {
+            animator.SetBool("isWalking", false);
+        }
     }
 
     void Update()
@@ -42,9 +63,24 @@ public class NPCMovement : MonoBehaviour
 
         canMove = AdditionalCheck.CanNPCMove();
 
+        // Сохраняем предыдущее состояние для сравнения
+        wasWalking = isWalking;
+
+        // Определяем, движется ли NPC
         if (canMove && currentTarget != null)
         {
             MoveToTarget();
+            isWalking = true;
+        }
+        else
+        {
+            isWalking = false;
+        }
+
+        // Обновляем аниматор только если состояние изменилось
+        if (wasWalking != isWalking)
+        {
+            UpdateAnimator();
         }
 
         // Применяем гравитацию
@@ -68,18 +104,35 @@ public class NPCMovement : MonoBehaviour
         float distance = Vector3.Distance(transform.position, currentTarget.position);
         if (distance < 30f)
         {
-            Debug.Log("мужик едет distance < 1f");
+            Debug.Log("Достигнута целевая точка, расстояние: " + distance);
+            
             // Если дошли до первой цели и есть вторая — переключаемся
             if (currentTarget == targetPoint && targetPoint2 != null)
             {
-                Debug.Log("targetPoint2 != null");
+                Debug.Log("Переключаемся на вторую цель");
                 currentTarget = targetPoint2;
             }
             else
             {
                 // Иначе останавливаемся
+                Debug.Log("Останавливаем NPC");
                 canMove = false;
+                isWalking = false; // Важно: сразу устанавливаем флаг ходьбы в false
+                UpdateAnimator(); // Немедленно обновляем аниматор
             }
+        }
+    }
+
+    void UpdateAnimator()
+    {
+        if (animator != null)
+        {
+            animator.SetBool("isWalking", isWalking);
+            Debug.Log($"Animator updated: isWalking = {isWalking}");
+        }
+        else
+        {
+            Debug.LogWarning("Animator is not assigned!");
         }
     }
 
