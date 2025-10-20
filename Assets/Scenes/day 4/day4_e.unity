@@ -6974,6 +6974,7 @@ GameObject:
   - component: {fileID: 764626584}
   - component: {fileID: 764626583}
   - component: {fileID: 764626586}
+  - component: {fileID: 764626587}
   m_Layer: 2
   m_Name: elevator_elevator_2:Object607_lift_down_0
   m_TagString: Untagged
@@ -7089,6 +7090,24 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 160.45135, y: 323.09857, z: 172.61475}
   m_Center: {x: 65.06717, y: -47.968536, z: 1242.3516}
+--- !u!114 &764626587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 764626581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddc228410b89e194d8a08c953ff1cd68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue: {fileID: 11400000, guid: 56b0bbd2e6673b141be649bfc6ac04a4, type: 2}
+  oneTimeOnly: 1
+  triggerOnEnter: 0
+  triggerOnExit: 1
+  delayBeforeDialogue: 0
+  logDebug: 1
 --- !u!64 &773612932
 MeshCollider:
   m_ObjectHideFlags: 0
