@@ -2904,6 +2904,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 9df3c06a046b0054596b467e83404487, type: 2}
+    - target: {fileID: 1907177570685107604, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
+      propertyPath: m_Name
+      value: ggDoor
+      objectReference: {fileID: 0}
     - target: {fileID: 2341755308126685026, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -14527,6 +14531,7 @@ MonoBehaviour:
     m_Bits: 0
   targetPoint: {fileID: 676817907}
   targetPoint2: {fileID: 0}
+  animator: {fileID: 0}
   canMove: 1
 --- !u!143 &1433134833
 CharacterController:
@@ -15980,7 +15985,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e5360ba28acb284d99c351d118a4ef1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneName: day3_m
+  SceneName: day6_m
   doorAudioSource: {fileID: 1552950959}
 --- !u!65 &1552950958
 BoxCollider:
