@@ -157,8 +157,17 @@ public class PauseMenu : MonoBehaviour
         PlayerPrefs.SetFloat("MouseSensitivity", value);
         PlayerPrefs.Save();
         
-        // Применяем настройку чувствительности мыши
-        // Здесь можно добавить логику для применения чувствительности к камере
+        // Применяем настройку чувствительности мыши к MouseLock
+        MouseLock mouseLock = FindObjectOfType<MouseLock>();
+        if (mouseLock != null)
+        {
+            mouseLock.UpdateMouseSensitivity(value);
+        }
+        else
+        {
+            Debug.LogWarning("MouseLock не найден в сцене!");
+        }
+        
         Debug.Log($"Mouse sensitivity set to: {value}");
     }
     

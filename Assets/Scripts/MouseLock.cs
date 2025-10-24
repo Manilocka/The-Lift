@@ -53,6 +53,9 @@ public class MouseLock : MonoBehaviour
 
         // Принудительно устанавливаем дистанцию
         maxInteractDistance = 170.0f;
+        
+        // Загружаем настройки чувствительности мыши
+        LoadMouseSensitivitySettings();
     }
 
     void Update()
@@ -167,5 +170,20 @@ public class MouseLock : MonoBehaviour
             crosshair.gameObject.SetActive(false);
             return;
         }
+    }
+    
+    void LoadMouseSensitivitySettings()
+    {
+        // Загружаем чувствительность мыши из PlayerPrefs
+        float savedSensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 1f);
+        mouseSensitivity = savedSensitivity * 500f; // Конвертируем из диапазона 0-2 в 0-1000
+        Debug.Log($"MouseLock: Загружена чувствительность мыши: {savedSensitivity} (конвертировано в {mouseSensitivity})");
+    }
+    
+    public void UpdateMouseSensitivity(float sensitivity)
+    {
+        // Обновляем чувствительность мыши
+        mouseSensitivity = sensitivity * 500f; // Конвертируем из диапазона 0-2 в 0-1000
+        Debug.Log($"MouseLock: Обновлена чувствительность мыши: {sensitivity} (конвертировано в {mouseSensitivity})");
     }
 }

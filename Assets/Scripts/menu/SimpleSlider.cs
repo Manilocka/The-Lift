@@ -111,8 +111,17 @@ public class SimpleSlider : MonoBehaviour
     
     void ApplyMouseSensitivity(float sensitivity)
     {
-        // Применяем чувствительность мыши
-        // Здесь можно добавить логику для применения чувствительности к камере
+        // Применяем чувствительность мыши к MouseLock
+        MouseLock mouseLock = FindObjectOfType<MouseLock>();
+        if (mouseLock != null)
+        {
+            mouseLock.UpdateMouseSensitivity(sensitivity);
+        }
+        else
+        {
+            Debug.LogWarning("MouseLock не найден в сцене!");
+        }
+        
         Debug.Log($"Mouse sensitivity applied: {sensitivity}");
     }
 }

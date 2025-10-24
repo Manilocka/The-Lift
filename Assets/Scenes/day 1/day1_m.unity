@@ -5969,6 +5969,17 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 663558222871814990, guid: be74100b312f6a2499cb61c8a32d8719, type: 3}
+--- !u!114 &513718523 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 433735113567145875, guid: 915e2cdb15e70994b89d84b1cb1cb68f, type: 3}
+  m_PrefabInstance: {fileID: 1340876855}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!64 &515652245
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -11467,7 +11478,7 @@ MonoBehaviour:
   valueText: {fileID: 1828637672}
   settingKey: 
   defaultValue: 0
-  minValue: 0
+  minValue: 0.1
   maxValue: 2
   valueFormat: F0
 --- !u!114 &1108940850
@@ -22472,12 +22483,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseCanvas: {fileID: 1683350965}
-  resumeButton: {fileID: 0}
-  exitButton: {fileID: 0}
-  volumeSlider: {fileID: 0}
-  mouseSensitivitySlider: {fileID: 0}
-  volumeValueText: {fileID: 0}
-  mouseSensitivityValueText: {fileID: 0}
+  resumeButton: {fileID: 513718523}
+  exitButton: {fileID: 1394816915}
+  volumeSlider: {fileID: 954585483}
+  mouseSensitivitySlider: {fileID: 1108940850}
+  volumeValueText: {fileID: 187498815}
+  mouseSensitivityValueText: {fileID: 1828637672}
   mainMenuSceneName: Game menu
 --- !u!4 &2128876093
 Transform:
