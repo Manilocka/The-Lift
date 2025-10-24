@@ -11407,6 +11407,7 @@ MonoBehaviour:
     m_Bits: 0
   targetPoint: {fileID: 0}
   targetPoint2: {fileID: 0}
+  animator: {fileID: 0}
   canMove: 1
 --- !u!195 &1433134833
 NavMeshAgent:
@@ -16451,6 +16452,59 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &2085850118
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2085850119}
+  - component: {fileID: 2085850120}
+  m_Layer: 0
+  m_Name: liftBlockGo
+  m_TagString: Untagged
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2085850119
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085850118}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -26.700012, y: 1498, z: 1130}
+  m_LocalScale: {x: 1, y: 1, z: 2.0089}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1785994319797490731}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!65 &2085850120
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085850118}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 203.90703, y: 0, z: 166.8418}
+  m_Center: {x: 101.453514, y: -0.5, z: 82.9209}
 --- !u!1 &2089412790 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3151999592133033060, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
@@ -19697,6 +19751,7 @@ Transform:
   - {fileID: 63034669}
   - {fileID: 984149690}
   - {fileID: 1480608283}
+  - {fileID: 2085850119}
   - {fileID: 2959264533950859306}
   - {fileID: 7695111177008994419}
   - {fileID: 8512819951269152733}

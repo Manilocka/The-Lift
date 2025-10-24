@@ -36,11 +36,13 @@ public class CallElevator : MonoBehaviour
     
     void OnMouseDown()
     {
+        
         // Воспроизводим звук нажатия кнопки через менеджер
         if (ElevatorAudioManager.Instance != null)
         {
             ElevatorAudioManager.Instance.PlayButtonSound();
         }
+        if (!AdditionalCheck.CanCallElevator()){return;}
         
         // Проверяем расстояние от камеры до триггера
         float distance = Vector3.Distance(Camera.main.transform.position, transform.position);

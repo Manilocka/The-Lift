@@ -73,7 +73,7 @@ public class AdditionalCheck : MonoBehaviour
             }
         }
         
-        if (scene == "day3_e" && elevator != null && Vector3.Distance(elevator.transform.position, elevator.stops[elevator.currentTarget].position) < 0.1f && elevator.currentTarget == elevator.midStop)
+        if (scene == "day3_e" && elevator != null && Vector3.Distance(elevator.transform.position, elevator.stops[elevator.currentTarget].position) < 0.1f && elevator.currentTarget == elevator.startStop)
         {
             return true;
         }
@@ -184,6 +184,16 @@ public class AdditionalCheck : MonoBehaviour
         if (scene == "day4_m")
         {
             return IsDialogueDone();
+        }
+        return true;
+    }
+
+    public static bool CanCallElevator()
+    {
+        string scene = SceneManager.GetActiveScene().name;
+        if (scene == "day4_e" && IsDialogueDone())
+        {
+            return false;
         }
         return true;
     }

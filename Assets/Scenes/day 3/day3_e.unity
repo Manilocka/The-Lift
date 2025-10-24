@@ -2810,6 +2810,59 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4520329737469966620, guid: be74100b312f6a2499cb61c8a32d8719, type: 3}
+--- !u!1 &265841863
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 265841864}
+  - component: {fileID: 265841865}
+  m_Layer: 0
+  m_Name: liftBlockGo
+  m_TagString: Untagged
+  m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &265841864
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265841863}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -26.700012, y: 639, z: 1130}
+  m_LocalScale: {x: 1, y: 1, z: 2.0089}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1785994319797490731}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!65 &265841865
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265841863}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 203.90703, y: 0, z: 166.8418}
+  m_Center: {x: 101.453514, y: -0.5, z: 82.9209}
 --- !u!64 &269872375
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -8317,7 +8370,7 @@ Transform:
   m_GameObject: {fileID: 676817906}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -797, y: 595, z: -2371.7}
+  m_LocalPosition: {x: -776, y: -141, z: -1496}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14674,7 +14727,7 @@ MonoBehaviour:
   - {fileID: 1581509947}
   startStop: 0
   endStop: 3
-  midStop: 1
+  midStop: -10
   currentTarget: 0
   rememberStartStop: -10
   rememberEndStop: 0
@@ -16692,6 +16745,7 @@ MonoBehaviour:
     m_Bits: 0
   targetPoint: {fileID: 676817907}
   targetPoint2: {fileID: 0}
+  animator: {fileID: 0}
   canMove: 1
 --- !u!143 &1433134833
 CharacterController:
@@ -17978,7 +18032,7 @@ PrefabInstance:
       objectReference: {fileID: 676817907}
     - target: {fileID: 6033595506832155640, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -791.1
+      value: -785.7
       objectReference: {fileID: 0}
     - target: {fileID: 6033595506832155640, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -33085,6 +33139,7 @@ Transform:
   - {fileID: 63034669}
   - {fileID: 984149690}
   - {fileID: 1480608283}
+  - {fileID: 265841864}
   - {fileID: 2959264533950859306}
   - {fileID: 7695111177008994419}
   - {fileID: 8512819951269152733}
