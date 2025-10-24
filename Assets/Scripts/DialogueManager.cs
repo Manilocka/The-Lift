@@ -171,6 +171,15 @@ public class DialogueManager : MonoBehaviour
         {
             var selectedChoice = currentLine.choices[choice];
             
+            // Проверяем, нужно ли загрузить сцену
+            if (!string.IsNullOrEmpty(selectedChoice.sceneToLoad))
+            {
+                Debug.Log($"Переходим на сцену: {selectedChoice.sceneToLoad}");
+                EndDialogue();
+                UnityEngine.SceneManagement.SceneManager.LoadScene(selectedChoice.sceneToLoad);
+                return;
+            }
+            
             if (selectedChoice.dialogueLines != null && selectedChoice.dialogueLines.Count > 0)
             {
                 if (mainDialogue == null)

@@ -5,16 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f537d165-ca17-40b6-8ad2-122f74fff72a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.The-Lift/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/ScreenFader.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.The-Lift/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.The-Lift/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Dialogue/day4/day4_e_1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Dialogue/day4/day4_e_1.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Dialogue/day7/day7_n_1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Dialogue/day7/day7_n_1.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Dialogue/day7/day7_n_2.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Dialogue/day7/day7_n_2.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/day 2/day2_m.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/day 2/day2_m.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/day 3/day3_e.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/day 3/day3_e.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/day 3/day3_m.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/day 3/day3_m.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/day 4/day4_e.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/day 4/day4_e.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/day 5/day5_m.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/day 5/day5_m.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AddTests/AdditionalCheck.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AddTests/AdditionalCheck.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/elevator/CallElevator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/elevator/CallElevator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DialogueLine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DialogueLine.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DialogueManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DialogueManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/UI/Fonts/main SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI/Fonts/main SDF.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,10 +36,14 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/44baafde34d548b79233aeeb474720f91fe00/68/6644b85a/CharacterController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/50e19b0ed93a4256b2e454b4acec2d48958800/e2/052991f3/PhysicsDebugDraw.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8ce0bd04a7a04b4b9395538239d3fdd846ac00/6c/87e09f37/ThrowHelper.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/olesy/docks/uni/The Lift/The-Lift/Assets/Dialogue/day4/day4_e_1.asset" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/olesy/docks/uni/The Lift/The-Lift/Assets/Scenes/day 4/day4_e.unity" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/olesy/docks/uni/The Lift/The-Lift/Assets/Scripts/AddTests/AdditionalCheck.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/DialogueOnClick.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/DialogueOnClickWithDelay.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/NPCInLiftCheck.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/ScreenFader.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/olesy/docks/uni/The Lift/The-Lift/Assets/Scripts/elevator/CallElevator.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -141,7 +144,7 @@
       <workItem from="1760799673238" duration="12241000" />
       <workItem from="1760915488565" duration="6013000" />
       <workItem from="1761301132196" duration="1058000" />
-      <workItem from="1761323093662" duration="897000" />
+      <workItem from="1761323093662" duration="2758000" />
     </task>
     <task id="LOCAL-00001" summary="babka fxd">
       <option name="closed" value="true" />
@@ -335,7 +338,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760921933524</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="can't go out and call elevator when not needed">
+      <option name="closed" value="true" />
+      <created>1761324086974</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1761324086974</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -386,20 +397,21 @@
     <MESSAGE value="day5_m (no screeching sounds)" />
     <MESSAGE value="day4&amp;5 done w dialogues (no leg animations, lit door sounds)" />
     <MESSAGE value="sth minor fixed, we're good" />
-    <option name="LAST_COMMIT_MESSAGE" value="sth minor fixed, we're good" />
+    <MESSAGE value="can't go out and call elevator when not needed" />
+    <option name="LAST_COMMIT_MESSAGE" value="can't go out and call elevator when not needed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/DialogueManager.cs</url>
-          <line>244</line>
+          <line>253</line>
           <properties documentPath="C:\Users\olesy\docks\uni\The Lift\The-Lift\Assets\Scripts\DialogueManager.cs" containingFunctionPresentation="Method 'EndDialogue'">
             <startOffsets>
-              <option value="6538" />
+              <option value="6928" />
             </startOffsets>
             <endOffsets>
-              <option value="6594" />
+              <option value="6984" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="38" />

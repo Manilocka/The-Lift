@@ -17,4 +17,5 @@ public struct Choice
 {
     public string choiceText;
     public List<DialogueLine> dialogueLines;
+    public string sceneToLoad; // Имя сцены для загрузки при выборе этого варианта
 }
