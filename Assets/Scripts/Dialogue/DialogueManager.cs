@@ -286,10 +286,29 @@ public class DialogueManager : MonoBehaviour
                 elevatorDoorController.OpenDoors();
             }
         }
+        CheckForSceneTransition();
 
         Debug.Log("Диалог полностью завершен, IsDialogueActive = false");
     }
+    private void CheckForSceneTransition()
+    {
+        // Проверяем, что находимся на сцене day7_2
+        string currentSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
     
+        if (currentSceneName == "day7_2")
+        {
+            // Проверяем, что диалог завершился и это нужный диалог
+            // Вы можете добавить дополнительные проверки, например по имени диалога
+            if (currentDialogue != null && AdditionalCheck.IsDialogueDone())
+            {
+                // Загружаем следующую сцену (замените "NextSceneName" на имя вашей сцены)
+                string sceneToLoad = "day7_m"; // Замените на актуальное имя сцены
+            
+                Debug.Log($"Переход на сцену: {sceneToLoad} из day7_2");
+                UnityEngine.SceneManagement.SceneManager.LoadScene(sceneToLoad);
+            }
+        }
+    }
     public DialogueLine? GetCurrentLine()
     {
         if (currentDialogue != null && currentIndex < currentDialogue.lines.Count)
