@@ -80,6 +80,12 @@ public class ElevatorMoving : MonoBehaviour
                 rememberStartStop = startStop; 
                 startStop = endStop;
 
+                // Воспроизводим звук звоночка при прибытии
+                if (ElevatorAudioManager.Instance != null)
+                {
+                    ElevatorAudioManager.Instance.PlayArrivalSound();
+                }
+
                 // Если мы достигли midStop (промежуточная остановка), открыть двери, подождать 3с, закрыть и продолжить до rememberEndStop
                 if (midStop == currentTarget)
                 {
