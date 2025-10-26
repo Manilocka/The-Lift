@@ -1568,7 +1568,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 825768656}
   - {fileID: 581452269}
   - {fileID: 185023975}
   - {fileID: 1207937366}
@@ -9840,11 +9839,6 @@ MeshCollider:
 --- !u!1 &825768655 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7515336825729435316, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
-  m_PrefabInstance: {fileID: 2498757810442110293}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &825768656 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2382729518236960389, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
   m_PrefabInstance: {fileID: 2498757810442110293}
   m_PrefabAsset: {fileID: 0}
 --- !u!82 &825768657
@@ -35358,19 +35352,19 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 153134447}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2382729518236960389, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 73.47064
+      value: -779
       objectReference: {fileID: 0}
     - target: {fileID: 2382729518236960389, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -170.2727
+      value: 1528
       objectReference: {fileID: 0}
     - target: {fileID: 2382729518236960389, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1326.6
+      value: -1049.4
       objectReference: {fileID: 0}
     - target: {fileID: 2382729518236960389, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -35401,13 +35395,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6061596813417141374, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
+      propertyPath: arrivalBellSound
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6061596813417141374, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
       propertyPath: elevatorAudioSource
       value: 
       objectReference: {fileID: 825768657}
     - target: {fileID: 6061596813417141374, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
       propertyPath: elevatorMovementSound
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8300000, guid: a1274cb3df121f642840119f6ed1f2ae, type: 3}
     - target: {fileID: 7515336825729435316, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
       propertyPath: m_Name
       value: ElevatorAudioManage
@@ -66190,4 +66188,5 @@ SceneRoots:
   - {fileID: 543450652038171617}
   - {fileID: 2128876093}
   - {fileID: 1428859098}
+  - {fileID: 2498757810442110293}
   - {fileID: 4585467596809767136}

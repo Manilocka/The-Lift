@@ -10,6 +10,10 @@ public class ElevatorAudioManager : MonoBehaviour
     public AudioClip elevatorMovementSound; // Звук движения лифта
     public AudioSource elevatorAudioSource; // AudioSource для звуков лифта
     
+    [Header("Elevator Arrival")]
+    public AudioClip arrivalBellSound; // Звук звоночка при прибытии
+    public AudioSource arrivalAudioSource; // AudioSource для звука прибытия
+    
     
     // Singleton для доступа из других скриптов
     public static ElevatorAudioManager Instance { get; private set; }
@@ -50,6 +54,14 @@ public class ElevatorAudioManager : MonoBehaviour
         buttonAudioSource.playOnAwake = false;
         buttonAudioSource.loop = false;
         
+        // Инициализация AudioSource для звука прибытия
+        if (arrivalAudioSource == null)
+        {
+            arrivalAudioSource = gameObject.AddComponent<AudioSource>();
+        }
+        arrivalAudioSource.playOnAwake = false;
+        arrivalAudioSource.loop = false;
+        
     }
     
     // Методы для воспроизведения звуков через AudioSource
@@ -80,6 +92,15 @@ public class ElevatorAudioManager : MonoBehaviour
         if (elevatorAudioSource != null && elevatorAudioSource.isPlaying)
         {
             elevatorAudioSource.Stop();
+        }
+    }
+    
+    public void PlayArrivalSound()
+    {
+        if (arrivalBellSound != null && arrivalAudioSource != null)
+        {
+            arrivalAudioSource.clip = arrivalBellSound;
+            arrivalAudioSource.Play();
         }
     }
 }
