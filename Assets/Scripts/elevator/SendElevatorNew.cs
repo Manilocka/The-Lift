@@ -43,6 +43,10 @@ public class SendElevatorNew : MonoBehaviour
             {
                 platform.endStop = 1;
             }
+            if (scene == "day7_e")
+            {
+                platform.endStop = 2;
+            }
             else
             {
                 // Проверяем, не находится ли лифт уже на этом этаже

@@ -91,6 +91,10 @@ public class AdditionalCheck : MonoBehaviour
                 return true;
             }
         }
+        if (scene == "day7_e" && IsDialogueDone() && elevator != null && Vector3.Distance(elevator.transform.position, elevator.stops[elevator.currentTarget].position) < 0.1f)
+        {
+            return true;
+        }
 
         return false;
     }
@@ -174,6 +178,26 @@ public class AdditionalCheck : MonoBehaviour
             Debug.Log("3");
             return false;
         } 
+        if (scene == "day7_e")
+        {
+            Debug.Log("00000000000000");
+            Debug.Log("IsPlayerInsideElevator" + playerLiftCheck.IsPlayerInsideElevator());
+
+            if (playerLiftCheck.IsPlayerInsideElevator() && IsDialogueDone())
+            {
+                Debug.Log("1");
+                return true;
+            }
+
+            if (!playerLiftCheck.IsPlayerInsideElevator() && (IsDialogueDone() == false))
+            {
+                Debug.Log("2");
+                return true;
+            }
+
+            Debug.Log("3");
+            return false;
+        }   
         
         return true;
     }
