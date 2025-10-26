@@ -8729,6 +8729,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1025031532}
   - component: {fileID: 1025031533}
+  - component: {fileID: 1025031534}
   m_Layer: 0
   m_Name: liftBlockGo
   m_TagString: Untagged
@@ -8766,12 +8767,24 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 203.90703, y: 0, z: 166.8418}
   m_Center: {x: 101.453514, y: -0.5, z: 82.9209}
+--- !u!114 &1025031534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025031531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b59e9ba49077b434ab89981ccc5594ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1036308091
 GameObject:
   m_ObjectHideFlags: 0

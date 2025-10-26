@@ -5,15 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f537d165-ca17-40b6-8ad2-122f74fff72a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/ScreenFader.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerBlocker.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.The-Lift/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.The-Lift/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Dialogue/day7/day7_n_1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Dialogue/day7/day7_n_1.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Dialogue/day7/day7_n_2.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Dialogue/day7/day7_n_2.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/day 2/day2_m.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/day 2/day2_m.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DialogueLine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DialogueLine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/DialogueManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/DialogueManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/UI/Fonts/main SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/UI/Fonts/main SDF.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,14 +29,10 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/44baafde34d548b79233aeeb474720f91fe00/68/6644b85a/CharacterController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/50e19b0ed93a4256b2e454b4acec2d48958800/e2/052991f3/PhysicsDebugDraw.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8ce0bd04a7a04b4b9395538239d3fdd846ac00/6c/87e09f37/ThrowHelper.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/olesy/docks/uni/The Lift/The-Lift/Assets/Dialogue/day4/day4_e_1.asset" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/olesy/docks/uni/The Lift/The-Lift/Assets/Scenes/day 4/day4_e.unity" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/olesy/docks/uni/The Lift/The-Lift/Assets/Scripts/AddTests/AdditionalCheck.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/DialogueOnClick.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/DialogueOnClickWithDelay.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/NPCInLiftCheck.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/ScreenFader.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/olesy/docks/uni/The Lift/The-Lift/Assets/Scripts/elevator/CallElevator.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerBlocker.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -98,13 +87,15 @@
       <option name="PTY_MODE" value="Auto" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="25284">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="25284" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
-        <list />
+        <list>
+          <MonoRuntime />
+        </list>
       </option>
       <option name="selectedOptions">
         <list />
@@ -415,6 +406,19 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/AddTests/AdditionalCheck.cs</url>
+          <line>126</line>
+          <properties documentPath="C:\Users\olesy\docks\uni\The Lift\The-Lift\Assets\Scripts\AddTests\AdditionalCheck.cs" containingFunctionPresentation="Method 'ElevatorDoorsCanBeOpened'">
+            <startOffsets>
+              <option value="4226" />
+            </startOffsets>
+            <endOffsets>
+              <option value="4248" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="44" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
