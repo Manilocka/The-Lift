@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ElevatorMoving : MonoBehaviour
 {
@@ -130,10 +131,39 @@ public class ElevatorMoving : MonoBehaviour
 
     private System.Collections.IEnumerator HandleMidStopAndContinue()
     {
-        // Открыть двери, подождать 3 секунды, закрыть и продолжить до запомненного конечного этажа
+        string scene = SceneManager.GetActiveScene().name;
+
+        // Открываем двери
         if (doorController != null)
         {
-            doorController.OpenDoorsWithAutoClose(3f);
+            doorController.OpenDoors();
+        }
+
+        if (scene == "day7_e")
+        {
+            Debug.Log("Waiting for dialogue to complete in day7_e...");
+        
+            // Ждем завершения диалога
+            while (!AdditionalCheck.IsDialogueDone())
+            {
+                yield return null;
+            }
+
+            Debug.Log("Dialogue completed in day7_e, waiting 3 seconds before closing doors");
+        
+            // Ждем 3 секунды перед закрытием дверей
+            yield return new WaitForSeconds(3f);
+        }
+        else
+        {
+            // Для других сцен просто ждем 3 секунды
+            yield return new WaitForSeconds(3f);
+        }
+    
+        // Закрываем двери
+        if (doorController != null)
+        {
+            doorController.CloseDoors();
         }
 
         // Ждем, пока двери фактически закроются
@@ -145,9 +175,10 @@ public class ElevatorMoving : MonoBehaviour
         // Сбрасываем промежуточную остановку и продолжаем движение до rememberEndStop
         midStop = -10;
         endStop = rememberEndStop;
-        currentTarget = startStop; // текущее положение уже равно startStop после остановки
+        currentTarget = endStop; // Устанавливаем цель как конечную остановку, а не стартовую
         UpdateDirection();
         canMove = true;
+    
 
     }
 }
