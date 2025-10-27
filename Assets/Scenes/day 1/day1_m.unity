@@ -1568,6 +1568,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 825768659}
   - {fileID: 581452269}
   - {fileID: 185023975}
   - {fileID: 1207937366}
@@ -9852,7 +9853,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a1274cb3df121f642840119f6ed1f2ae, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -9860,12 +9861,12 @@ AudioSource:
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 256
-  DopplerLevel: 1
+  DopplerLevel: 0
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 1
-  BypassEffects: 0
+  BypassEffects: 1
   BypassListenerEffects: 0
   BypassReverbZones: 0
   rolloffCustomCurve:
@@ -9897,7 +9898,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -9927,7 +9928,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 1.1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -9937,6 +9938,11 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!4 &825768659 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2382729518236960389, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
+  m_PrefabInstance: {fileID: 2498757810442110293}
+  m_PrefabAsset: {fileID: 0}
 --- !u!64 &827113233
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -35352,19 +35358,19 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 153134447}
     m_Modifications:
     - target: {fileID: 2382729518236960389, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -779
+      value: 73.47064
       objectReference: {fileID: 0}
     - target: {fileID: 2382729518236960389, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1528
+      value: -170.2727
       objectReference: {fileID: 0}
     - target: {fileID: 2382729518236960389, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1049.4
+      value: 1326.6
       objectReference: {fileID: 0}
     - target: {fileID: 2382729518236960389, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -35397,7 +35403,7 @@ PrefabInstance:
     - target: {fileID: 6061596813417141374, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
       propertyPath: arrivalBellSound
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8300000, guid: ee0025c321a420445b13b5f4b75d1b57, type: 3}
     - target: {fileID: 6061596813417141374, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
       propertyPath: elevatorAudioSource
       value: 
@@ -35405,7 +35411,7 @@ PrefabInstance:
     - target: {fileID: 6061596813417141374, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
       propertyPath: elevatorMovementSound
       value: 
-      objectReference: {fileID: 8300000, guid: a1274cb3df121f642840119f6ed1f2ae, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 7515336825729435316, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
       propertyPath: m_Name
       value: ElevatorAudioManage
@@ -66188,5 +66194,4 @@ SceneRoots:
   - {fileID: 543450652038171617}
   - {fileID: 2128876093}
   - {fileID: 1428859098}
-  - {fileID: 2498757810442110293}
   - {fileID: 4585467596809767136}

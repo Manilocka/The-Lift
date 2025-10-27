@@ -34,33 +34,42 @@ public class ElevatorAudioManager : MonoBehaviour
     
     void Start()
     {
-        // Инициализация AudioSource для движения лифта
-        if (elevatorAudioSource == null)
+        // // Инициализация AudioSource для движения лифта
+        // if (elevatorAudioSource == null)
+        // {
+        //     elevatorAudioSource = GetComponent<AudioSource>();
+        //     if (elevatorAudioSource == null)
+        //     {
+        //         elevatorAudioSource = gameObject.AddComponent<AudioSource>();
+        //     }
+        // }
+        if (elevatorAudioSource != null)
         {
-            elevatorAudioSource = GetComponent<AudioSource>();
-            if (elevatorAudioSource == null)
-            {
-                elevatorAudioSource = gameObject.AddComponent<AudioSource>();
-            }
+            elevatorAudioSource.playOnAwake = false;
+            elevatorAudioSource.loop = true; // Звук движения должен зацикливаться
         }
-        elevatorAudioSource.playOnAwake = false;
-        elevatorAudioSource.loop = true; // Звук движения должен зацикливаться
-        
+
         // Инициализация AudioSource для кнопок
-        if (buttonAudioSource == null)
+        // if (buttonAudioSource == null)
+        // {
+        //     buttonAudioSource = gameObject.AddComponent<AudioSource>();
+        // }
+        if (buttonAudioSource != null)
         {
-            buttonAudioSource = gameObject.AddComponent<AudioSource>();
+            buttonAudioSource.playOnAwake = false;
+            buttonAudioSource.loop = false;
         }
-        buttonAudioSource.playOnAwake = false;
-        buttonAudioSource.loop = false;
-        
+
         // Инициализация AudioSource для звука прибытия
-        if (arrivalAudioSource == null)
+        // if (arrivalAudioSource == null)
+        // {
+        //     arrivalAudioSource = gameObject.AddComponent<AudioSource>();
+        // }
+        if (arrivalAudioSource != null)
         {
-            arrivalAudioSource = gameObject.AddComponent<AudioSource>();
+            arrivalAudioSource.playOnAwake = false;
+            arrivalAudioSource.loop = false;
         }
-        arrivalAudioSource.playOnAwake = false;
-        arrivalAudioSource.loop = false;
         
     }
     
@@ -77,11 +86,17 @@ public class ElevatorAudioManager : MonoBehaviour
     
     public void StartElevatorMovement()
     {
-        if (elevatorMovementSound != null && elevatorAudioSource != null)
+        Debug.Log($"ELEVATOR START 1");
+                Debug.Log($"elevatorMovementSound {elevatorMovementSound}");
+                Debug.Log($"elevatorAudioSource {elevatorAudioSource}");
+
+        if (elevatorAudioSource != null)
         {
+            Debug.Log($"ELEVATOR START 2");
             if (!elevatorAudioSource.isPlaying)
             {
-                elevatorAudioSource.clip = elevatorMovementSound;
+                Debug.Log($"ELEVATOR START 3");
+                // elevatorAudioSource.clip = elevatorMovementSound;
                 elevatorAudioSource.Play();
             }
         }
