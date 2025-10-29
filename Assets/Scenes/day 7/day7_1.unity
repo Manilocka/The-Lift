@@ -31325,6 +31325,7 @@ GameObject:
   - component: {fileID: 4077810146043710867}
   - component: {fileID: 4442590229922315377}
   - component: {fileID: 8512819951269152734}
+  - component: {fileID: 8512819951269152735}
   m_Layer: 6
   m_Name: main_door2
   m_TagString: Untagged
@@ -60831,7 +60832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e5360ba28acb284d99c351d118a4ef1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneName: day1_e
+  SceneName: 
   doorAudioSource: {fileID: 8042334084304623654}
 --- !u!82 &8042334084304623654
 AudioSource:
@@ -63343,6 +63344,20 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -3183570615794886311, guid: 45299e38a19b4d94382f3e2a111ee075, type: 3}
+--- !u!114 &8512819951269152735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238616133742970308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e5360ba28acb284d99c351d118a4ef1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SceneName: 
+  doorAudioSource: {fileID: 0}
 --- !u!23 &8549347516602062644
 MeshRenderer:
   m_ObjectHideFlags: 0
