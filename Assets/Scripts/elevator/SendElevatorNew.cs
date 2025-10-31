@@ -75,6 +75,11 @@ public class SendElevatorNew : MonoBehaviour
                 {
                     platform.endStop = 0;
                 }
+                else if (scene == "day4_e")
+                {
+                    // Лифт на другом этаже - устанавливаем конечную точку и запускаем движение
+                    platform.endStop = 1;
+                }
                 else
                 {
                     // Лифт на другом этаже - устанавливаем конечную точку и запускаем движение
