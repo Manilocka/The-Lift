@@ -16,7 +16,26 @@ public class AITarget : MonoBehaviour
 
     void Update()
     {
-        // Просто постоянно следует за целью
-        m_Agent.destination = Target.position;
+        if (AdditionalCheck.CanNPCMove())
+        {
+            // Просто постоянно следует за целью
+            m_Agent.destination = Target.position;
+        }
+
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Elevator"))
+        {
+            transform.SetParent(other.transform);
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Elevator"))
+        {
+            transform.SetParent(null);
+        }
     }
 }
