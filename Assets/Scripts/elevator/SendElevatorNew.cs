@@ -36,11 +36,26 @@ public class SendElevatorNew : MonoBehaviour
     
     void OnMouseDown()
     {
-        // Клик по кнопке в кабине — проигрываем клип локально без AudioSource
+        // Используем тот же подход что и в скрипте дверей
         if (buttonClickClip != null)
         {
-            AudioSource.PlayClipAtPoint(buttonClickClip, transform.position);
+            // Вариант 1: Используем позицию камеры (как в скрипте дверей)
+            if (Camera.main != null)
+            {
+                AudioSource.PlayClipAtPoint(buttonClickClip, Camera.main.transform.position, 1.0f);
+            }
+            // Вариант 2: Используем позицию кнопки
+            else
+            {
+                AudioSource.PlayClipAtPoint(buttonClickClip, transform.position, 1.0f);
+            }
+            Debug.Log("Playing button click sound");
         }
+        else
+        {
+            Debug.LogWarning("Button click clip is missing!");
+        }
+        
         string scene = SceneManager.GetActiveScene().name;
         if (platform != null && !platform.canMove)
         {
