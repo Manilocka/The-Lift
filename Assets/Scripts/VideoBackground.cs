@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Video;
+using UnityEngine.SceneManagement;
 
 public class VideoBackground : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class VideoBackground : MonoBehaviour
     public VideoPlayer videoPlayer;
     public RenderTexture renderTexture;
     public Material videoMaterial;
+    public VideoClip videoClip; // Явно задаваемый клип, чтобы не использовать url
     
     [Header("Retro Effects")]
     public bool enableScanlines = true;
@@ -25,6 +27,16 @@ public class VideoBackground : MonoBehaviour
         SetupVideoPlayer();
         SetupRetroMaterial();
     }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
     
     void SetupVideoPlayer()
     {
@@ -33,6 +45,13 @@ public class VideoBackground : MonoBehaviour
             
         if (videoPlayer != null)
         {
+            // Гарантируем использование VideoClip, а не URL (исключаем ошибки путей/пробелов)
+            videoPlayer.source = VideoSource.VideoClip;
+            if (videoClip != null)
+            {
+                videoPlayer.clip = videoClip;
+            }
+            videoPlayer.url = string.Empty;
             videoPlayer.isLooping = true;
             videoPlayer.playOnAwake = true;
             
@@ -43,6 +62,19 @@ public class VideoBackground : MonoBehaviour
             
             // Принудительно запускаем видео
             StartCoroutine(StartVideoDelayed());
+        }
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (videoPlayer != null)
+        {
+            // Перевязываем камеру после смены сцены
+            videoPlayer.targetCamera = Camera.main;
+            if (!videoPlayer.isPlaying)
+            {
+                videoPlayer.Play();
+            }
         }
     }
     

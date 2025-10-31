@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class SendElevatorNew : MonoBehaviour
 {
     [SerializeField] int floorNumber; // Конечная точка
+    [SerializeField] private AudioClip buttonClickClip; // Звук нажатия кнопки (новый)
     ElevatorMoving platform;
     ElevatorDoorController doorController;
     
@@ -35,6 +36,11 @@ public class SendElevatorNew : MonoBehaviour
     
     void OnMouseDown()
     {
+        // Клик по кнопке в кабине — проигрываем клип локально без AudioSource
+        if (buttonClickClip != null)
+        {
+            AudioSource.PlayClipAtPoint(buttonClickClip, transform.position);
+        }
         string scene = SceneManager.GetActiveScene().name;
         if (platform != null && !platform.canMove)
         {

@@ -2,10 +2,6 @@ using UnityEngine;
 
 public class ElevatorAudioManager : MonoBehaviour
 {
-    [Header("Button Sounds")]
-    public AudioClip buttonPressSound; // Звук нажатия кнопки лифта
-    public AudioSource buttonAudioSource; // AudioSource для звуков кнопок
-    
     [Header("Elevator Movement")]
     public AudioClip elevatorMovementSound; // Звук движения лифта
     public AudioSource elevatorAudioSource; // AudioSource для звуков лифта
@@ -49,17 +45,6 @@ public class ElevatorAudioManager : MonoBehaviour
             elevatorAudioSource.loop = true; // Звук движения должен зацикливаться
         }
 
-        // Инициализация AudioSource для кнопок
-        // if (buttonAudioSource == null)
-        // {
-        //     buttonAudioSource = gameObject.AddComponent<AudioSource>();
-        // }
-        if (buttonAudioSource != null)
-        {
-            buttonAudioSource.playOnAwake = false;
-            buttonAudioSource.loop = false;
-        }
-
         // Инициализация AudioSource для звука прибытия
         // if (arrivalAudioSource == null)
         // {
@@ -74,14 +59,6 @@ public class ElevatorAudioManager : MonoBehaviour
     }
     
     // Методы для воспроизведения звуков через AudioSource
-    public void PlayButtonSound()
-    {
-        if (buttonPressSound != null && buttonAudioSource != null)
-        {
-            buttonAudioSource.clip = buttonPressSound;
-            buttonAudioSource.Play();
-        }
-    }
     
     
     public void StartElevatorMovement()

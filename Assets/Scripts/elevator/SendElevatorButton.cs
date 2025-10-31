@@ -5,6 +5,7 @@ using UnityEngine;
 public class SendElevatorButton : MonoBehaviour
 {
     [SerializeField] int floorNumber; // Конечная точка
+    [SerializeField] private AudioClip buttonClickClip; // Звук нажатия кнопки (в лифте)
     ElevatorMoving platform;
     ElevatorDoorController doorController;
     
@@ -35,10 +36,10 @@ public class SendElevatorButton : MonoBehaviour
     
     void OnMouseDown()
     {
-        // Воспроизводим звук нажатия кнопки через менеджер
-        if (ElevatorAudioManager.Instance != null)
+        // Локальное воспроизведение клипа без AudioSource
+        if (buttonClickClip != null)
         {
-            ElevatorAudioManager.Instance.PlayButtonSound();
+            AudioSource.PlayClipAtPoint(buttonClickClip, transform.position);
         }
         
         if (platform != null && !platform.canMove)
