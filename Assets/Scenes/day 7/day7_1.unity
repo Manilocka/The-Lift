@@ -761,6 +761,7 @@ MonoBehaviour:
   closePosition: 0
   speed: 15
   floorNumber: 1
+  doorSoundClip: {fileID: 0}
   isOpen: 0
 --- !u!64 &63034671
 MeshCollider:
@@ -830,6 +831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorNumber: 3
+  buttonClickClip: {fileID: 0}
 --- !u!135 &63794142
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1779,6 +1781,8 @@ MonoBehaviour:
   openPosition: 50
   closePosition: 0
   speed: 23
+  doorOpenClip: {fileID: 0}
+  doorCloseClip: {fileID: 0}
   isOpen: 0
 --- !u!54 &153134450
 Rigidbody:
@@ -5892,6 +5896,7 @@ MonoBehaviour:
   closePosition: 0
   speed: 10
   floorNumber: 0
+  doorSoundClip: {fileID: 0}
   isOpen: 0
 --- !u!1 &373120934
 GameObject:
@@ -6116,6 +6121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorNumber: 2
   maxDistance: 200
+  buttonClickClip: {fileID: 0}
 --- !u!64 &397900133
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -7919,6 +7925,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorNumber: 2
+  buttonClickClip: {fileID: 0}
 --- !u!135 &569664199
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -8920,6 +8927,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorNumber: 0
+  buttonClickClip: {fileID: 0}
 --- !u!135 &650257558
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -9128,6 +9136,7 @@ MonoBehaviour:
   closePosition: 0
   speed: 15
   floorNumber: 0
+  doorSoundClip: {fileID: 0}
   isOpen: 0
 --- !u!64 &663412889
 MeshCollider:
@@ -9660,6 +9669,7 @@ MonoBehaviour:
   closePosition: 0
   speed: 10
   floorNumber: 2
+  doorSoundClip: {fileID: 0}
   isOpen: 0
 --- !u!1 &717551987
 GameObject:
@@ -11701,6 +11711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorNumber: 3
+  buttonClickClip: {fileID: 0}
 --- !u!135 &874831234
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -13314,6 +13325,7 @@ MonoBehaviour:
   closePosition: 0
   speed: 15
   floorNumber: 2
+  doorSoundClip: {fileID: 0}
   isOpen: 0
 --- !u!64 &984149692
 MeshCollider:
@@ -14035,6 +14047,8 @@ MonoBehaviour:
   openPosition: 50
   closePosition: 0
   speed: 15
+  doorOpenClip: {fileID: 0}
+  doorCloseClip: {fileID: 0}
   isOpen: 0
 --- !u!1 &1072722677 stripped
 GameObject:
@@ -14517,6 +14531,7 @@ MonoBehaviour:
   closePosition: 0
   speed: 10
   floorNumber: 3
+  doorSoundClip: {fileID: 0}
   isOpen: 0
 --- !u!1 &1138683981
 GameObject:
@@ -14720,6 +14735,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorNumber: 3
   maxDistance: 200
+  buttonClickClip: {fileID: 0}
 --- !u!135 &1146724574
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -17220,6 +17236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorNumber: 1
+  buttonClickClip: {fileID: 0}
 --- !u!135 &1329387208
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -19434,6 +19451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorNumber: 2
+  buttonClickClip: {fileID: 0}
 --- !u!135 &1459941418
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -19501,6 +19519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorNumber: 1
+  buttonClickClip: {fileID: 0}
 --- !u!135 &1461511723
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -19569,6 +19588,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorNumber: 3
   maxDistance: 200
+  buttonClickClip: {fileID: 0}
 --- !u!135 &1461938840
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -19815,6 +19835,7 @@ MonoBehaviour:
   closePosition: 0
   speed: 15
   floorNumber: 3
+  doorSoundClip: {fileID: 0}
   isOpen: 0
 --- !u!64 &1480608285
 MeshCollider:
@@ -21277,6 +21298,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorNumber: 0
   maxDistance: 200
+  buttonClickClip: {fileID: 0}
 --- !u!135 &1595549299
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -23301,6 +23323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorNumber: 2
+  buttonClickClip: {fileID: 0}
 --- !u!135 &1760371215
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -23707,6 +23730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floorNumber: 0
+  buttonClickClip: {fileID: 0}
 --- !u!65 &1778212887
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23874,6 +23898,7 @@ MonoBehaviour:
   closePosition: 0
   speed: 10
   floorNumber: 1
+  doorSoundClip: {fileID: 0}
   isOpen: 0
 --- !u!64 &1784620202
 MeshCollider:
@@ -24050,6 +24075,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorNumber: 2
   maxDistance: 200
+  buttonClickClip: {fileID: 0}
 --- !u!135 &1788856080
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -24247,6 +24273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorNumber: 0
   maxDistance: 200
+  buttonClickClip: {fileID: 0}
 --- !u!1 &1811021582 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -877539066727324662, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
@@ -25372,6 +25399,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorNumber: 1
   maxDistance: 200
+  buttonClickClip: {fileID: 0}
 --- !u!135 &1914204508
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -25936,6 +25964,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorNumber: 1
   maxDistance: 200
+  buttonClickClip: {fileID: 0}
 --- !u!135 &1985081446
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -27747,7 +27776,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8536335496309399116, guid: 915e2cdb15e70994b89d84b1cb1cb68f, type: 3}
     m_RemovedGameObjects:
     - {fileID: 6895115839330618209, guid: 915e2cdb15e70994b89d84b1cb1cb68f, type: 3}
     - {fileID: 6868451994499090771, guid: 915e2cdb15e70994b89d84b1cb1cb68f, type: 3}
