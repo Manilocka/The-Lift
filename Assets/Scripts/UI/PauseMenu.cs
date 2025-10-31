@@ -217,9 +217,16 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         AudioListener.pause = false;
         
-        // Загружаем главное меню
+        // Загружаем главное меню с плавным затемнением, если есть SceneFader
         Debug.Log($"PauseMenu: Загружаем сцену '{mainMenuSceneName}'");
-        SceneManager.LoadScene(mainMenuSceneName);
+        if (SceneFader.Instance != null)
+        {
+            SceneFader.Instance.LoadSceneWithFade(mainMenuSceneName);
+        }
+        else
+        {
+            SceneManager.LoadScene(mainMenuSceneName);
+        }
     }
 
     // PauseMenu теперь управляет одним Canvas; никаких массивов
