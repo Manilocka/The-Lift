@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class SendElevatorNew : MonoBehaviour
 {
     [SerializeField] int floorNumber; // Конечная точка
-    [SerializeField] private AudioClip buttonClickClip; // Звук нажатия кнопки (новый)
+    [SerializeField] private AudioSource buttonAudioSource; // AudioSource для звука кнопки
     ElevatorMoving platform;
     ElevatorDoorController doorController;
     
@@ -36,24 +36,10 @@ public class SendElevatorNew : MonoBehaviour
     
     void OnMouseDown()
     {
-        // Используем тот же подход что и в скрипте дверей
-        if (buttonClickClip != null)
+        // Воспроизводим звук кнопки через AudioSource
+        if (buttonAudioSource != null)
         {
-            // Вариант 1: Используем позицию камеры (как в скрипте дверей)
-            if (Camera.main != null)
-            {
-                AudioSource.PlayClipAtPoint(buttonClickClip, Camera.main.transform.position, 1.0f);
-            }
-            // Вариант 2: Используем позицию кнопки
-            else
-            {
-                AudioSource.PlayClipAtPoint(buttonClickClip, transform.position, 1.0f);
-            }
-            Debug.Log("Playing button click sound");
-        }
-        else
-        {
-            Debug.LogWarning("Button click clip is missing!");
+            buttonAudioSource.Play();
         }
         
         string scene = SceneManager.GetActiveScene().name;

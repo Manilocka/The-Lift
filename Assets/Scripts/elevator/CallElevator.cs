@@ -6,7 +6,7 @@ public class CallElevator : MonoBehaviour
 {
     [SerializeField] int floorNumber; // Конечная точка
     [SerializeField] float maxDistance = 5f; // Максимальное расстояние активации (в единицах Unity)
-    [SerializeField] private AudioClip buttonClickClip; // Звук нажатия кнопки (внешняя)
+    [SerializeField] private AudioSource buttonAudioSource; // AudioSource для звука кнопки
     ElevatorMoving platform;
     
 
@@ -37,10 +37,10 @@ public class CallElevator : MonoBehaviour
     
     void OnMouseDown()
     {
-        // Локальное воспроизведение клипа без AudioSource
-        if (buttonClickClip != null)
+        // Воспроизводим звук кнопки через AudioSource
+        if (buttonAudioSource != null)
         {
-            AudioSource.PlayClipAtPoint(buttonClickClip, transform.position);
+            buttonAudioSource.Play();
         }
         if (!AdditionalCheck.CanCallElevator()){return;}
         

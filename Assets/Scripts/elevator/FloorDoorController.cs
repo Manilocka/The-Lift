@@ -8,7 +8,7 @@ public class FloorDoorController : MonoBehaviour
     [SerializeField] private float closePosition = 0f;
     [SerializeField] private float speed = 2f;
     [SerializeField] public int floorNumber = 0;
-    [SerializeField] private AudioClip doorSoundClip;
+    [SerializeField] private AudioSource doorAudioSource; // AudioSource для звука дверей
 
     public bool isOpen = false;
     private Vector3 leftDoorTarget;
@@ -52,25 +52,9 @@ public class FloorDoorController : MonoBehaviour
 
     private void PlayDoorSound()
     {
-        if (doorSoundClip != null)
+        if (doorAudioSource != null)
         {
-            // Вариант 1: Используем позицию главной камеры
-            if (Camera.main != null)
-            {
-                AudioSource.PlayClipAtPoint(doorSoundClip, Camera.main.transform.position, 1.0f);
-                Debug.Log("Playing door sound at camera position on floor " + floorNumber);
-            }
-            // Вариант 2: Используем позицию самих дверей
-            else
-            {
-                Vector3 soundPosition = (leftDoor.position + rightDoor.position) / 2f;
-                AudioSource.PlayClipAtPoint(doorSoundClip, soundPosition, 1.0f);
-                Debug.Log("Playing door sound at door position on floor " + floorNumber);
-            }
-        }
-        else
-        {
-            Debug.LogError("Door sound clip is NULL on floor " + floorNumber);
+            doorAudioSource.Play();
         }
     }
 }

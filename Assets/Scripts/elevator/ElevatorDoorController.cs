@@ -8,9 +8,8 @@ public class ElevatorDoorController : MonoBehaviour
     [SerializeField] private float openPosition = 50f; // Расстояние открытия (в единицах Unity)
     [SerializeField] private float closePosition = 0f; // Начальная (закрытая) позиция
     [SerializeField] private float speed = 23f; // Скорость движения дверей
-    [SerializeField] private AudioClip doorOpenClip; // Звук открытия дверей
-    [SerializeField] private AudioClip doorCloseClip; // Звук закрытия дверей
-    
+    [SerializeField] private AudioSource doorOpenAudioSource; // AudioSource для звука открытия дверей
+    [SerializeField] private AudioSource doorCloseAudioSource; // AudioSource для звука закрытия дверей
 
     public bool isOpen = false; // Состояние дверей
     private Vector3 leftDoorTarget;
@@ -38,9 +37,11 @@ public class ElevatorDoorController : MonoBehaviour
             leftDoorTarget = leftDoor.localPosition + Vector3.left * openPosition;  // Движение влево
             rightDoorTarget = rightDoor.localPosition + Vector3.right * openPosition; // Движение вправо
             isOpen = true;
-            if (doorOpenClip != null)
+            
+            // Воспроизводим звук открытия дверей
+            if (doorOpenAudioSource != null)
             {
-                AudioSource.PlayClipAtPoint(doorOpenClip, transform.position);
+                doorOpenAudioSource.Play();
             }
             
 
@@ -68,9 +69,11 @@ public class ElevatorDoorController : MonoBehaviour
             leftDoorTarget = leftDoor.localPosition + Vector3.left * openPosition;
             rightDoorTarget = rightDoor.localPosition + Vector3.right * openPosition;
             isOpen = true;
-            if (doorOpenClip != null)
+            
+            // Воспроизводим звук открытия дверей
+            if (doorOpenAudioSource != null)
             {
-                AudioSource.PlayClipAtPoint(doorOpenClip, transform.position);
+                doorOpenAudioSource.Play();
             }
             
 
@@ -89,9 +92,11 @@ public class ElevatorDoorController : MonoBehaviour
             leftDoorTarget = new Vector3(closePosition, leftDoor.localPosition.y, leftDoor.localPosition.z);  // Закрытие влево
             rightDoorTarget = new Vector3(closePosition, rightDoor.localPosition.y, rightDoor.localPosition.z); // Закрытие вправо
             isOpen = false;
-            if (doorCloseClip != null)
+            
+            // Воспроизводим звук закрытия дверей
+            if (doorCloseAudioSource != null)
             {
-                AudioSource.PlayClipAtPoint(doorCloseClip, transform.position);
+                doorCloseAudioSource.Play();
             }
             
             

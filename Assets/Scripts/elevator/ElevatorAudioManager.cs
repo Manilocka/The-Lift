@@ -3,12 +3,10 @@ using UnityEngine;
 public class ElevatorAudioManager : MonoBehaviour
 {
     [Header("Elevator Movement")]
-    public AudioClip elevatorMovementSound; // Звук движения лифта
-    public AudioSource elevatorAudioSource; // AudioSource для звуков лифта
+    public AudioSource elevatorAudioSource; // AudioSource для звуков движения лифта
     
     [Header("Elevator Arrival")]
-    public AudioClip arrivalBellSound; // Звук звоночка при прибытии
-    public AudioSource arrivalAudioSource; // AudioSource для звука прибытия
+    public AudioSource arrivalAudioSource; // AudioSource для звука прибытия на этаж
     
     
     // Singleton для доступа из других скриптов
@@ -30,15 +28,7 @@ public class ElevatorAudioManager : MonoBehaviour
     
     void Start()
     {
-        // // Инициализация AudioSource для движения лифта
-        // if (elevatorAudioSource == null)
-        // {
-        //     elevatorAudioSource = GetComponent<AudioSource>();
-        //     if (elevatorAudioSource == null)
-        //     {
-        //         elevatorAudioSource = gameObject.AddComponent<AudioSource>();
-        //     }
-        // }
+        // Инициализация AudioSource для движения лифта
         if (elevatorAudioSource != null)
         {
             elevatorAudioSource.playOnAwake = false;
@@ -46,41 +36,27 @@ public class ElevatorAudioManager : MonoBehaviour
         }
 
         // Инициализация AudioSource для звука прибытия
-        // if (arrivalAudioSource == null)
-        // {
-        //     arrivalAudioSource = gameObject.AddComponent<AudioSource>();
-        // }
         if (arrivalAudioSource != null)
         {
             arrivalAudioSource.playOnAwake = false;
             arrivalAudioSource.loop = false;
         }
-        
     }
     
     // Методы для воспроизведения звуков через AudioSource
     
-    
     public void StartElevatorMovement()
     {
-        Debug.Log($"ELEVATOR START 1");
-                Debug.Log($"elevatorMovementSound {elevatorMovementSound}");
-                Debug.Log($"elevatorAudioSource {elevatorAudioSource}");
-
-        if (elevatorAudioSource != null)
+        // Запускаем звук движения
+        if (elevatorAudioSource != null && !elevatorAudioSource.isPlaying)
         {
-            Debug.Log($"ELEVATOR START 2");
-            if (!elevatorAudioSource.isPlaying)
-            {
-                Debug.Log($"ELEVATOR START 3");
-                // elevatorAudioSource.clip = elevatorMovementSound;
-                elevatorAudioSource.Play();
-            }
+            elevatorAudioSource.Play();
         }
     }
     
     public void StopElevatorMovement()
     {
+        // Останавливаем звук движения
         if (elevatorAudioSource != null && elevatorAudioSource.isPlaying)
         {
             elevatorAudioSource.Stop();
@@ -89,9 +65,9 @@ public class ElevatorAudioManager : MonoBehaviour
     
     public void PlayArrivalSound()
     {
-        if (arrivalBellSound != null && arrivalAudioSource != null)
+        // Воспроизводим звук прибытия на этаж
+        if (arrivalAudioSource != null)
         {
-            arrivalAudioSource.clip = arrivalBellSound;
             arrivalAudioSource.Play();
         }
     }

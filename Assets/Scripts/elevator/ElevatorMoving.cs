@@ -18,6 +18,7 @@ public class ElevatorMoving : MonoBehaviour
     private bool reverse;
     public int rememberStartStop; // Переменная для запоминания начальной точки
     public int rememberEndStop;
+    private bool wasMoving = false; // Флаг для отслеживания изменения состояния движения
 
     void Start()
     {
@@ -34,20 +35,23 @@ public class ElevatorMoving : MonoBehaviour
 
     void FixedUpdate() // Используем FixedUpdate для физики
     {
-        // Управление звуком движения лифта через менеджер
-        if (canMove)
+        // Управление звуком движения лифта через менеджер (только при изменении состояния)
+        if (canMove != wasMoving)
         {
             if (ElevatorAudioManager.Instance != null)
             {
-                ElevatorAudioManager.Instance.StartElevatorMovement();
+                if (canMove)
+                {
+                    // Лифт начал движение - запускаем звуки движения
+                    ElevatorAudioManager.Instance.StartElevatorMovement();
+                }
+                else
+                {
+                    // Лифт остановился - останавливаем звуки движения
+                    ElevatorAudioManager.Instance.StopElevatorMovement();
+                }
             }
-        }
-        else
-        {
-            if (ElevatorAudioManager.Instance != null)
-            {
-                ElevatorAudioManager.Instance.StopElevatorMovement();
-            }
+            wasMoving = canMove;
         }
         
         if (!canMove) return; // Проверяем, можно ли двигаться
