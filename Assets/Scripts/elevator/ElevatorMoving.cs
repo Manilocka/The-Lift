@@ -59,7 +59,7 @@ public class ElevatorMoving : MonoBehaviour
         // Отладка состояния лифта
         if (canMove)
         {
-            Debug.Log($"Elevator moving: startStop = {startStop}, endStop = {endStop}, currentTarget = {currentTarget}");
+            // Debug.Log($"Elevator moving: startStop = {startStop}, endStop = {endStop}, currentTarget = {currentTarget}");
         }
         if (midStop > Mathf.Min(startStop, endStop) && 
             midStop < Mathf.Max(startStop, endStop))

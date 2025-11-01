@@ -20,7 +20,7 @@ public class LevelChange : MonoBehaviour
             return;
         }
         DialogueManager.ResetDialogueDone();
-        Debug.Log("DialogueDone " + DialogueManager.DialogueDone);
+        // Debug.Log("DialogueDone " + DialogueManager.DialogueDone);
         
         
         if (doorAudioSource != null)

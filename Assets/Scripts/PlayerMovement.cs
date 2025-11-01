@@ -84,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
                 
                 if (footstepAudioSource != null && footstepTimer >= footstepInterval)
                 {
-                    Debug.Log("Playing footstep sound - interval: " + footstepInterval + "s");
+                    // Debug.Log("Playing footstep sound - interval: " + footstepInterval + "s");
                     footstepAudioSource.Play();
                     footstepTimer = 0f; // Сбрасываем таймер
                 }
@@ -94,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
                 footstepTimer = 0f; // Сбрасываем таймер при остановке
                 if (footstepAudioSource != null && footstepAudioSource.isPlaying)
                 {
-                    Debug.Log("Stopping footstep sound");
+                    // Debug.Log("Stopping footstep sound");
                     footstepAudioSource.Stop();
                 }
             }

@@ -67,7 +67,7 @@ public class MouseLock : MonoBehaviour
         // Полностью блокируем взаимодействие во время диалога
         if (DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActive)
         {
-            Debug.Log("Диалог активен, блокируем все взаимодействия");
+            // Debug.Log("Диалог активен, блокируем все взаимодействия");
             return;
         }
 
@@ -129,7 +129,7 @@ public class MouseLock : MonoBehaviour
             // Проверяем, не активен ли уже диалог
             if (DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActive)
             {
-                Debug.Log("Диалог уже активен, игнорируем повторное взаимодействие");
+                // Debug.Log("Диалог уже активен, игнорируем повторное взаимодействие");
                 return;
             }
 
