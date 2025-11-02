@@ -91,6 +91,10 @@ public class AdditionalCheck : MonoBehaviour
                 return true;
             }
         }
+        if (scene == "day6_e" && IsDialogueDone() && elevator != null && Vector3.Distance(elevator.transform.position, elevator.stops[elevator.currentTarget].position) < 0.1f)
+        {
+            return true;
+        }
         if (scene == "day7_e" && IsDialogueDone() && elevator != null && Vector3.Distance(elevator.transform.position, elevator.stops[elevator.currentTarget].position) < 0.1f)
         {
             return true;
