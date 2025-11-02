@@ -13,6 +13,7 @@ public class FloorDoorController : MonoBehaviour
     public bool isOpen = false;
     private Vector3 leftDoorTarget;
     private Vector3 rightDoorTarget;
+    private bool isInitialized = false; // Флаг для предотвращения звуков при инициализации
 
     void Start()
     {
@@ -23,7 +24,23 @@ public class FloorDoorController : MonoBehaviour
         if (doorAudioSource != null)
         {
             doorAudioSource.playOnAwake = false;
+            // Останавливаем звук, если он случайно играет
+            if (doorAudioSource.isPlaying)
+            {
+                doorAudioSource.Stop();
+            }
         }
+        
+        // Помечаем, что инициализация завершена
+        // Используем корутину, чтобы это произошло после первого кадра
+        StartCoroutine(DelayedInitialization());
+    }
+    
+    System.Collections.IEnumerator DelayedInitialization()
+    {
+        // Ждем один кадр, чтобы все компоненты успели инициализироваться
+        yield return null;
+        isInitialized = true;
     }
 
     void Update()
@@ -36,8 +53,9 @@ public class FloorDoorController : MonoBehaviour
     {
         Debug.Log("FloorDoorController.OpenDoors() called, isOpen: " + isOpen);
         
-        // Воспроизводим звук только если двери были закрыты
-        if (!isOpen)
+        // Воспроизводим звук только если двери были закрыты И инициализация завершена
+        // Это предотвращает звук при загрузке сцены
+        if (!isOpen && isInitialized)
         {
             PlayDoorSound();
         }
@@ -53,8 +71,9 @@ public class FloorDoorController : MonoBehaviour
     {
         Debug.Log("FloorDoorController.CloseDoors() called, isOpen: " + isOpen);
         
-        // Воспроизводим звук только если двери были открыты
-        if (isOpen)
+        // Воспроизводим звук только если двери были открыты И инициализация завершена
+        // Это предотвращает звук при загрузке сцены
+        if (isOpen && isInitialized)
         {
             PlayDoorSound();
         }

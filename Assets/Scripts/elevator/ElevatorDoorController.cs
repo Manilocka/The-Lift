@@ -14,6 +14,7 @@ public class ElevatorDoorController : MonoBehaviour
     public bool isOpen = false; // Состояние дверей
     private Vector3 leftDoorTarget;
     private Vector3 rightDoorTarget;
+    private bool isInitialized = false; // Флаг для предотвращения звуков при инициализации
 
     void Start()
     {
@@ -25,11 +26,32 @@ public class ElevatorDoorController : MonoBehaviour
         if (doorOpenAudioSource != null)
         {
             doorOpenAudioSource.playOnAwake = false;
+            // Останавливаем звук, если он случайно играет
+            if (doorOpenAudioSource.isPlaying)
+            {
+                doorOpenAudioSource.Stop();
+            }
         }
         if (doorCloseAudioSource != null)
         {
             doorCloseAudioSource.playOnAwake = false;
+            // Останавливаем звук, если он случайно играет
+            if (doorCloseAudioSource.isPlaying)
+            {
+                doorCloseAudioSource.Stop();
+            }
         }
+        
+        // Помечаем, что инициализация завершена
+        // Используем корутину, чтобы это произошло после первого кадра
+        StartCoroutine(DelayedInitialization());
+    }
+    
+    System.Collections.IEnumerator DelayedInitialization()
+    {
+        // Ждем один кадр, чтобы все компоненты успели инициализироваться
+        yield return null;
+        isInitialized = true;
     }
 
     void Update()
@@ -48,8 +70,9 @@ public class ElevatorDoorController : MonoBehaviour
             rightDoorTarget = rightDoor.localPosition + Vector3.right * openPosition; // Движение вправо
             isOpen = true;
             
-            // Воспроизводим звук открытия дверей
-            if (doorOpenAudioSource != null)
+            // Воспроизводим звук открытия дверей только после инициализации
+            // Это предотвращает звук при загрузке сцены
+            if (isInitialized && doorOpenAudioSource != null)
             {
                 doorOpenAudioSource.Play();
             }
@@ -80,8 +103,9 @@ public class ElevatorDoorController : MonoBehaviour
             rightDoorTarget = rightDoor.localPosition + Vector3.right * openPosition;
             isOpen = true;
             
-            // Воспроизводим звук открытия дверей
-            if (doorOpenAudioSource != null)
+            // Воспроизводим звук открытия дверей только после инициализации
+            // Это предотвращает звук при загрузке сцены
+            if (isInitialized && doorOpenAudioSource != null)
             {
                 doorOpenAudioSource.Play();
             }
@@ -103,8 +127,9 @@ public class ElevatorDoorController : MonoBehaviour
             rightDoorTarget = new Vector3(closePosition, rightDoor.localPosition.y, rightDoor.localPosition.z); // Закрытие вправо
             isOpen = false;
             
-            // Воспроизводим звук закрытия дверей
-            if (doorCloseAudioSource != null)
+            // Воспроизводим звук закрытия дверей только после инициализации
+            // Это предотвращает звук при загрузке сцены
+            if (isInitialized && doorCloseAudioSource != null)
             {
                 doorCloseAudioSource.Play();
             }
