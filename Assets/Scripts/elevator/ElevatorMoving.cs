@@ -9,6 +9,8 @@ public class ElevatorMoving : MonoBehaviour
     [SerializeField] public int startStop; // Начальная точка
     [SerializeField] public int endStop; // Конечная точка
     [SerializeField] public int midStop = -10;
+    [Header("Dialogue Settings")]
+    [SerializeField] private DialogueSO dialogueForMidStop; // Диалог для запуска при остановке на middlestop (например, для day6_e)
     
 
     ElevatorDoorController doorController;
@@ -143,7 +145,33 @@ public class ElevatorMoving : MonoBehaviour
             doorController.OpenDoors();
         }
 
-        if (scene == "day7_e")
+        if (scene == "day6_e")
+        {
+            Debug.Log("Day6_e: Запускаем диалог при остановке на middlestop...");
+            
+            // Запускаем диалог, если он назначен
+            if (dialogueForMidStop != null && DialogueManager.Instance != null)
+            {
+                DialogueManager.Instance.StartDialogue(dialogueForMidStop);
+                Debug.Log($"Day6_e: Диалог '{dialogueForMidStop.name}' запущен");
+                
+                // Ждем завершения диалога
+                while (!AdditionalCheck.IsDialogueDone())
+                {
+                    yield return null;
+                }
+                
+                Debug.Log("Day6_e: Диалог завершен, ждем 3 секунды перед закрытием дверей");
+            }
+            else
+            {
+                Debug.LogWarning("Day6_e: Диалог не назначен или DialogueManager не найден!");
+            }
+            
+            // Ждем 3 секунды перед закрытием дверей
+            yield return new WaitForSeconds(3f);
+        }
+        else if (scene == "day7_e")
         {
             Debug.Log("Waiting for dialogue to complete in day7_e...");
         
