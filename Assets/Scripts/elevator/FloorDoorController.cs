@@ -18,6 +18,12 @@ public class FloorDoorController : MonoBehaviour
     {
         leftDoorTarget = leftDoor.localPosition;
         rightDoorTarget = rightDoor.localPosition;
+        
+        // Убеждаемся, что звук не воспроизводится автоматически
+        if (doorAudioSource != null)
+        {
+            doorAudioSource.playOnAwake = false;
+        }
     }
 
     void Update()
@@ -29,7 +35,12 @@ public class FloorDoorController : MonoBehaviour
     public void OpenDoors()
     {
         Debug.Log("FloorDoorController.OpenDoors() called, isOpen: " + isOpen);
-        PlayDoorSound();
+        
+        // Воспроизводим звук только если двери были закрыты
+        if (!isOpen)
+        {
+            PlayDoorSound();
+        }
         
         leftDoorTarget = leftDoor.localPosition + Vector3.left * openPosition;
         rightDoorTarget = rightDoor.localPosition + Vector3.right * openPosition;
@@ -41,7 +52,12 @@ public class FloorDoorController : MonoBehaviour
     public void CloseDoors()
     {
         Debug.Log("FloorDoorController.CloseDoors() called, isOpen: " + isOpen);
-        PlayDoorSound();
+        
+        // Воспроизводим звук только если двери были открыты
+        if (isOpen)
+        {
+            PlayDoorSound();
+        }
         
         leftDoorTarget = new Vector3(closePosition, leftDoor.localPosition.y, leftDoor.localPosition.z);
         rightDoorTarget = new Vector3(closePosition, rightDoor.localPosition.y, rightDoor.localPosition.z);

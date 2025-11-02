@@ -79,42 +79,79 @@ public class AITarget : MonoBehaviour
         }
         else
         {
+            // Проверяем, должен ли NPC ждать выхода из лифта
+            bool shouldWaitForExit = isInElevator && hasElevatorMoved && !AdditionalCheck.CanNPCMove();
+            
             // Когда лифт не движется, включаем обратно NavMeshAgent
-            if (wasAgentEnabled && m_Agent != null && !m_Agent.enabled)
+            // НО только если NPC не должен ждать выхода из лифта
+            // И только если NPC не находится в процессе выхода из лифта
+            if (wasAgentEnabled && m_Agent != null && !m_Agent.enabled && !shouldWaitForExit && !isInElevator)
             {
                 m_Agent.enabled = true;
                 
                 // Синхронизируем позицию агента с фактической позицией объекта
                 m_Agent.Warp(transform.position);
                 
-                // Обновляем destination
+                // Обновляем destination - используем текущую цель (может быть уже Target2)
                 if (currentTarget != null)
                 {
                     m_Agent.destination = currentTarget.position;
+                    Debug.Log("NavMeshAgent重新激活, destination установлен на: " + currentTarget.name);
                 }
                 
                 wasAgentEnabled = false;
                 Debug.Log("NavMeshAgent重新激活, позиция синхронизирована");
             }
+            // Если NPC должен ждать выхода, отключаем агент
+            else if (shouldWaitForExit && m_Agent != null && m_Agent.enabled)
+            {
+                m_Agent.enabled = false;
+                Debug.Log("NPC ждет выхода из лифта - NavMeshAgent отключен");
+            }
             
-            // Если лифт остановился и NPC был в лифте
+            // Если лифт остановился и NPC был в лифте, проверяем, можно ли выходить
             if (!elevatorMoving && isInElevator && hasElevatorMoved)
             {
-                Debug.Log("Лифт остановился, NPC выходит");
-                isInElevator = false;
-                
-                // Переключаем на вторую цель, если еще не переключились
-                if (currentTarget == Target && Target2 != null && !hasReachedTarget1)
+                // Для выхода NPC из лифта нужно, чтобы двери были открыты и диалог завершен
+                // Это проверяется в AdditionalCheck.CanNPCMove()
+                if (AdditionalCheck.CanNPCMove())
                 {
-                    currentTarget = Target2;
-                    hasReachedTarget1 = true;
-                    Debug.Log("Переключаемся на вторую цель: " + Target2.name);
+                    Debug.Log("Лифт остановился, двери открыты, диалог завершен - NPC выходит");
+                    isInElevator = false;
                     
-                    // Обновляем destination
-                    if (m_Agent != null && m_Agent.enabled)
+                    // Переключаем на вторую цель ПЕРЕД включением NavMeshAgent
+                    // Это важно, чтобы NPC сразу пошел к правильной цели
+                    if (Target2 != null && !hasReachedTarget1)
                     {
-                        m_Agent.destination = currentTarget.position;
+                        currentTarget = Target2;
+                        hasReachedTarget1 = true;
+                        Debug.Log("Переключаемся на вторую цель при выходе из лифта: " + Target2.name);
                     }
+                    // Если Target2 не назначен, оставляем текущую цель как есть
+                    
+                    // Включаем NavMeshAgent если он был отключен
+                    if (m_Agent != null && !m_Agent.enabled)
+                    {
+                        m_Agent.enabled = true;
+                        m_Agent.Warp(transform.position);
+                        
+                        // Устанавливаем destination на текущую цель (которая уже может быть Target2)
+                        if (currentTarget != null)
+                        {
+                            m_Agent.destination = currentTarget.position;
+                            Debug.Log("NavMeshAgent включен, destination установлен на: " + currentTarget.name);
+                        }
+                    }
+                    else if (m_Agent != null && m_Agent.enabled && currentTarget != null)
+                    {
+                        // Обновляем destination если агент уже включен
+                        m_Agent.destination = currentTarget.position;
+                        Debug.Log("NavMeshAgent уже включен, destination обновлен на: " + currentTarget.name);
+                    }
+                }
+                else
+                {
+                    Debug.Log("Лифт остановился, но двери еще не открыты или диалог не завершен - NPC ждет");
                 }
             }
             

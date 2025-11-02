@@ -20,6 +20,16 @@ public class ElevatorDoorController : MonoBehaviour
         // Устанавливаем начальные позиции (закрыто)
         leftDoorTarget = leftDoor.localPosition;
         rightDoorTarget = rightDoor.localPosition;
+        
+        // Убеждаемся, что звуки не воспроизводятся автоматически
+        if (doorOpenAudioSource != null)
+        {
+            doorOpenAudioSource.playOnAwake = false;
+        }
+        if (doorCloseAudioSource != null)
+        {
+            doorCloseAudioSource.playOnAwake = false;
+        }
     }
 
     void Update()
