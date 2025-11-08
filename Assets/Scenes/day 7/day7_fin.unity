@@ -15348,6 +15348,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7558010337227039432, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1076643123}
+    - targetCorrespondingSourceObject: {fileID: 7558010337227039432, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1076643124}
   m_SourcePrefab: {fileID: 100100000, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
 --- !u!1 &1076643116 stripped
 GameObject:
@@ -15427,8 +15430,24 @@ MonoBehaviour:
   useTrigger: 1
   darkScreenPanel: {fileID: 0}
   fadeInDuration: 0.5
-  fadeOutDuration: 0.5
   debugMode: 0
+--- !u!114 &1076643124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076643116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61d8352b9d00b854facf2ec326dd6b60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  catchDistance: 50
+  useTrigger: 1
+  darkScreenPanel: {fileID: 0}
+  fadeInDuration: 0.5
+  debugMode: 1
 --- !u!64 &1077676498
 MeshCollider:
   m_ObjectHideFlags: 0
