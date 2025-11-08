@@ -2236,6 +2236,71 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 8287821607812308626, guid: be74100b312f6a2499cb61c8a32d8719, type: 3}
+--- !u!1001 &177604660
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 74126102601862789, guid: 73e3b16716b696045983810282b24dc8, type: 3}
+      propertyPath: targetPoint
+      value: 
+      objectReference: {fileID: 676817907}
+    - target: {fileID: 3906734192953830445, guid: 73e3b16716b696045983810282b24dc8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -789.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3906734192953830445, guid: 73e3b16716b696045983810282b24dc8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -100.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3906734192953830445, guid: 73e3b16716b696045983810282b24dc8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1106.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3906734192953830445, guid: 73e3b16716b696045983810282b24dc8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3906734192953830445, guid: 73e3b16716b696045983810282b24dc8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3906734192953830445, guid: 73e3b16716b696045983810282b24dc8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3906734192953830445, guid: 73e3b16716b696045983810282b24dc8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3906734192953830445, guid: 73e3b16716b696045983810282b24dc8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3906734192953830445, guid: 73e3b16716b696045983810282b24dc8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 3906734192953830445, guid: 73e3b16716b696045983810282b24dc8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4073474737193890673, guid: 73e3b16716b696045983810282b24dc8, type: 3}
+      propertyPath: m_Name
+      value: Ivanov
+      objectReference: {fileID: 0}
+    - target: {fileID: 4431333824242814407, guid: 73e3b16716b696045983810282b24dc8, type: 3}
+      propertyPath: dialogue
+      value: 
+      objectReference: {fileID: 11400000, guid: 324e8a759c5f5044ebc242f5ad35725f, type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 73e3b16716b696045983810282b24dc8, type: 3}
 --- !u!64 &184721719
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -7654,6 +7719,10 @@ PrefabInstance:
     - target: {fileID: 2772159629352642821, guid: de64f0b3111276141bfbe34bfc3d0769, type: 3}
       propertyPath: m_Name
       value: Nina
+      objectReference: {fileID: 0}
+    - target: {fileID: 2772159629352642821, guid: de64f0b3111276141bfbe34bfc3d0769, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4222069518777757069, guid: de64f0b3111276141bfbe34bfc3d0769, type: 3}
       propertyPath: dialogue
@@ -71252,3 +71321,4 @@ SceneRoots:
   - {fileID: 1637293771}
   - {fileID: 585129933}
   - {fileID: 1016032953}
+  - {fileID: 177604660}
