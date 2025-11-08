@@ -292,9 +292,10 @@ public class DialogueManager : MonoBehaviour
     }
     private void CheckForSceneTransition()
     {
-        // Проверяем, что находимся на сцене day7_2
+        // Проверяем текущую сцену
         string currentSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
     
+        // Проверка для сцены day7_2
         if (currentSceneName == "day7_2")
         {
             // Проверяем, что диалог завершился и это нужный диалог
@@ -305,6 +306,18 @@ public class DialogueManager : MonoBehaviour
                 string sceneToLoad = "day7_m"; // Замените на актуальное имя сцены
             
                 Debug.Log($"Переход на сцену: {sceneToLoad} из day7_2");
+                UnityEngine.SceneManagement.SceneManager.LoadScene(sceneToLoad);
+            }
+        }
+        // Проверка для сцены day7_e - переход на day7_fin после диалога day7_e_3
+        else if (currentSceneName == "day7_e")
+        {
+            // Проверяем, что диалог завершился и это диалог day7_e_3
+            if (currentDialogue != null && currentDialogue.name == "day7_e_3" && AdditionalCheck.IsDialogueDone())
+            {
+                string sceneToLoad = "day7_fin";
+                
+                Debug.Log($"Переход на сцену: {sceneToLoad} из day7_e после завершения диалога {currentDialogue.name}");
                 UnityEngine.SceneManagement.SceneManager.LoadScene(sceneToLoad);
             }
         }
