@@ -8,7 +8,6 @@ public class AITarget : MonoBehaviour
 {
     public Transform Target;
     public Transform Target2; // вторая цель (опционально)
-    
     private NavMeshAgent m_Agent;
     private Vector3 lastElevatorPosition;
     private ElevatorMoving elevator;
