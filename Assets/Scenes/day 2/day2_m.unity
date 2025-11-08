@@ -1564,6 +1564,7 @@ MonoBehaviour:
   startStop: 3
   endStop: 0
   midStop: 2
+  dialogueForMidStop: {fileID: 0}
   currentTarget: 0
   rememberStartStop: 3
   rememberEndStop: -10
@@ -10774,6 +10775,7 @@ MonoBehaviour:
   startStop: 0
   endStop: 2
   midStop: -10
+  dialogueForMidStop: {fileID: 0}
   currentTarget: 0
   rememberStartStop: -10
   rememberEndStop: -10
@@ -17435,6 +17437,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1449443206483601155, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
+      propertyPath: dialogue
+      value: 
+      objectReference: {fileID: 11400000, guid: 56e4952ed6b1b6641b26f9e43d0a76bd, type: 2}
     - target: {fileID: 4189148356166593763, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
       propertyPath: m_Enabled
       value: 0
