@@ -90,7 +90,10 @@ public class ElevatorDoorController : MonoBehaviour
             // Открываем внешние двери на текущем этаже
             OpenFloorDoors();
             
-            StartCoroutine(CloseDoorsAfterDelay(10f)); // Запускаем корутину для закрытия через 10 секунд
+            if (AdditionalCheck.ElevatorDoorsCanBeClosed()) 
+            {
+                StartCoroutine(CloseDoorsAfterDelay(10f)); // Запускаем корутину для закрытия через 10 секунд
+            }
         }
     }
 

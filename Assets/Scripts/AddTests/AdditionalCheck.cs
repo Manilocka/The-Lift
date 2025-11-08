@@ -212,6 +212,24 @@ public class AdditionalCheck : MonoBehaviour
         return true;
     }
 
+    public static bool ElevatorDoorsCanBeClosed()
+    {
+        ElevatorMoving elevatorMoving = FindObjectOfType<ElevatorMoving>();
+        string scene = SceneManager.GetActiveScene().name;
+        if (scene == "day6_e")
+        {
+            if (elevatorMoving != null && elevatorMoving.currentTarget == elevatorMoving.midStop)
+            {
+                if (!IsDialogueDone())
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     public static bool CanLevelBeChanged()
     {
         string scene = SceneManager.GetActiveScene().name;
