@@ -44,6 +44,7 @@ public class AITarget : MonoBehaviour
                 playerTargetObject = new GameObject("PlayerTarget");
                 playerTargetObject.transform.position = playerTransform.position;
                 currentTarget = playerTargetObject.transform;
+                StartCoroutine(StartChaseAfterDelay(2f));
             }
             else
             {
@@ -264,5 +265,25 @@ public class AITarget : MonoBehaviour
         {
             Destroy(playerTargetObject);
         }
+    }
+    private IEnumerator StartChaseAfterDelay(float delay)
+    {
+        // Выключаем агент, чтобы не двигался сразу
+        if (m_Agent != null)
+            m_Agent.enabled = false;
+
+        yield return new WaitForSeconds(delay);
+
+        // После задержки — включаем агент и начинаем движение
+        if (m_Agent != null)
+        {
+            m_Agent.enabled = true;
+            if (currentTarget != null)
+            {
+                m_Agent.destination = currentTarget.position;
+            }
+        }
+
+        Debug.Log("NPC начал преследовать игрока через " + delay + " секунд.");
     }
 }
