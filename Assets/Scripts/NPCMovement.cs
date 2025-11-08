@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NPCMovement : MonoBehaviour
 {
@@ -29,11 +30,40 @@ public class NPCMovement : MonoBehaviour
 
     // Текущая цель, к которой NPC идёт
     private Transform currentTarget;
+    
+    // Для преследования игрока
+    private Transform playerTransform;
+    private bool shouldChasePlayer = false;
 
     void Start()
     {
-        // Начинаем движение к первой цели
-        currentTarget = targetPoint;
+        // Проверяем, нужно ли преследовать игрока (в сцене day7_fin)
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (currentScene == "day7_fin")
+        {
+            shouldChasePlayer = true;
+            // Находим игрока
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                playerTransform = player.transform;
+                // Создаем временный объект для хранения позиции игрока
+                GameObject tempTarget = new GameObject("PlayerTarget");
+                tempTarget.transform.position = playerTransform.position;
+                currentTarget = tempTarget.transform;
+            }
+            else
+            {
+                Debug.LogError("NPCMovement: Игрок с тегом 'Player' не найден в сцене day7_fin!");
+                shouldChasePlayer = false;
+                currentTarget = targetPoint;
+            }
+        }
+        else
+        {
+            // Начинаем движение к первой цели
+            currentTarget = targetPoint;
+        }
         
         // Автоматически находим аниматор если он не установлен
         if (animator == null)
@@ -62,6 +92,12 @@ public class NPCMovement : MonoBehaviour
         }
 
         canMove = AdditionalCheck.CanNPCMove();
+
+        // Если нужно преследовать игрока, обновляем цель
+        if (shouldChasePlayer && playerTransform != null && currentTarget != null)
+        {
+            currentTarget.position = playerTransform.position;
+        }
 
         // Сохраняем предыдущее состояние для сравнения
         wasWalking = isWalking;
@@ -102,6 +138,14 @@ public class NPCMovement : MonoBehaviour
         }
 
         float distance = Vector3.Distance(transform.position, currentTarget.position);
+        
+        // Если преследуем игрока, не останавливаемся при достижении близкого расстояния
+        if (shouldChasePlayer)
+        {
+            // Продолжаем преследование, не останавливаемся
+            return;
+        }
+        
         if (distance < 30f)
         {
             Debug.Log("Достигнута целевая точка, расстояние: " + distance);
@@ -136,6 +180,15 @@ public class NPCMovement : MonoBehaviour
         }
     }
 
+    void OnDestroy()
+    {
+        // Удаляем временный объект цели при уничтожении компонента
+        if (shouldChasePlayer && currentTarget != null && currentTarget.name == "PlayerTarget")
+        {
+            Destroy(currentTarget.gameObject);
+        }
+    }
+
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
@@ -149,6 +202,13 @@ public class NPCMovement : MonoBehaviour
         {
             Gizmos.color = Color.cyan;
             Gizmos.DrawSphere(targetPoint2.position, 0.2f);
+        }
+        
+        // Показываем линию к игроку, если преследуем
+        if (shouldChasePlayer && playerTransform != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, playerTransform.position);
         }
     }
 }

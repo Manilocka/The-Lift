@@ -99,6 +99,12 @@ public class AdditionalCheck : MonoBehaviour
         {
             return true;
         }
+        
+        // В сцене day7_fin NPC может двигаться сразу (преследование игрока)
+        if (scene == "day7_fin")
+        {
+            return true;
+        }
 
         return false;
     }

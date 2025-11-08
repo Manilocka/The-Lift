@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class AITarget : MonoBehaviour
 {
@@ -19,13 +20,45 @@ public class AITarget : MonoBehaviour
     private bool isInElevator = false; // флаг нахождения в лифте
     private bool wasAgentEnabled = false; // был ли агент активен до входа в лифт
     
+    // Для преследования игрока
+    private Transform playerTransform;
+    private bool shouldChasePlayer = false;
+    private GameObject playerTargetObject; // временный объект для хранения позиции игрока
+    
     void Start()
     {
         m_Agent = GetComponent<NavMeshAgent>();
         elevator = FindObjectOfType<ElevatorMoving>();
         npcLiftCheck = FindObjectOfType<NPCInLiftCheck>();
-        // Начинаем движение к первой цели
-        currentTarget = Target;
+        
+        // Проверяем, нужно ли преследовать игрока (в сцене day7_fin)
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (currentScene == "day7_fin")
+        {
+            shouldChasePlayer = true;
+            // Находим игрока
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                playerTransform = player.transform;
+                // Создаем временный объект для хранения позиции игрока
+                playerTargetObject = new GameObject("PlayerTarget");
+                playerTargetObject.transform.position = playerTransform.position;
+                currentTarget = playerTargetObject.transform;
+            }
+            else
+            {
+                Debug.LogError("AITarget: Игрок с тегом 'Player' не найден в сцене day7_fin!");
+                shouldChasePlayer = false;
+                currentTarget = Target;
+            }
+        }
+        else
+        {
+            // Начинаем движение к первой цели
+            currentTarget = Target;
+        }
+        
         if (elevator != null)
         {
             lastElevatorPosition = elevator.transform.position;
@@ -161,13 +194,25 @@ public class AITarget : MonoBehaviour
             }
         }
 
+        // Если нужно преследовать игрока, обновляем цель
+        if (shouldChasePlayer && playerTransform != null && currentTarget != null)
+        {
+            currentTarget.position = playerTransform.position;
+        }
+        
         // Основная логика движения
         if (AdditionalCheck.CanNPCMove() && m_Agent != null && m_Agent.enabled && currentTarget != null)
         {
-            // Обновляем destination только если цель изменилась
-            if (Vector3.Distance(m_Agent.destination, currentTarget.position) > 0.1f)
+            // Обновляем destination только если цель изменилась (или если преследуем игрока - всегда обновляем)
+            if (shouldChasePlayer || Vector3.Distance(m_Agent.destination, currentTarget.position) > 0.1f)
             {
                 m_Agent.destination = currentTarget.position;
+            }
+            
+            // Если преследуем игрока, не проверяем достижение цели
+            if (shouldChasePlayer)
+            {
+                return;
             }
             
             // Проверяем, достиг ли NPC текущей цели
@@ -211,5 +256,14 @@ public class AITarget : MonoBehaviour
     public string GetCurrentState()
     {
         return $"Current Target: {currentTarget?.name}, In Elevator: {isInElevator}, Elevator Moved: {hasElevatorMoved}, Reached Target1: {hasReachedTarget1}";
+    }
+    
+    void OnDestroy()
+    {
+        // Удаляем временный объект цели при уничтожении компонента
+        if (playerTargetObject != null)
+        {
+            Destroy(playerTargetObject);
+        }
     }
 }
