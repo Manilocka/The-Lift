@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class NPCCatchesPlayer : MonoBehaviour
 {
     [Header("Настройки обнаружения")]
-    public float catchDistance = 50f;
+    public float catchDistance = 80f;
     public bool useTrigger = true;
     
     [Header("Настройки темного экрана")]
