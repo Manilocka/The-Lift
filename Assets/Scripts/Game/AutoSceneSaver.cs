@@ -7,7 +7,6 @@ public class AutoSceneSaver : MonoBehaviour
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
-
     void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
