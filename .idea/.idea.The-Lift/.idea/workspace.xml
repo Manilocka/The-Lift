@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f537d165-ca17-40b6-8ad2-122f74fff72a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.The-Lift/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.The-Lift/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/NPCCatchesPlayer.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,12 +40,11 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/44baafde34d548b79233aeeb474720f91fe00/68/6644b85a/CharacterController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/50e19b0ed93a4256b2e454b4acec2d48958800/e2/052991f3/PhysicsDebugDraw.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/8ce0bd04a7a04b4b9395538239d3fdd846ac00/6c/87e09f37/ThrowHelper.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/olesy/docks/uni/The Lift/The-Lift/Assets/Scripts/Game/AutoSceneSaver.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/NPCBlocker.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/NPCCatchesPlayer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/NPCInLiftCheck.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerBlocker.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collab-proxy@2.9.3/Editor/Views/PendingChanges/PendingChangesSelection.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/olesy/docks/uni/The Lift/The-Lift/ProjectSettings/EditorBuildSettings.asset" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -154,14 +153,6 @@
       <workItem from="1761776303741" duration="730000" />
       <workItem from="1761947704100" duration="2386000" />
       <workItem from="1762030381556" duration="2269000" />
-    </task>
-    <task id="LOCAL-00001" summary="babka fxd">
-      <option name="closed" value="true" />
-      <created>1760142339001</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1760142339001</updated>
     </task>
     <task id="LOCAL-00002" summary="babka fxd">
       <option name="closed" value="true" />
@@ -539,7 +530,23 @@
       <option name="project" value="LOCAL" />
       <updated>1762619106856</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="catch script deleted">
+      <option name="closed" value="true" />
+      <created>1762619837398</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1762619837398</updated>
+    </task>
+    <task id="LOCAL-00050" summary="yeah">
+      <option name="closed" value="true" />
+      <created>1762619845859</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1762619845859</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -566,8 +573,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="sth minor fixed, we're good" />
-    <MESSAGE value="can't go out and call elevator when not needed" />
     <MESSAGE value="npc walks into the elevator fixed" />
     <MESSAGE value="day7_m" />
     <MESSAGE value="day7_e doesn't work twerk twerk" />
@@ -591,7 +596,9 @@
     <MESSAGE value="check" />
     <MESSAGE value="ivanov added" />
     <MESSAGE value="test" />
-    <option name="LAST_COMMIT_MESSAGE" value="test" />
+    <MESSAGE value="catch script deleted" />
+    <MESSAGE value="yeah" />
+    <option name="LAST_COMMIT_MESSAGE" value="yeah" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
