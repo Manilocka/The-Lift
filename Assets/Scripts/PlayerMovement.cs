@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
                 // Настраиваем AudioSource для правильной работы
                 footstepAudioSource.loop = false; // Отключаем зацикливание (управляем вручную)
                 footstepAudioSource.playOnAwake = false; // Не воспроизводить автоматически
-                footstepAudioSource.volume = 1f; // Устанавливаем громкость
+                
                 Debug.Log("AudioSource настроен: Loop=" + footstepAudioSource.loop + ", Volume=" + footstepAudioSource.volume + ", Interval=" + footstepInterval + "s");
             }
         }
