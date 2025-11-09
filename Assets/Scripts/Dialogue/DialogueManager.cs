@@ -350,6 +350,17 @@ public class DialogueManager : MonoBehaviour
         return selectedChoice;
     }
     
+    // Методы для получения текущего диалога и индекса (для внешних скриптов)
+    public DialogueSO GetCurrentDialogue()
+    {
+        return currentDialogue;
+    }
+    
+    public int GetCurrentIndex()
+    {
+        return currentIndex;
+    }
+    
     // Простые методы для отслеживания пройденных диалогов
     public void ResetAllDialogueProgress()
     {
