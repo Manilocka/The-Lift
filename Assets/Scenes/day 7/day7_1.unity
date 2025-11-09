@@ -22932,11 +22932,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 9094250395335349877, guid: be74100b312f6a2499cb61c8a32d8719, type: 3}
---- !u!1 &1683350965 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5388711324886214551, guid: 915e2cdb15e70994b89d84b1cb1cb68f, type: 3}
-  m_PrefabInstance: {fileID: 1340876855}
-  m_PrefabAsset: {fileID: 0}
 --- !u!223 &1683350966 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 2763018097862571537, guid: 915e2cdb15e70994b89d84b1cb1cb68f, type: 3}
@@ -24577,17 +24572,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1791945938}
   m_CullTransparentMesh: 1
---- !u!114 &1797318518 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 433735113567145875, guid: 915e2cdb15e70994b89d84b1cb1cb68f, type: 3}
-  m_PrefabInstance: {fileID: 1340876855}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!64 &1797709409
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -28541,58 +28525,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2152005347286395774, guid: be74100b312f6a2499cb61c8a32d8719, type: 3}
---- !u!1 &2128876091
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2128876093}
-  - component: {fileID: 2128876092}
-  m_Layer: 0
-  m_Name: PauseManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2128876092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2128876091}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cd5c07f38a4ce64195c95ee7e283093, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pauseCanvas: {fileID: 1683350965}
-  resumeButton: {fileID: 1797318518}
-  exitButton: {fileID: 0}
-  volumeSlider: {fileID: 0}
-  mouseSensitivitySlider: {fileID: 0}
-  volumeValueText: {fileID: 0}
-  mouseSensitivityValueText: {fileID: 0}
-  mainMenuSceneName: Game menu
---- !u!4 &2128876093
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2128876091}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1011.2965, y: 494.9843, z: -7.042523}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2140967349 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3742370354752636044, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
@@ -70277,7 +70209,6 @@ SceneRoots:
   - {fileID: 1785994319797490731}
   - {fileID: 1930531985}
   - {fileID: 543450652038171617}
-  - {fileID: 2128876093}
   - {fileID: 1428859098}
   - {fileID: 185960778}
   - {fileID: 4585467596809767136}
