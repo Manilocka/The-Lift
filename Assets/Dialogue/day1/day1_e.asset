@@ -32,7 +32,7 @@ MonoBehaviour:
     isPlayer: 1
     isThought: 0
     choices:
-    - choiceText: "\u0412\u0437\u044F\u0442\u044C"
+    - choiceText: "\u0412\u0437\u044F\u0442\u044C \u043A\u043E\u043D\u0444\u0435\u0442\u0443"
       dialogueLines:
       - speakerName: 
         text: "\u041A\u0430\u043A\u0430\u044F \u043C\u0438\u043B\u0430\u044F \u0431\u0430\u0431\u0443\u043B\u044F"
@@ -80,6 +80,7 @@ MonoBehaviour:
             isThought: 0
             choices: []
             hasImpact: 1
+          sceneToLoad: 
         - choiceText: "\u041D\u0435 \u0435\u0441\u0442\u044C"
           dialogueLines:
           - speakerName: 
@@ -98,7 +99,9 @@ MonoBehaviour:
             isThought: 0
             choices: []
             hasImpact: 1
+          sceneToLoad: 
         hasImpact: 1
+      sceneToLoad: 
     - choiceText: "\u041E\u0442\u043A\u0430\u0437\u0430\u0442\u044C\u0441\u044F"
       dialogueLines:
       - speakerName: 
@@ -124,4 +127,5 @@ MonoBehaviour:
         isThought: 0
         choices: []
         hasImpact: 1
+      sceneToLoad: 
     hasImpact: 1
