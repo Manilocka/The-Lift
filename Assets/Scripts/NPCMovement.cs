@@ -125,6 +125,7 @@ public class NPCMovement : MonoBehaviour
         // Применяем гравитацию
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+        
     }
 
     void MoveToTarget()
