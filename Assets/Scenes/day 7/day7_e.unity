@@ -2395,11 +2395,31 @@ PrefabInstance:
       propertyPath: dialogue
       value: 
       objectReference: {fileID: 11400000, guid: 324e8a759c5f5044ebc242f5ad35725f, type: 2}
+    - target: {fileID: 4431333824242814407, guid: 73e3b16716b696045983810282b24dc8, type: 3}
+      propertyPath: cameraDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4431333824242814407, guid: 73e3b16716b696045983810282b24dc8, type: 3}
+      propertyPath: cameraFocusPoint
+      value: 
+      objectReference: {fileID: 1844830888}
+    - target: {fileID: 4431333824242814407, guid: 73e3b16716b696045983810282b24dc8, type: 3}
+      propertyPath: cameraHeightOffset
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3906734192953830445, guid: 73e3b16716b696045983810282b24dc8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1844830888}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73e3b16716b696045983810282b24dc8, type: 3}
+--- !u!4 &177604661 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3906734192953830445, guid: 73e3b16716b696045983810282b24dc8, type: 3}
+  m_PrefabInstance: {fileID: 177604660}
+  m_PrefabAsset: {fileID: 0}
 --- !u!64 &184721719
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -4967,6 +4987,8 @@ MonoBehaviour:
   choice2Button: {fileID: 2066080652}
   choice1Text: {fileID: 1652140772}
   choice2Text: {fileID: 1627893678}
+  textAppearSoundSource: {fileID: 0}
+  textAppearSound: {fileID: 0}
 --- !u!1 &328925838 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6765893818662578818, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
@@ -21341,6 +21363,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue: {fileID: 11400000, guid: a68584f5efb471f46a186c2175fec2ca, type: 2}
   oneTimeOnly: 1
+  cameraDistance: 2.5
+  cameraHeightY: 0
+  cameraHeightOffset: 0.1
+  cameraFocusPoint: {fileID: 0}
 --- !u!114 &1433134832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21363,6 +21389,9 @@ MonoBehaviour:
     m_Bits: 0
   targetPoint: {fileID: 676817907}
   targetPoint2: {fileID: 0}
+  targetPoint3: {fileID: 0}
+  targetPoint4: {fileID: 0}
+  targetPoint5: {fileID: 0}
   animator: {fileID: 0}
   canMove: 1
 --- !u!143 &1433134833
@@ -24118,6 +24147,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue: {fileID: 11400000, guid: e18a0ebca0fab684892a671d23043b94, type: 2}
   oneTimeOnly: 1
+  cameraDistance: 2.5
+  cameraHeightY: 0
+  cameraHeightOffset: 0.1
+  cameraFocusPoint: {fileID: 0}
 --- !u!136 &1560687317
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -29043,6 +29076,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2949760218135388779, guid: be74100b312f6a2499cb61c8a32d8719, type: 3}
+--- !u!1 &1844830887
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1844830888}
+  m_Layer: 0
+  m_Name: npc face
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1844830888
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844830887}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.962, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 177604661}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1847670929
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -31676,6 +31740,8 @@ MonoBehaviour:
   tiredDialogue: {fileID: 11400000, guid: 434f125a1f281cc4f92ad2e394de33a5, type: 2}
   choice1Button: {fileID: 472903759}
   choice2Button: {fileID: 2066080654}
+  cameraTransitionSpeed: 8
+  smoothCameraTransition: 1
 --- !u!4 &2047004920
 Transform:
   m_ObjectHideFlags: 0

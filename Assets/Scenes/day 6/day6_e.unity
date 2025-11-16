@@ -21239,6 +21239,18 @@ PrefabInstance:
       propertyPath: dialogue
       value: 
       objectReference: {fileID: 11400000, guid: b21c41d3058f4f54b8924db69c640c4e, type: 2}
+    - target: {fileID: 1449443206483601155, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
+      propertyPath: cameraDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449443206483601155, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
+      propertyPath: cameraFocusPoint
+      value: 
+      objectReference: {fileID: 1753161799}
+    - target: {fileID: 1449443206483601155, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
+      propertyPath: cameraHeightOffset
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 4189148356166593763, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -21297,7 +21309,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6033595506832155640, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1753161799}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7558010337227039432, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
       insertIndex: -1
@@ -21347,6 +21362,11 @@ NavMeshAgent:
   m_BaseOffset: 1.08
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!4 &1606100617 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6033595506832155640, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
+  m_PrefabInstance: {fileID: 1606100613}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1610366957
 GameObject:
   m_ObjectHideFlags: 0
@@ -22714,6 +22734,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1735770791}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1753161798
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1753161799}
+  m_Layer: 0
+  m_Name: npc face
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1753161799
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1753161798}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.505, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1606100617}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1754734508
 GameObject:
   m_ObjectHideFlags: 0
@@ -26216,6 +26267,8 @@ MonoBehaviour:
   tiredDialogue: {fileID: 11400000, guid: 434f125a1f281cc4f92ad2e394de33a5, type: 2}
   choice1Button: {fileID: 472903759}
   choice2Button: {fileID: 2066080654}
+  cameraTransitionSpeed: 8
+  smoothCameraTransition: 1
 --- !u!4 &2047004920
 Transform:
   m_ObjectHideFlags: 0

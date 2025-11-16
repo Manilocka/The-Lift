@@ -6060,6 +6060,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 890048703295748212, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
+--- !u!1 &482981160
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 482981161}
+  m_Layer: 0
+  m_Name: npc face
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &482981161
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 482981160}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.337, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 498182502}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &484143147 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8439687222390592861, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
@@ -8542,6 +8573,18 @@ PrefabInstance:
       propertyPath: dialogue
       value: 
       objectReference: {fileID: 11400000, guid: 8aec6f8ebbc9d024aba78a732598a760, type: 2}
+    - target: {fileID: 1449443206483601155, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
+      propertyPath: cameraDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1449443206483601155, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
+      propertyPath: cameraFocusPoint
+      value: 
+      objectReference: {fileID: 482981161}
+    - target: {fileID: 1449443206483601155, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
+      propertyPath: cameraHeightOffset
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 4189148356166593763, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
       propertyPath: groundCheck
       value: 
@@ -8612,7 +8655,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6033595506832155640, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 482981161}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
 --- !u!1 &697460110
@@ -24951,6 +24997,8 @@ MonoBehaviour:
   tiredDialogue: {fileID: 11400000, guid: 434f125a1f281cc4f92ad2e394de33a5, type: 2}
   choice1Button: {fileID: 472903759}
   choice2Button: {fileID: 2066080654}
+  cameraTransitionSpeed: 8
+  smoothCameraTransition: 1
 --- !u!4 &2047004920
 Transform:
   m_ObjectHideFlags: 0
