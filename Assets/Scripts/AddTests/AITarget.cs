@@ -234,7 +234,8 @@ public class AITarget : MonoBehaviour
                         m_Agent.destination = currentTarget.position;
                     }
                 }
-                else if (currentScene != "day7_fin" && IsLastTargetReached())
+                else if (currentScene != "day7_fin" && currentTarget == Target2)
+                    // IsLastTargetReached()
                 {
                     // Достигли конечной цели - исчезаем
                     Debug.Log("NPC достиг конечной точки - исчезает");
@@ -246,25 +247,25 @@ public class AITarget : MonoBehaviour
     }
 
     // Метод для принудительного переключения на вторую цель
-    public void SwitchToTarget2()
-    {
-        if (Target2 != null && !hasReachedTarget1)
-        {
-            currentTarget = Target2;
-            hasReachedTarget1 = true;
-            if (m_Agent != null && m_Agent.enabled)
-            {
-                m_Agent.destination = currentTarget.position;
-            }
-            Debug.Log("Принудительно переключено на вторую цель");
-        }
-        else
-        {
-            // Достигли конечной цели - исчезаем
-            Debug.Log("NPC достиг конечной точки - исчезает");
-            HideNPC();
-        }
-    }
+    // public void SwitchToTarget2()
+    // {
+    //     if (Target2 != null && !hasReachedTarget1)
+    //     {
+    //         currentTarget = Target2;
+    //         hasReachedTarget1 = true;
+    //         if (m_Agent != null && m_Agent.enabled)
+    //         {
+    //             m_Agent.destination = currentTarget.position;
+    //         }
+    //         Debug.Log("Принудительно переключено на вторую цель");
+    //     }
+    //     else
+    //     {
+    //         // Достигли конечной цели - исчезаем
+    //         Debug.Log("NPC достиг конечной точки - исчезает");
+    //         HideNPC();
+    //     }
+    // }
 
     // Метод для проверки текущего состояния
     public string GetCurrentState()
