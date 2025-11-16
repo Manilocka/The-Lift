@@ -64,11 +64,21 @@ public class MouseLock : MonoBehaviour
         bool isInteractable = hasInteractable(out RaycastHit hit);
         crosshair.color = isInteractable ? highlightColor : defaultColor;
 
-        // Полностью блокируем взаимодействие во время диалога
+        // Блокируем взаимодействие во время диалога
         if (DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActive)
         {
-            // Debug.Log("Диалог активен, блокируем все взаимодействия");
-            return;
+            // Если диалог с NPC, блокируем камеру
+            // Если диалог не с NPC (мысли, монологи), камера остается активной
+            if (DialogueManager.Instance.currentNPCDialogue != null)
+            {
+                // Диалог с NPC - блокируем камеру
+                return;
+            }
+            else
+            {
+                // Диалог не с NPC - камера остается активной, но взаимодействие блокируем
+                // Продолжаем выполнение для обработки движения камеры
+            }
         }
 
         if (canLook)
@@ -155,6 +165,13 @@ public class MouseLock : MonoBehaviour
             else
             {
                 Debug.Log($"Начинаем диалог с NPC: {npcDialogue.dialogue.name}");
+                
+                // Сохраняем ссылку на текущий NPC в DialogueManager
+                if (DialogueManager.Instance != null)
+                {
+                    DialogueManager.Instance.SetCurrentNPC(npcDialogue);
+                }
+                
                 DialogueManager.Instance.StartDialogue(npcDialogue.dialogue);
 
                 // Отмечаем, что с этим NPC уже говорили

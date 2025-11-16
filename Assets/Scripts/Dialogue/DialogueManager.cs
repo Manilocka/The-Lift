@@ -43,6 +43,15 @@ public class DialogueManager : MonoBehaviour
     private PlayerInLiftCheck playerLiftCheck;
     private ElevatorMoving elevator;
     private ElevatorDoorController elevatorDoorController;
+    public NPCDialogue currentNPCDialogue { get; private set; } // Текущий NPC, с которым идет диалог
+    
+    /// <summary>
+    /// Устанавливает текущий NPC для диалога
+    /// </summary>
+    public void SetCurrentNPC(NPCDialogue npc)
+    {
+        currentNPCDialogue = npc;
+    }
 
     void Start()
     {
@@ -256,12 +265,20 @@ public class DialogueManager : MonoBehaviour
         ui.Hide();
         PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>();
         if (playerMovement != null) playerMovement.canMove = true;
+        
         MouseLock mouseLock = FindObjectOfType<MouseLock>();
         if (mouseLock != null)
         {
-            mouseLock.canLook = true;
-            mouseLock.crosshair.gameObject.SetActive(true);
+            // Восстанавливаем камеру только если диалог был с NPC
+            if (currentNPCDialogue != null)
+            {
+                mouseLock.canLook = true;
+                mouseLock.crosshair.gameObject.SetActive(true);
+            }
         }
+        
+        // Сбрасываем текущий NPC
+        currentNPCDialogue = null;
         
         // Простое добавление в HashSet
         if (oneTimeDialogueOnly && currentDialogue != null)

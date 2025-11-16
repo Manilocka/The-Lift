@@ -14,15 +14,12 @@ public class GameManager : MonoBehaviour
             {
                 DialogueManager.Instance.StartDialogue(introDialogue);
 
-                // Блокируем движение и взгляд (как в вашем коде)
+                // Блокируем движение (камера будет управляться DialogueCameraController, если диалог с NPC)
                 PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>();
                 if (playerMovement != null) playerMovement.canMove = false;
-                MouseLock mouseLock = FindObjectOfType<MouseLock>();
-                if (mouseLock != null)
-                {
-                    mouseLock.canLook = false;
-                    mouseLock.crosshair.gameObject.SetActive(false);
-                }
+                
+                // Камера блокируется только если диалог с NPC (через DialogueManager)
+                // Для внутренних монологов и мыслей камера остается активной
             }
             // Отмечаем, что диалог показан
             PlayerPrefs.SetInt("IntroDialogueShown", 1);
