@@ -23,6 +23,13 @@ public class NPCInLiftCheck : MonoBehaviour
         {
             isNPCInsideElevator = false;
             Debug.Log("NPC exited the lift!");
+            
+            // // Деактивируем NPC при выходе из лифта
+            // if (other.gameObject != null)
+            // {
+            //     other.gameObject.SetActive(false);
+            //     Debug.Log("NPC исчез после выхода из лифта: " + other.gameObject.name);
+            // }
         }
     }
 
