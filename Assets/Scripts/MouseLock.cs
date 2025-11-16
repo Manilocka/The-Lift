@@ -147,14 +147,8 @@ public class MouseLock : MonoBehaviour
             if (!npcDialogue.CanTalk())
             {
                 Debug.Log($"С NPC {npcDialogue.gameObject.name} уже говорили, показываем tiredDialogue");
-                
-                // Сохраняем ссылку на текущий NPC в DialogueManager (чтобы камера блокировалась)
-                if (DialogueManager.Instance != null)
-                {
-                    DialogueManager.Instance.SetCurrentNPC(npcDialogue);
-                }
-                
-                // Показываем tiredDialogue вместо блокировки
+
+                // Показываем tiredDialogue (не устанавливаем currentNPC, чтобы камера не блокировалась)
                 if (DialogueManager.Instance != null && DialogueManager.Instance.tiredDialogue != null)
                 {
                     DialogueManager.Instance.StartTiredDialogue();
@@ -164,36 +158,38 @@ public class MouseLock : MonoBehaviour
                     Debug.LogError("tiredDialogue не назначен в DialogueManager!");
                 }
             }
-                else
+            else
+            {
+                Debug.Log($"Начинаем диалог с NPC: {npcDialogue.dialogue.name}");
+
+                // Поворачиваем NPC к игроку только если NPC готов говорить
+                Vector3 lookDirection = playerBody.position - hit.collider.transform.position;
+                lookDirection.y = 0;
+                hit.collider.transform.rotation = Quaternion.LookRotation(lookDirection);
+
+                // Запускаем диалог с передачей NPC — DialogueManager сам установит currentNPC и заблокирует камеру
+                if (DialogueManager.Instance != null)
                 {
-                    Debug.Log($"Начинаем диалог с NPC: {npcDialogue.dialogue.name}");
-
-                    // Поворачиваем NPC к игроку только если NPC готов говорить
-                    Vector3 lookDirection = playerBody.position - hit.collider.transform.position;
-                    lookDirection.y = 0;
-                    hit.collider.transform.rotation = Quaternion.LookRotation(lookDirection);
-
-                    // Сохраняем ссылку на текущий NPC в DialogueManager
-                    if (DialogueManager.Instance != null)
-                    {
-                        DialogueManager.Instance.SetCurrentNPC(npcDialogue);
-                    }
-
-                    DialogueManager.Instance.StartDialogue(npcDialogue.dialogue);
-
-                    // Отмечаем, что с этим NPC уже говорили
-                    npcDialogue.MarkAsTalkedTo();
+                    DialogueManager.Instance.StartDialogue(npcDialogue.dialogue, npcDialogue);
                 }
 
-            PlayerMovement playerMovement = playerBody.GetComponent<PlayerMovement>();
-            if (playerMovement != null)
-            {
-                playerMovement.canMove = false;
+                // Отмечаем, что с этим NPC уже говорили
+                npcDialogue.MarkAsTalkedTo();
             }
-            canLook = false;
-            crosshair.gameObject.SetActive(false);
+
             return;
         }
+        
+        // Если мы дошли сюда — значит диалог начался как настоящий NPC-диалог (CanTalk() == true)
+        // Блокируем движение и управление мышью только для настоящих NPC-диалогов
+        PlayerMovement playerMovement = playerBody.GetComponent<PlayerMovement>();
+        if (playerMovement != null)
+        {
+            playerMovement.canMove = false;
+        }
+        canLook = false;
+        if (crosshair != null) crosshair.gameObject.SetActive(false);
+        return;
     }
     
     void LoadMouseSensitivitySettings()

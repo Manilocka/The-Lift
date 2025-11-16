@@ -70,10 +70,17 @@ public class DialogueManager : MonoBehaviour
         elevatorDoorController = FindObjectOfType<ElevatorDoorController>();
     }
 
+    // Backward-compatible StartDialogue: no NPC
     public void StartDialogue(DialogueSO dialogue)
     {
+        StartDialogue(dialogue, null);
+    }
+
+    // New overload: Start dialogue and optionally associate it with an NPC.
+    public void StartDialogue(DialogueSO dialogue, NPCDialogue npc)
+    {
         Debug.Log($"Попытка начать диалог: {dialogue.name}");
-        
+
         // Простая проверка через HashSet
         if (oneTimeDialogueOnly && completedDialogues.Contains(dialogue.name))
         {
@@ -84,7 +91,7 @@ public class DialogueManager : MonoBehaviour
             }
             return;
         }
-        
+
         Debug.Log("Начинаем обычный диалог");
         IsDialogueActive = true;
         currentDialogue = dialogue;
@@ -92,10 +99,25 @@ public class DialogueManager : MonoBehaviour
         selectedChoice = 0;
         ui.Show();
 
-        // Если диалог с NPC — фокусируем камеру на заданной точке NPC
-        if (currentNPCDialogue != null)
+        // Если передан NPC — сохраняем его и блокируем управление/фокусируем камеру
+        if (npc != null)
         {
-            TryFocusCameraOnNPC(currentNPCDialogue);
+            SetCurrentNPC(npc);
+
+            MouseLock mouseLock = FindObjectOfType<MouseLock>();
+            if (mouseLock != null)
+            {
+                mouseLock.canLook = false;
+                if (mouseLock.crosshair != null) mouseLock.crosshair.gameObject.SetActive(false);
+            }
+
+            PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>();
+            if (playerMovement != null)
+            {
+                playerMovement.canMove = false;
+            }
+
+            TryFocusCameraOnNPC(npc);
         }
 
         DisplayLine();
@@ -295,7 +317,21 @@ public class DialogueManager : MonoBehaviour
         // Восстанавливаем позицию камеры, если мы её меняли
         if (cameraMoved)
         {
-            RestoreSavedCamera();
+            bool insideElevator = (playerLiftCheck != null && playerLiftCheck.IsPlayerInsideElevator());
+            bool elevatorIsMoving = (elevator != null && elevator.canMove);
+
+            // Если игрок внутри движущегося лифта — не возвращаем старую позицию камеры,
+            // иначе восстанавливаем сохранённую позицию.
+            if (insideElevator && elevatorIsMoving)
+            {
+                Debug.Log("Диалог завершён, но лифт движется — позиция камеры не восстанавливается, только разблокировка камеры");
+                // Просто помечаем, что мы больше не держим сохранённую позицию
+                cameraMoved = false;
+            }
+            else
+            {
+                RestoreSavedCamera();
+            }
         }
 
         // Сбрасываем текущий NPC
