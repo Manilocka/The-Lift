@@ -152,6 +152,12 @@ public class MouseLock : MonoBehaviour
             {
                 Debug.Log($"С NPC {npcDialogue.gameObject.name} уже говорили, показываем tiredDialogue");
                 
+                // Сохраняем ссылку на текущий NPC в DialogueManager (чтобы камера блокировалась)
+                if (DialogueManager.Instance != null)
+                {
+                    DialogueManager.Instance.SetCurrentNPC(npcDialogue);
+                }
+                
                 // Показываем tiredDialogue вместо блокировки
                 if (DialogueManager.Instance != null && DialogueManager.Instance.tiredDialogue != null)
                 {
