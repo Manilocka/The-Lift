@@ -286,9 +286,26 @@ public class DialogueManager : MonoBehaviour
                 elevatorDoorController.OpenDoors();
             }
         }
-        CheckForSceneTransition();
+        
+        // Для сцены Final запускаем проверку перехода через корутину с небольшой задержкой
+        string currentSceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        if (currentSceneName == "Final" && currentDialogue != null && currentDialogue.name == "Final")
+        {
+            StartCoroutine(CheckFinalSceneTransitionAfterDelay());
+        }
+        else
+        {
+            CheckForSceneTransition();
+        }
 
         Debug.Log("Диалог полностью завершен, IsDialogueActive = false");
+    }
+    
+    private IEnumerator CheckFinalSceneTransitionAfterDelay()
+    {
+        // Ждем небольшой задержки, чтобы убедиться, что все состояния обновлены
+        yield return new WaitForSeconds(0.1f);
+        CheckForSceneTransition();
     }
     private void CheckForSceneTransition()
     {
@@ -318,6 +335,24 @@ public class DialogueManager : MonoBehaviour
                 string sceneToLoad = "day7_fin";
                 
                 Debug.Log($"Переход на сцену: {sceneToLoad} из day7_e после завершения диалога {currentDialogue.name}");
+                UnityEngine.SceneManagement.SceneManager.LoadScene(sceneToLoad);
+            }
+        }
+        // Проверка для сцены day7_fin - переход на Final после поимки игрока
+        else if (currentSceneName == "day7_fin")
+        {
+            // Переход на Final происходит через NPCCatchesPlayer, но можно добавить проверку здесь если нужно
+        }
+        // Проверка для сцены Final - переход на главное меню после завершения диалога Final
+        else if (currentSceneName == "Final")
+        {
+            // Проверяем, что диалог завершился и это диалог Final
+            // Для Final сцены проверяем просто завершение диалога, а не DialogueDone
+            if (currentDialogue != null && currentDialogue.name == "Final" && !IsDialogueActive)
+            {
+                string sceneToLoad = "Game menu";
+                
+                Debug.Log($"Переход на главное меню из Final после завершения диалога {currentDialogue.name}");
                 UnityEngine.SceneManagement.SceneManager.LoadScene(sceneToLoad);
             }
         }

@@ -20,6 +20,7 @@ public class NPCCatchesPlayer : MonoBehaviour
     private Image darkScreenImage;
     private bool hasCaughtPlayer = false;
     private string targetScene = "day7_fin";
+    private string nextScene = "Final"; // Сцена, на которую переходим после поимки
     
     void Start()
     {
@@ -228,13 +229,13 @@ public class NPCCatchesPlayer : MonoBehaviour
         
         Debug.Log($"NPCCatchesPlayer: Темный экран показан! Panel.active: {darkScreenPanel.activeSelf}, Color: {darkScreenImage.color}");
         
-        // Запускаем проверку
-        StartCoroutine(VerifyDarkScreen());
+        // Запускаем проверку и переход на следующую сцену
+        StartCoroutine(VerifyDarkScreenAndTransition());
     }
     
-    IEnumerator VerifyDarkScreen()
+    IEnumerator VerifyDarkScreenAndTransition()
     {
-        Debug.Log("NPCCatchesPlayer: Запуск проверки темного экрана...");
+        Debug.Log("NPCCatchesPlayer: Запуск проверки темного экрана и перехода...");
         
         yield return new WaitForEndOfFrame();
         
@@ -253,8 +254,14 @@ public class NPCCatchesPlayer : MonoBehaviour
             Debug.LogError("NPCCatchesPlayer: Темный экран пропал при проверке!");
         }
         
-        Debug.Log("NPCCatchesPlayer: Проверка завершена");
+        // Ждем немного перед переходом на следующую сцену
+        yield return new WaitForSeconds(1.5f);
+        
+        // Переходим на сцену Final
+        Debug.Log($"NPCCatchesPlayer: Переход на сцену {nextScene}");
+        SceneManager.LoadScene(nextScene);
     }
+    
     
     // Метод для принудительного тестирования
     [ContextMenu("Тест поимки игрока")]

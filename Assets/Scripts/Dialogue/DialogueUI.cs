@@ -12,6 +12,11 @@ public class DialogueUI : MonoBehaviour
     public TextMeshProUGUI choice1Text;
     public TextMeshProUGUI choice2Text;
 
+    [Header("Audio")]
+    [Tooltip("Звук, который проигрывается при появлении нового текста")]
+    public AudioSource textAppearSoundSource;
+    public AudioClip textAppearSound;
+
     public bool isTyping { get; private set; } = false;
     
     // Цвета для подсветки выбора
@@ -83,7 +88,27 @@ public class DialogueUI : MonoBehaviour
     {
         speakerNameText.text = line.isPlayer ? "" : line.speakerName;
         string text = line.text;
+        
+        // Воспроизводим звук при появлении нового текста
+        PlayTextAppearSound();
+        
         StartCoroutine(Typewriter(text, line, onChoice));
+    }
+    
+    private void PlayTextAppearSound()
+    {
+        if (textAppearSound != null)
+        {
+            if (textAppearSoundSource != null)
+            {
+                textAppearSoundSource.PlayOneShot(textAppearSound);
+            }
+            else
+            {
+                // Если AudioSource не назначен, создаем временный
+                AudioSource.PlayClipAtPoint(textAppearSound, Camera.main != null ? Camera.main.transform.position : Vector3.zero);
+            }
+        }
     }
 
     IEnumerator Typewriter(string fullText, DialogueLine line, Action<int> onChoice)
