@@ -202,6 +202,7 @@ public class AITarget : MonoBehaviour
         }
         
         // Основная логика движения
+        
         if (AdditionalCheck.CanNPCMove() && m_Agent != null && m_Agent.enabled && currentTarget != null)
         {
             // Обновляем destination только если цель изменилась (или если преследуем игрока - всегда обновляем)
@@ -305,13 +306,10 @@ public class AITarget : MonoBehaviour
     {
         Debug.Log("NPC исчезает: " + gameObject.name);
         
-        // Отключаем NavMeshAgent
         if (m_Agent != null)
         {
             m_Agent.enabled = false;
         }
-        
-        // Отключаем игровой объект
         gameObject.SetActive(false);
     }
     private bool IsLastTargetReached()
@@ -320,6 +318,7 @@ public class AITarget : MonoBehaviour
         {
             return true;
         }
+        
         else if (Target2 == null && currentTarget == Target)
         {
             return true;
