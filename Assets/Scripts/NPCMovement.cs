@@ -18,6 +18,9 @@ public class NPCMovement : MonoBehaviour
     [Header("Target Points")]
     public Transform targetPoint;  // первая цель
     public Transform targetPoint2; // вторая цель (опционально)
+    public Transform targetPoint3; // вторая цель (опционально)
+    public Transform targetPoint4;
+    public Transform targetPoint5;
 
     [Header("Animation")]
     public Animator animator; // ссылка на аниматор
@@ -156,13 +159,30 @@ public class NPCMovement : MonoBehaviour
                 Debug.Log("Переключаемся на вторую цель");
                 currentTarget = targetPoint2;
             }
+            else if (currentTarget == targetPoint2 && targetPoint3 != null)
+            {
+                Debug.Log("Переключаемся на третью цель");
+                currentTarget = targetPoint3;
+            }
+            else if (currentTarget == targetPoint3 && targetPoint4 != null)
+            {
+                Debug.Log("Переключаемся на четвертую цель");
+                currentTarget = targetPoint4;
+            }
+            else if (currentTarget == targetPoint4 && targetPoint5 != null)
+            {
+                Debug.Log("Переключаемся на четвертую цель");
+                currentTarget = targetPoint5;
+            }
             else
             {
-                // Иначе останавливаемся
-                Debug.Log("Останавливаем NPC");
-                canMove = false;
-                isWalking = false; // Важно: сразу устанавливаем флаг ходьбы в false
-                UpdateAnimator(); // Немедленно обновляем аниматор
+                // // Иначе останавливаемся
+                // Debug.Log("Останавливаем NPC");
+                // canMove = false;
+                // isWalking = false; // Важно: сразу устанавливаем флаг ходьбы в false
+                // UpdateAnimator(); // Немедленно обновляем аниматор
+                Debug.Log("NPC достиг конечной точки - исчезает");
+                HideNPC();
             }
         }
     }
@@ -189,6 +209,16 @@ public class NPCMovement : MonoBehaviour
         }
     }
 
+    void HideNPC()
+    {
+        canMove = false;
+        isWalking = false;
+        UpdateAnimator();
+
+        // Способ 1: Отключить игровой объект (рекомендуется)
+        gameObject.SetActive(false);
+    }
+
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
@@ -202,6 +232,22 @@ public class NPCMovement : MonoBehaviour
         {
             Gizmos.color = Color.cyan;
             Gizmos.DrawSphere(targetPoint2.position, 0.2f);
+        }
+        
+        if (targetPoint3 != null)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawSphere(targetPoint3.position, 0.2f);
+        }
+        if (targetPoint4 != null)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawSphere(targetPoint4.position, 0.2f);
+        }
+        if (targetPoint5 != null)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawSphere(targetPoint4.position, 0.2f);
         }
         
         // Показываем линию к игроку, если преследуем
