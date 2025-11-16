@@ -143,10 +143,6 @@ public class MouseLock : MonoBehaviour
                 return;
             }
 
-            Vector3 lookDirection = playerBody.position - hit.collider.transform.position;
-            lookDirection.y = 0;
-            hit.collider.transform.rotation = Quaternion.LookRotation(lookDirection);
-
             // Проверяем, можно ли говорить с этим NPC
             if (!npcDialogue.CanTalk())
             {
@@ -168,21 +164,26 @@ public class MouseLock : MonoBehaviour
                     Debug.LogError("tiredDialogue не назначен в DialogueManager!");
                 }
             }
-            else
-            {
-                Debug.Log($"Начинаем диалог с NPC: {npcDialogue.dialogue.name}");
-                
-                // Сохраняем ссылку на текущий NPC в DialogueManager
-                if (DialogueManager.Instance != null)
+                else
                 {
-                    DialogueManager.Instance.SetCurrentNPC(npcDialogue);
-                }
-                
-                DialogueManager.Instance.StartDialogue(npcDialogue.dialogue);
+                    Debug.Log($"Начинаем диалог с NPC: {npcDialogue.dialogue.name}");
 
-                // Отмечаем, что с этим NPC уже говорили
-                npcDialogue.MarkAsTalkedTo();
-            }
+                    // Поворачиваем NPC к игроку только если NPC готов говорить
+                    Vector3 lookDirection = playerBody.position - hit.collider.transform.position;
+                    lookDirection.y = 0;
+                    hit.collider.transform.rotation = Quaternion.LookRotation(lookDirection);
+
+                    // Сохраняем ссылку на текущий NPC в DialogueManager
+                    if (DialogueManager.Instance != null)
+                    {
+                        DialogueManager.Instance.SetCurrentNPC(npcDialogue);
+                    }
+
+                    DialogueManager.Instance.StartDialogue(npcDialogue.dialogue);
+
+                    // Отмечаем, что с этим NPC уже говорили
+                    npcDialogue.MarkAsTalkedTo();
+                }
 
             PlayerMovement playerMovement = playerBody.GetComponent<PlayerMovement>();
             if (playerMovement != null)
