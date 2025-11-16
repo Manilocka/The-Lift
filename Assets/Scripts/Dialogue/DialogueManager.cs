@@ -44,6 +44,15 @@ public class DialogueManager : MonoBehaviour
     private ElevatorMoving elevator;
     private ElevatorDoorController elevatorDoorController;
     public NPCDialogue currentNPCDialogue { get; private set; } // Текущий NPC, с которым идет диалог
+    // Camera focus/restore
+    private Vector3 savedCameraPosition;
+    private Quaternion savedCameraRotation;
+    private bool cameraMoved = false;
+    [Header("Camera Dialogue Settings")]
+    [Tooltip("Скорость перехода камеры к точке фокуса (если 0 - мгновенно)")]
+    public float cameraTransitionSpeed = 8f;
+    [Tooltip("Плавный переход камеры при фокусировке")]
+    public bool smoothCameraTransition = true;
     
     /// <summary>
     /// Устанавливает текущий NPC для диалога
@@ -82,6 +91,13 @@ public class DialogueManager : MonoBehaviour
         currentIndex = 0;
         selectedChoice = 0;
         ui.Show();
+
+        // Если диалог с NPC — фокусируем камеру на заданной точке NPC
+        if (currentNPCDialogue != null)
+        {
+            TryFocusCameraOnNPC(currentNPCDialogue);
+        }
+
         DisplayLine();
     }
     
@@ -276,7 +292,12 @@ public class DialogueManager : MonoBehaviour
                 mouseLock.crosshair.gameObject.SetActive(true);
             }
         }
-        
+        // Восстанавливаем позицию камеры, если мы её меняли
+        if (cameraMoved)
+        {
+            RestoreSavedCamera();
+        }
+
         // Сбрасываем текущий NPC
         currentNPCDialogue = null;
         
@@ -450,5 +471,82 @@ public class DialogueManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void TryFocusCameraOnNPC(NPCDialogue npc)
+    {
+        if (npc == null) return;
+        Camera cam = Camera.main;
+        if (cam == null) return;
+
+        // Сохраняем текущую позицию камеры
+        savedCameraPosition = cam.transform.position;
+        savedCameraRotation = cam.transform.rotation;
+        cameraMoved = true;
+
+        // Определяем точку фокуса
+        Vector3 focusPos = (npc.cameraFocusPoint != null) ? npc.cameraFocusPoint.position : npc.transform.position;
+        if (Mathf.Abs(npc.cameraHeightY) > Mathf.Epsilon)
+        {
+            focusPos.y = npc.cameraHeightY;
+        }
+        else
+        {
+            focusPos.y += npc.cameraHeightOffset;
+        }
+
+        // Вычисляем направление от фокуса к текущей камере (чтобы сохранить ориентацию)
+        Vector3 dir = (cam.transform.position - focusPos).normalized;
+        if (dir.sqrMagnitude < 0.0001f)
+        {
+            dir = -npc.transform.forward;
+            if (dir.sqrMagnitude < 0.0001f) dir = Vector3.back;
+        }
+
+        Vector3 targetPos = focusPos + dir * npc.cameraDistance;
+        Quaternion targetRot = Quaternion.LookRotation(focusPos - targetPos);
+
+        if (smoothCameraTransition && cameraTransitionSpeed > 0f)
+        {
+            StartCoroutine(SmoothMoveCamera(cam.transform, savedCameraPosition, savedCameraRotation, targetPos, targetRot));
+        }
+        else
+        {
+            cam.transform.position = targetPos;
+            cam.transform.rotation = targetRot;
+        }
+    }
+
+    private void RestoreSavedCamera()
+    {
+        Camera cam = Camera.main;
+        if (cam == null) return;
+
+        if (smoothCameraTransition && cameraTransitionSpeed > 0f)
+        {
+            StartCoroutine(SmoothMoveCamera(cam.transform, cam.transform.position, cam.transform.rotation, savedCameraPosition, savedCameraRotation, true));
+        }
+        else
+        {
+            cam.transform.position = savedCameraPosition;
+            cam.transform.rotation = savedCameraRotation;
+            cameraMoved = false;
+        }
+    }
+
+    private IEnumerator SmoothMoveCamera(Transform camTransform, Vector3 fromPos, Quaternion fromRot, Vector3 toPos, Quaternion toRot, bool clearAfter = false)
+    {
+        float t = 0f;
+        float speed = Mathf.Max(0.0001f, cameraTransitionSpeed);
+        while (t < 1f)
+        {
+            t += Time.deltaTime * speed;
+            camTransform.position = Vector3.Lerp(fromPos, toPos, Mathf.SmoothStep(0f, 1f, t));
+            camTransform.rotation = Quaternion.Slerp(fromRot, toRot, Mathf.SmoothStep(0f, 1f, t));
+            yield return null;
+        }
+        camTransform.position = toPos;
+        camTransform.rotation = toRot;
+        if (clearAfter) cameraMoved = false;
     }
 }

@@ -8002,12 +8002,24 @@ PrefabInstance:
       value: Nina
       objectReference: {fileID: 0}
     - target: {fileID: 4222069518777757069, guid: de64f0b3111276141bfbe34bfc3d0769, type: 3}
+      propertyPath: oneTimeOnly
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4222069518777757069, guid: de64f0b3111276141bfbe34bfc3d0769, type: 3}
       propertyPath: cameraHeightY
-      value: 8
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4222069518777757069, guid: de64f0b3111276141bfbe34bfc3d0769, type: 3}
+      propertyPath: cameraDistance
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4222069518777757069, guid: de64f0b3111276141bfbe34bfc3d0769, type: 3}
       propertyPath: cameraFocusPoint
       value: 
+      objectReference: {fileID: 1749063914}
+    - target: {fileID: 4222069518777757069, guid: de64f0b3111276141bfbe34bfc3d0769, type: 3}
+      propertyPath: cameraHeightOffset
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 4652278314337239777, guid: de64f0b3111276141bfbe34bfc3d0769, type: 3}
       propertyPath: speed
@@ -8065,9 +8077,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5664577425454702638, guid: de64f0b3111276141bfbe34bfc3d0769, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.46
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4905514063457381828, guid: de64f0b3111276141bfbe34bfc3d0769, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1749063914}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de64f0b3111276141bfbe34bfc3d0769, type: 3}
 --- !u!64 &596969677
@@ -23672,6 +23691,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -1701407012060307553, guid: be74100b312f6a2499cb61c8a32d8719, type: 3}
+--- !u!1 &1749063913
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1749063914}
+  m_Layer: 0
+  m_Name: npc face
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1749063914
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749063913}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.203, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 859484665}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1752783447
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -28319,6 +28369,8 @@ MonoBehaviour:
   tiredDialogue: {fileID: 11400000, guid: 434f125a1f281cc4f92ad2e394de33a5, type: 2}
   choice1Button: {fileID: 472903759}
   choice2Button: {fileID: 2066080654}
+  cameraTransitionSpeed: 8
+  smoothCameraTransition: 1
 --- !u!4 &2047004920
 Transform:
   m_ObjectHideFlags: 0
