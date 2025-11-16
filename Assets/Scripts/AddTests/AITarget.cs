@@ -67,6 +67,7 @@ public class AITarget : MonoBehaviour
 
     void Update()
     {
+        string currentScene = SceneManager.GetActiveScene().name;
         // Проверяем, находится ли NPC в лифте
         bool npcInElevator = npcLiftCheck != null && npcLiftCheck.IsNPCInsideElevator();
         
@@ -233,6 +234,13 @@ public class AITarget : MonoBehaviour
                         m_Agent.destination = currentTarget.position;
                     }
                 }
+                else if (currentScene != "day7_fin" && IsLastTargetReached())
+                {
+                    // Достигли конечной цели - исчезаем
+                    Debug.Log("NPC достиг конечной точки - исчезает");
+                    HideNPC();
+                }
+                
             }
         }
     }
@@ -249,6 +257,12 @@ public class AITarget : MonoBehaviour
                 m_Agent.destination = currentTarget.position;
             }
             Debug.Log("Принудительно переключено на вторую цель");
+        }
+        else
+        {
+            // Достигли конечной цели - исчезаем
+            Debug.Log("NPC достиг конечной точки - исчезает");
+            HideNPC();
         }
     }
 
@@ -285,5 +299,30 @@ public class AITarget : MonoBehaviour
         }
 
         Debug.Log("NPC начал преследовать игрока через " + delay + " секунд.");
+    }
+    private void HideNPC()
+    {
+        Debug.Log("NPC исчезает: " + gameObject.name);
+        
+        // Отключаем NavMeshAgent
+        if (m_Agent != null)
+        {
+            m_Agent.enabled = false;
+        }
+        
+        // Отключаем игровой объект
+        gameObject.SetActive(false);
+    }
+    private bool IsLastTargetReached()
+    {
+        if (Target2 != null && currentTarget == Target2)
+        {
+            return true;
+        }
+        else if (Target2 == null && currentTarget == Target)
+        {
+            return true;
+        }
+        return false;
     }
 }
