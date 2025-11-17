@@ -5520,6 +5520,8 @@ MonoBehaviour:
   choice2Button: {fileID: 2066080652}
   choice1Text: {fileID: 1652140772}
   choice2Text: {fileID: 1627893678}
+  textAppearSoundSource: {fileID: 0}
+  textAppearSound: {fileID: 0}
 --- !u!1 &328925838 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6765893818662578818, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
@@ -27408,6 +27410,8 @@ MonoBehaviour:
   tiredDialogue: {fileID: 11400000, guid: 434f125a1f281cc4f92ad2e394de33a5, type: 2}
   choice1Button: {fileID: 472903759}
   choice2Button: {fileID: 2066080654}
+  cameraTransitionSpeed: 8
+  smoothCameraTransition: 1
 --- !u!4 &2047004920
 Transform:
   m_ObjectHideFlags: 0
@@ -35680,6 +35684,7 @@ Transform:
   m_Children:
   - {fileID: 187249223}
   - {fileID: 1493499816}
+  - {fileID: 2498757810442110294}
   - {fileID: 663412887}
   - {fileID: 63034669}
   - {fileID: 984149690}
@@ -38776,19 +38781,19 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1785994319797490731}
     m_Modifications:
     - target: {fileID: 2382729518236960389, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 547.1393
+      value: 1399.6099
       objectReference: {fileID: 0}
     - target: {fileID: 2382729518236960389, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2613.3286
+      value: 2629.056
       objectReference: {fileID: 0}
     - target: {fileID: 2382729518236960389, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2171.386
+      value: 204.61401
       objectReference: {fileID: 0}
     - target: {fileID: 2382729518236960389, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -38818,6 +38823,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6061596813417141374, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
+      propertyPath: arrivalAudioSource
+      value: 
+      objectReference: {fileID: 2498757810442110295}
     - target: {fileID: 7515336825729435316, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
       propertyPath: m_Name
       value: ElevatorAudioManage
@@ -38827,6 +38836,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
+--- !u!4 &2498757810442110294 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2382729518236960389, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
+  m_PrefabInstance: {fileID: 2498757810442110293}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &2498757810442110295 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1861546775422564906, guid: 14855765cbda04948ad4559ad0ec5fa1, type: 3}
+  m_PrefabInstance: {fileID: 2498757810442110293}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2499635586512137523
 Transform:
   m_ObjectHideFlags: 0
@@ -67966,6 +67985,5 @@ SceneRoots:
   - {fileID: 1428859098}
   - {fileID: 185960778}
   - {fileID: 4585467596809767136}
-  - {fileID: 2498757810442110293}
   - {fileID: 1714453408}
   - {fileID: 4196638}
