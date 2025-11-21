@@ -52,6 +52,15 @@ public class SendElevatorNew : MonoBehaviour
         
         if (platform != null && !platform.canMove)
         {
+            // Если лифт уже на этом этаже - просто открываем двери и не запускаем движение
+            if (platform.startStop == floorNumber)
+            {
+                if (doorController != null && !doorController.isOpen)
+                {
+                    doorController.OpenDoors();
+                }
+                return;
+            }
             
             if (scene == "day4_e")
             {
@@ -87,9 +96,27 @@ public class SendElevatorNew : MonoBehaviour
     private IEnumerator DelayedStart(float delay)
     {
         yield return new WaitForSeconds(delay);
+
+        // Ждем, пока игрок не окажется внутри лифта.
+        // Это предотвращает ситуацию: игрок нажал кнопку внутри, вышел, и лифт уехал без него.
+        PlayerInLiftCheck liftCheck = FindObjectOfType<PlayerInLiftCheck>(true);
+        if (liftCheck != null)
+        {
+            // Если игрок уже внутри — сразу стартуем
+            if (!liftCheck.IsPlayerInsideElevator())
+            {
+                Debug.Log("SendElevatorNew: Ждем пока игрок зайдет в лифт перед стартом движения...");
+                // Ждем неопределённое время — пока игрок не войдёт
+                while (!liftCheck.IsPlayerInsideElevator())
+                {
+                    yield return null;
+                }
+            }
+        }
+
         if (platform != null)
         {
-            platform.canMove = true; // Запускаем движение лифта после задержки
+            platform.canMove = true; // Запускаем движение лифта после задержки (и после входа игрока, если требуется)
         }
     }
     private IEnumerator DelayedDoorClose(float delay)

@@ -21,6 +21,7 @@ public class ElevatorMoving : MonoBehaviour
     public int rememberStartStop; // Переменная для запоминания начальной точки
     public int rememberEndStop;
     private bool wasMoving = false; // Флаг для отслеживания изменения состояния движения
+    private bool waitForDoorsClosed = false; // Флаг, если мы закрываем двери перед стартом
 
     void Start()
     {
@@ -56,7 +57,34 @@ public class ElevatorMoving : MonoBehaviour
             wasMoving = canMove;
         }
         
-        if (!canMove) return; // Проверяем, можно ли двигаться
+        // Если движение запросили, но двери открыты — закроем их сначала и подождём
+        if (canMove && !waitForDoorsClosed && doorController != null && !doorController.AreDoorsFullyClosed())
+        {
+            Debug.Log("ElevatorMoving: Movement requested while doors open. Closing doors before moving.");
+            doorController.CloseDoors();
+            canMove = false;
+            waitForDoorsClosed = true;
+        }
+        
+        // Если мы в процессе ожидания закрытия дверей — проверяем, закрылись ли они
+        if (waitForDoorsClosed)
+        {
+            if (doorController != null && doorController.AreDoorsFullyClosed())
+            {
+                // Двери закрыты — разрешаем движение
+                waitForDoorsClosed = false;
+                canMove = true;
+                Debug.Log("ElevatorMoving: Двери закрыты, продолжаем движение");
+            }
+            else
+            {
+                // Ждем, не выполняем движение
+                return;
+            }
+        }
+
+        // Проверяем, можно ли двигаться
+        if (!canMove) return;
         
         // Отладка состояния лифта
         if (canMove)

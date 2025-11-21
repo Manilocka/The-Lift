@@ -8,6 +8,9 @@ public class SendElevatorButton : MonoBehaviour
     [SerializeField] private AudioSource buttonAudioSource; // AudioSource для звука кнопки
     ElevatorMoving platform;
     ElevatorDoorController doorController;
+    [Header("Options")]
+    [Tooltip("Если true, кнопка будет ждать, пока игрок не окажется внутри лифта, прежде чем он начнёт ехать (используется для внутренних кнопок)")]
+    [SerializeField] private bool requirePlayerInsideToStart = false;
     
     
 
@@ -66,6 +69,19 @@ public class SendElevatorButton : MonoBehaviour
     private IEnumerator DelayedStart(float delay)
     {
         yield return new WaitForSeconds(delay);
+        // Если для этой кнопки требуется, чтобы игрок находился внутри лифта перед стартом, ждем этого
+        if (requirePlayerInsideToStart)
+        {
+            PlayerInLiftCheck liftCheck = FindObjectOfType<PlayerInLiftCheck>(true);
+            if (liftCheck != null)
+            {
+                while (!liftCheck.IsPlayerInsideElevator())
+                {
+                    yield return null;
+                }
+            }
+        }
+
         if (platform != null)
         {
             platform.canMove = true; // Запускаем движение лифта после задержки
