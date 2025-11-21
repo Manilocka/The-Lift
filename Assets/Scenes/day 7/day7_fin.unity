@@ -7456,7 +7456,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 256
+  Priority: 213
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -21584,7 +21584,7 @@ Transform:
   m_GameObject: {fileID: 1355715461}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1091.8341, y: 2621.7493, z: -1556.0898}
+  m_LocalPosition: {x: -810, y: 1648, z: -1154}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22495,6 +22495,8 @@ MonoBehaviour:
   breathingClip: {fileID: 0}
   elevatorSoundSource: {fileID: 0}
   playElevatorSoundDirectly: 1
+  screamerSoundSource: {fileID: 0}
+  playScreamerDirectly: 1
   spawnDelay: 0.6
   cameraTurnDuration: 0.6
   cameraApproachDistance: 0.8
@@ -27413,7 +27415,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 94d8a93adc925ed41be266da16be84ff, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.3
   m_Pitch: 1
@@ -27526,6 +27528,8 @@ MonoBehaviour:
   breathingClip: {fileID: 0}
   elevatorSoundSource: {fileID: 365880424}
   playElevatorSoundDirectly: 1
+  screamerSoundSource: {fileID: 1355715462}
+  playScreamerDirectly: 1
   spawnDelay: 7
   cameraTurnDuration: 0.5
   cameraApproachDistance: 75

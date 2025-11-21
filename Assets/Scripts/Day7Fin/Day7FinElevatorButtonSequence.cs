@@ -35,6 +35,11 @@ public class Day7FinElevatorButtonSequence : MonoBehaviour
     [SerializeField] private AudioSource elevatorSoundSource;
     [Tooltip("Если true, будет проигрываться `elevatorSoundSource` при старте последовательности кнопки")]
     [SerializeField] private bool playElevatorSoundDirectly = true;
+    [Header("Screamer audio (separate)")]
+    [Tooltip("Отдельный AudioSource для скримера (Batya). Назначьте сюда ваш 'screamer' AudioSource.")]
+    [SerializeField] private AudioSource screamerSoundSource;
+    [Tooltip("Если true, будет проигрываться `screamerSoundSource` сразу после появления Batya")]
+    [SerializeField] private bool playScreamerDirectly = true;
 
     [Header("Timing")]
     [SerializeField] private float spawnDelay = 0.6f;
@@ -205,6 +210,25 @@ public class Day7FinElevatorButtonSequence : MonoBehaviour
         }
         AlignBatyaLookToPlayer();
 
+        // Ensure elevator screamer/elevator sound (if configured) plays right after Batya appears and looks at player.
+        if (playElevatorSoundDirectly && elevatorSoundSource != null)
+        {
+            elevatorSoundSource.mute = false;
+            if (!elevatorSoundSource.isPlaying)
+            {
+                elevatorSoundSource.Play();
+            }
+        }
+
+        if (playScreamerDirectly && screamerSoundSource != null)
+        {
+            screamerSoundSource.mute = false;
+            if (!screamerSoundSource.isPlaying)
+            {
+                screamerSoundSource.Play();
+            }
+        }
+
         PlayBreathing();
         yield return FocusCameraAndFadeSequence();
     }
@@ -255,9 +279,22 @@ public class Day7FinElevatorButtonSequence : MonoBehaviour
         spawnedBatya.transform.position = batyaSpawnPoint.position;
         spawnedBatya.transform.rotation = batyaSpawnPoint.rotation;
 
+        // Включаем CharacterController обратно
         if (cc != null)
         {
             cc.enabled = true;
+        }
+
+        // Восстанавливаем движение NPC, но НЕ включаем логику поимки (NPCCatchesPlayer)
+        // Batya в лифте не должен иметь активный "catcher".
+        if (npcMovement != null)
+        {
+            npcMovement.enabled = true;
+        }
+
+        if (catcher != null)
+        {
+            catcher.enabled = false;
         }
 
         return true;
