@@ -30,6 +30,11 @@ public class Day7FinElevatorButtonSequence : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip breathingClip;
+    [Header("Elevator audio (direct)")]
+    [Tooltip("Если ElevatorAudioManager не работает, можно явно проигрывать этот AudioSource при старте лифта")]
+    [SerializeField] private AudioSource elevatorSoundSource;
+    [Tooltip("Если true, будет проигрываться `elevatorSoundSource` при старте последовательности кнопки")]
+    [SerializeField] private bool playElevatorSoundDirectly = true;
 
     [Header("Timing")]
     [SerializeField] private float spawnDelay = 0.6f;
@@ -44,6 +49,11 @@ public class Day7FinElevatorButtonSequence : MonoBehaviour
     [SerializeField] private string finalSceneName = "Final";
     [SerializeField] private float fadeDuration = 0.8f;
     [SerializeField] private float fadeHoldDuration = 0.3f;
+    [Header("Elevator door options")]
+    [Tooltip("Если true, механика открытия/закрытия дверей лифта в этой последовательности будет отключена (двери не будут закрываться)")]
+    [SerializeField] private bool disableElevatorDoorMechanics = false;
+    [Tooltip("Если true, звуковые источники, вложенные в контроллер дверей лифта, будут заглушены/остановлены во время последовательности")]
+    [SerializeField] private bool muteElevatorDoorAudio = true;
 
     private const string SceneStartDialoguePrefKey = "SceneStartDialogueShown";
 
@@ -151,14 +161,41 @@ public class Day7FinElevatorButtonSequence : MonoBehaviour
             elevator.canMove = false;
         }
 
-        if (doorController != null && doorController.isOpen)
+        // Close doors unless door mechanics are explicitly disabled
+        if (!disableElevatorDoorMechanics)
         {
-            doorController.StopAllCoroutines();
-            doorController.CloseDoors();
+            if (doorController != null && doorController.isOpen)
+            {
+                doorController.StopAllCoroutines();
+                doorController.CloseDoors();
+            }
         }
 
-        ElevatorAudioManager.Instance?.StopElevatorMovement();
+        // Stop any arrival sound; prefer direct elevator audio if configured
         ElevatorAudioManager.Instance?.StopArrivalSound();
+        if (muteElevatorDoorAudio && doorController != null)
+        {
+            // Stop/ mute any audio sources attached to door controller (door sounds)
+            var doorAudio = doorController.GetComponentsInChildren<AudioSource>(true);
+            foreach (var src in doorAudio)
+            {
+                if (src == null) continue;
+                if (src.isPlaying) src.Stop();
+                src.mute = true;
+            }
+        }
+
+        if (playElevatorSoundDirectly && elevatorSoundSource != null)
+        {
+            if (!elevatorSoundSource.isPlaying)
+            {
+                elevatorSoundSource.Play();
+            }
+        }
+        else
+        {
+            ElevatorAudioManager.Instance?.StartElevatorMovement();
+        }
 
         yield return new WaitForSeconds(Mathf.Max(spawnDelay, 0f));
 
@@ -347,6 +384,8 @@ public class Day7FinElevatorButtonSequence : MonoBehaviour
         group.alpha = 1f;
 
         yield return new WaitForSeconds(Mathf.Max(0f, fadeHoldDuration));
+
+        ElevatorAudioManager.Instance?.StopElevatorMovement();
 
         if (!string.IsNullOrEmpty(finalSceneName))
         {

@@ -32,6 +32,8 @@ public class Day7FinChaseController : MonoBehaviour
         {
             audioSource = GetComponent<AudioSource>();
         }
+
+        Day7FinAudioBus.RegisterChaseSource(audioSource);
     }
 
     private void Start()

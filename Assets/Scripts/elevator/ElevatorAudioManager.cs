@@ -86,17 +86,14 @@ public class ElevatorAudioManager : MonoBehaviour
     
     public void StartElevatorMovement()
     {
-        Debug.Log($"ELEVATOR START 1");
-                Debug.Log($"elevatorMovementSound {elevatorMovementSound}");
-                Debug.Log($"elevatorAudioSource {elevatorAudioSource}");
-
         if (elevatorAudioSource != null)
         {
-            Debug.Log($"ELEVATOR START 2");
             if (!elevatorAudioSource.isPlaying)
             {
-                Debug.Log($"ELEVATOR START 3");
-                // elevatorAudioSource.clip = elevatorMovementSound;
+                if (elevatorMovementSound != null)
+                {
+                    elevatorAudioSource.clip = elevatorMovementSound;
+                }
                 elevatorAudioSource.Play();
             }
         }

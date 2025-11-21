@@ -77,6 +77,16 @@ public class Day7FinElevatorController : MonoBehaviour
             playerInLiftCheck = FindObjectOfType<PlayerInLiftCheck>(true);
         }
 
+        if (playerInLiftCheck != null)
+        {
+            PlayerInLiftAudioProxy proxy = playerInLiftCheck.gameObject.GetComponent<PlayerInLiftAudioProxy>();
+            if (proxy == null)
+            {
+                proxy = playerInLiftCheck.gameObject.AddComponent<PlayerInLiftAudioProxy>();
+            }
+            proxy.enableChaseStop = true;
+        }
+
         if (elevatorRigidbody == null && elevator != null)
         {
             elevatorRigidbody = elevator.GetComponent<Rigidbody>();
