@@ -157,6 +157,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue: {fileID: 11400000, guid: a68584f5efb471f46a186c2175fec2ca, type: 2}
   oneTimeOnly: 1
+  cameraFocusPoint: {fileID: 0}
+  cameraHeightY: 0
+  cameraHeightOffset: 1.6
+  cameraDistance: 3
 --- !u!114 &4189148356166593763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,6 +182,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   targetPoint: {fileID: 0}
+  targetPoint2: {fileID: 0}
+  targetPoint3: {fileID: 0}
+  targetPoint4: {fileID: 0}
+  targetPoint5: {fileID: 0}
+  animator: {fileID: 2612038146419646444}
   canMove: 1
 --- !u!143 &6916744225925653561
 CharacterController:
@@ -298,6 +307,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32b158b757f923f48a6736be461165d2, type: 3}
+--- !u!95 &2612038146419646444 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 32b158b757f923f48a6736be461165d2, type: 3}
+  m_PrefabInstance: {fileID: 8454742435155436157}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8277613977897338262 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 32b158b757f923f48a6736be461165d2, type: 3}

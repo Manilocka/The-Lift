@@ -13917,6 +13917,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Target: {fileID: 1754734511}
   Target2: {fileID: 0}
+  animator: {fileID: 0}
+  legacyAnimation: {fileID: 0}
+  walkingAnimationState: walking
+  idleAnimationState: 
+  movementAnimationThreshold: 0.05
+  animationCrossFadeDuration: 0.15
 --- !u!65 &843917136
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17477,6 +17483,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Target: {fileID: 1754734511}
   Target2: {fileID: 0}
+  animator: {fileID: 1076643120}
+  legacyAnimation: {fileID: 0}
+  walkingAnimationState: walking
+  idleAnimationState: 
+  movementAnimationThreshold: 0.05
+  animationCrossFadeDuration: 0.15
 --- !u!195 &1076643119
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -17499,6 +17511,11 @@ NavMeshAgent:
   m_BaseOffset: 1.16
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!95 &1076643120 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2612038146419646444, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
+  m_PrefabInstance: {fileID: 1076643115}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1076643124
 MonoBehaviour:
   m_ObjectHideFlags: 0

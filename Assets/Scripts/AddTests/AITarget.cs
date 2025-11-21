@@ -18,17 +18,43 @@ public class AITarget : MonoBehaviour
     private bool hasReachedTarget1 = false; // флаг достижения первой цели
     private bool isInElevator = false; // флаг нахождения в лифте
     private bool wasAgentEnabled = false; // был ли агент активен до входа в лифт
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private Animation legacyAnimation;
+    [SerializeField] private string walkingAnimationState = "walking";
+    [SerializeField] private string idleAnimationState = "";
+    [SerializeField] private float movementAnimationThreshold = 0.01f; // Уменьшен порог для более чувствительного определения движения
+    [SerializeField] private float animationCrossFadeDuration = 0.15f;
+    private bool isWalkingAnimationActive;
+    private readonly Dictionary<string, bool> animatorStateLookup = new Dictionary<string, bool>();
+    private bool? hasIsWalkingParameter = null; // кэш для проверки параметра isWalking
+    private bool hasLoggedParameterWarning = false; // флаг для ограничения предупреждений
     
     // Для преследования игрока
     private Transform playerTransform;
     private bool shouldChasePlayer = false;
     private GameObject playerTargetObject; // временный объект для хранения позиции игрока
     
+    private void Awake()
+    {
+        CacheAnimationComponents();
+    }
+
+    private void OnValidate()
+    {
+        CacheAnimationComponents();
+        animatorStateLookup.Clear();
+        hasIsWalkingParameter = null; // сбрасываем кэш при изменении в редакторе
+    }
+
     void Start()
     {
         m_Agent = GetComponent<NavMeshAgent>();
         elevator = FindObjectOfType<ElevatorMoving>();
         npcLiftCheck = FindObjectOfType<NPCInLiftCheck>();
+        
+        // Убеждаемся, что аниматор найден
+        CacheAnimationComponents();
         
         // Проверяем, нужно ли преследовать игрока (в сцене day7_fin)
         string currentScene = SceneManager.GetActiveScene().name;
@@ -212,39 +238,285 @@ public class AITarget : MonoBehaviour
             }
             
             // Если преследуем игрока, не проверяем достижение цели
-            if (shouldChasePlayer)
+            if (!shouldChasePlayer)
             {
-                return;
-            }
-            
-            // Проверяем, достиг ли NPC текущей цели
-            float distance = Vector3.Distance(transform.position, currentTarget.position);
-            if (distance < m_Agent.stoppingDistance + 0.5f)
-            {
-                Debug.Log("Достигнута целевая точка " + currentTarget.name + ", расстояние: " + distance);
-                
-                // Логика переключения на вторую цель
-                if (currentTarget == Target && !hasReachedTarget1 && Target2 != null && hasElevatorMoved)
+                // Проверяем, достиг ли NPC текущей цели
+                float distance = Vector3.Distance(transform.position, currentTarget.position);
+                if (distance < m_Agent.stoppingDistance + 0.5f)
                 {
-                    Debug.Log("Переключаемся на вторую цель после движения лифта");
-                    currentTarget = Target2;
-                    hasReachedTarget1 = true;
+                    Debug.Log("Достигнута целевая точка " + currentTarget.name + ", расстояние: " + distance);
                     
-                    if (m_Agent.enabled)
+                    // Логика переключения на вторую цель
+                    if (currentTarget == Target && !hasReachedTarget1 && Target2 != null && hasElevatorMoved)
                     {
-                        m_Agent.destination = currentTarget.position;
+                        Debug.Log("Переключаемся на вторую цель после движения лифта");
+                        currentTarget = Target2;
+                        hasReachedTarget1 = true;
+                        
+                        if (m_Agent.enabled)
+                        {
+                            m_Agent.destination = currentTarget.position;
+                        }
                     }
+                    else if (currentScene != "day7_fin" && IsLastTargetReached())
+                    {
+                        // Достигли конечной цели - исчезаем
+                        Debug.Log("NPC достиг конечной точки - исчезает");
+                        HideNPC();
+                    }
+                    
                 }
-                else if (currentScene != "day7_fin" && IsLastTargetReached())
-                {
-                    // Достигли конечной цели - исчезаем
-                    Debug.Log("NPC достиг конечной точки - исчезает");
-                    HideNPC();
-                }
-                
             }
         }
-        Debug.Log($"Текущая цель: {currentTarget?.name}, Расстояние: {Vector3.Distance(transform.position, currentTarget.position)}");
+        UpdateMovementAnimation();
+    }
+
+    private void UpdateMovementAnimation()
+    {
+        bool shouldPlayWalking = ShouldPlayWalkingAnimation();
+
+        if (animator != null)
+        {
+            HandleAnimatorMovement(shouldPlayWalking);
+        }
+        else if (legacyAnimation != null)
+        {
+            HandleLegacyAnimation(shouldPlayWalking);
+        }
+    }
+
+    private bool ShouldPlayWalkingAnimation()
+    {
+        if (m_Agent == null || !m_Agent.enabled)
+        {
+            return false;
+        }
+
+        if (!AdditionalCheck.CanNPCMove())
+        {
+            return false;
+        }
+
+        // Проверяем, есть ли активная цель и агент движется к ней
+        if (currentTarget == null)
+        {
+            return false;
+        }
+
+        // Проверяем velocity агента
+        float sqrVelocity = m_Agent.velocity.sqrMagnitude;
+        float threshold = movementAnimationThreshold * movementAnimationThreshold;
+        bool isMoving = sqrVelocity >= threshold;
+        
+        // Также проверяем, есть ли путь к цели (даже если velocity еще мала)
+        bool hasPath = m_Agent.hasPath && !m_Agent.pathPending;
+        float remainingDistance = hasPath ? m_Agent.remainingDistance : float.MaxValue;
+        bool isPathing = hasPath && remainingDistance > m_Agent.stoppingDistance + 0.1f;
+        
+        // Если агент имеет путь и еще не достиг цели, считаем что он движется
+        bool shouldWalk = isMoving || (isPathing && m_Agent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathComplete);
+        
+        return shouldWalk;
+    }
+
+    private void HandleAnimatorMovement(bool shouldPlayWalking)
+    {
+        if (animator == null)
+        {
+            return;
+        }
+        
+        // Проверяем, есть ли параметр isWalking в аниматоре (для контроллеров с параметрами)
+        // Используем кэш для оптимизации
+        if (!hasIsWalkingParameter.HasValue)
+        {
+            hasIsWalkingParameter = HasAnimatorParameter("isWalking");
+            if (hasIsWalkingParameter.Value)
+            {
+                Debug.Log($"AITarget на {name}: Найден параметр 'isWalking', будет использоваться SetBool");
+            }
+        }
+        
+        if (hasIsWalkingParameter.Value)
+        {
+            // Используем параметр isWalking (как в контроллерах Batya и Dima)
+            // Сохраняем предыдущее состояние для отладки
+            bool wasWalking = isWalkingAnimationActive;
+            
+            // Устанавливаем параметр всегда, чтобы гарантировать правильное значение
+            animator.SetBool("isWalking", shouldPlayWalking);
+            isWalkingAnimationActive = shouldPlayWalking;
+            
+            // Отладочное сообщение только при изменении состояния
+            if (wasWalking != shouldPlayWalking)
+            {
+                Debug.Log($"AITarget на {name}: Установлен isWalking = {shouldPlayWalking} (velocity: {m_Agent?.velocity.magnitude:F3}, hasPath: {m_Agent?.hasPath}, remainingDistance: {m_Agent?.remainingDistance:F2})");
+            }
+        }
+        else if (!string.IsNullOrEmpty(walkingAnimationState) && AnimatorHasState(walkingAnimationState))
+        {
+            // Используем прямое имя состояния через CrossFade
+            if (shouldPlayWalking)
+            {
+                if (!isWalkingAnimationActive)
+                {
+                    animator.CrossFadeInFixedTime(walkingAnimationState, animationCrossFadeDuration);
+                    isWalkingAnimationActive = true;
+                    Debug.Log($"AITarget на {name}: Запущена анимация ходьбы '{walkingAnimationState}'");
+                }
+            }
+            else if (isWalkingAnimationActive)
+            {
+                if (!string.IsNullOrEmpty(idleAnimationState) && AnimatorHasState(idleAnimationState))
+                {
+                    animator.CrossFadeInFixedTime(idleAnimationState, animationCrossFadeDuration);
+                }
+                isWalkingAnimationActive = false;
+            }
+        }
+        else
+        {
+            // Если не найдено ни параметра, ни состояния, выводим предупреждение один раз
+            if (!isWalkingAnimationActive && shouldPlayWalking && !hasLoggedParameterWarning)
+            {
+                Debug.LogWarning($"AITarget на {name}: Не найден параметр 'isWalking' и состояние '{walkingAnimationState}'. Анимация не будет работать.");
+                hasLoggedParameterWarning = true;
+            }
+        }
+    }
+    
+    private bool HasAnimatorParameter(string paramName)
+    {
+        if (animator == null)
+        {
+            Debug.LogWarning($"AITarget на {name}: Animator не найден!");
+            return false;
+        }
+        
+        if (animator.runtimeAnimatorController == null)
+        {
+            Debug.LogWarning($"AITarget на {name}: Animator Controller не назначен на Animator! (Animator находится на: {animator.gameObject.name})");
+            return false;
+        }
+        
+        // Выводим все параметры для диагностики (только один раз)
+        if (!hasIsWalkingParameter.HasValue)
+        {
+            string allParams = "";
+            foreach (AnimatorControllerParameter param in animator.parameters)
+            {
+                allParams += $"{param.name} ({param.type}), ";
+            }
+            if (string.IsNullOrEmpty(allParams))
+            {
+                Debug.LogWarning($"AITarget на {name}: Animator Controller '{animator.runtimeAnimatorController.name}' не содержит параметров!");
+            }
+            else
+            {
+                Debug.Log($"AITarget на {name}: Найдены параметры в контроллере '{animator.runtimeAnimatorController.name}': {allParams.TrimEnd(',', ' ')}");
+            }
+        }
+        
+        foreach (AnimatorControllerParameter param in animator.parameters)
+        {
+            if (param.name == paramName && param.type == AnimatorControllerParameterType.Bool)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void HandleLegacyAnimation(bool shouldPlayWalking)
+    {
+        if (legacyAnimation == null || string.IsNullOrEmpty(walkingAnimationState))
+        {
+            return;
+        }
+
+        if (shouldPlayWalking)
+        {
+            if (!legacyAnimation.IsPlaying(walkingAnimationState))
+            {
+                legacyAnimation.CrossFade(walkingAnimationState);
+                isWalkingAnimationActive = true;
+            }
+        }
+        else if (isWalkingAnimationActive)
+        {
+            if (!string.IsNullOrEmpty(idleAnimationState))
+            {
+                legacyAnimation.CrossFade(idleAnimationState);
+            }
+            else
+            {
+                legacyAnimation.Stop(walkingAnimationState);
+            }
+            isWalkingAnimationActive = false;
+        }
+    }
+
+    private bool AnimatorHasState(string stateName)
+    {
+        if (animator == null || string.IsNullOrEmpty(stateName))
+        {
+            return false;
+        }
+
+        if (animator.runtimeAnimatorController == null)
+        {
+            return false;
+        }
+
+        if (animatorStateLookup.TryGetValue(stateName, out bool exists))
+        {
+            return exists;
+        }
+
+        int stateHash = Animator.StringToHash(stateName);
+        bool hasState = false;
+
+        for (int i = 0; i < animator.layerCount; i++)
+        {
+            if (animator.HasState(i, stateHash))
+            {
+                hasState = true;
+                break;
+            }
+        }
+
+        animatorStateLookup[stateName] = hasState;
+
+        if (!hasState)
+        {
+            Debug.LogWarning($"Animator на объекте {name} не содержит состояния \"{stateName}\".");
+        }
+
+        return hasState;
+    }
+
+    private void CacheAnimationComponents()
+    {
+        if (animator == null)
+        {
+            animator = GetComponentInChildren<Animator>();
+            if (animator != null)
+            {
+                Debug.Log($"AITarget на {name}: Animator найден автоматически на объекте '{animator.gameObject.name}'");
+            }
+            else
+            {
+                Debug.LogWarning($"AITarget на {name}: Animator не найден! Проверьте, что компонент Animator назначен в инспекторе или находится в дочерних объектах.");
+            }
+        }
+
+        if (legacyAnimation == null)
+        {
+            legacyAnimation = GetComponentInChildren<Animation>();
+        }
+        
+        // Сбрасываем кэш параметров при изменении аниматора
+        hasIsWalkingParameter = null;
     }
 
     // Метод для принудительного переключения на вторую цель
