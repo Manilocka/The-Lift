@@ -288,10 +288,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue: {fileID: 11400000, guid: c99c1346e0ebc2449b4054dfc0e56a12, type: 2}
   oneTimeOnly: 1
-  cameraDistance: 2.5
+  cameraFocusPoint: {fileID: 0}
   cameraHeightY: 0
   cameraHeightOffset: 0.1
-  cameraFocusPoint: {fileID: 0}
+  cameraDistance: 2.5
 --- !u!114 &21825914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -782,10 +782,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -1066,6 +1066,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorNumber: 3
   buttonAudioSource: {fileID: 0}
+  requirePlayerInsideToStart: 0
 --- !u!135 &63794142
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1245,10 +1246,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -1844,10 +1845,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -2280,10 +2281,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -3951,10 +3952,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -4322,10 +4323,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -4416,10 +4417,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -6295,10 +6296,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -6522,10 +6523,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -7922,10 +7923,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -8215,10 +8216,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -8884,6 +8885,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorNumber: 2
   buttonAudioSource: {fileID: 0}
+  requirePlayerInsideToStart: 0
 --- !u!135 &569664199
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -9537,10 +9539,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -10159,6 +10161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorNumber: 0
   buttonAudioSource: {fileID: 0}
+  requirePlayerInsideToStart: 0
 --- !u!135 &650257558
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -11033,10 +11036,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -11127,10 +11130,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -11957,10 +11960,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -12817,10 +12820,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -13069,6 +13072,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorNumber: 3
   buttonAudioSource: {fileID: 0}
+  requirePlayerInsideToStart: 0
 --- !u!135 &874831234
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -13303,10 +13307,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -14129,10 +14133,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -15411,10 +15415,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -15524,6 +15528,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1158020207}
   m_SourcePrefab: {fileID: 100100000, guid: 2ef02566ac1e50e4d83a5da55bc96c8f, type: 3}
+--- !u!95 &1100064301 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2734611979603634727, guid: 2ef02566ac1e50e4d83a5da55bc96c8f, type: 3}
+  m_PrefabInstance: {fileID: 1100064300}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1109360312
 GameObject:
   m_ObjectHideFlags: 0
@@ -15762,10 +15771,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -16042,6 +16051,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Target: {fileID: 1411017956}
   Target2: {fileID: 0}
+  animator: {fileID: 1100064301}
+  legacyAnimation: {fileID: 0}
+  walkingAnimationState: walking
+  idleAnimationState: 
+  movementAnimationThreshold: 0.01
+  animationCrossFadeDuration: 0.15
 --- !u!1 &1167268799
 GameObject:
   m_ObjectHideFlags: 0
@@ -16779,10 +16794,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -18364,10 +18379,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -18752,6 +18767,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorNumber: 1
   buttonAudioSource: {fileID: 0}
+  requirePlayerInsideToStart: 0
 --- !u!135 &1329387208
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -18986,10 +19002,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -19606,10 +19622,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -20440,10 +20456,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -20639,10 +20655,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue: {fileID: 11400000, guid: a68584f5efb471f46a186c2175fec2ca, type: 2}
   oneTimeOnly: 0
-  cameraDistance: 2.5
+  cameraFocusPoint: {fileID: 0}
   cameraHeightY: 0
   cameraHeightOffset: 0.1
-  cameraFocusPoint: {fileID: 0}
+  cameraDistance: 2.5
 --- !u!143 &1433134831
 CharacterController:
   m_ObjectHideFlags: 0
@@ -20771,10 +20787,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -21236,6 +21252,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorNumber: 2
   buttonAudioSource: {fileID: 0}
+  requirePlayerInsideToStart: 0
 --- !u!135 &1459941418
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -21410,6 +21427,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorNumber: 1
   buttonAudioSource: {fileID: 0}
+  requirePlayerInsideToStart: 0
 --- !u!135 &1461511723
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -23367,10 +23385,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue: {fileID: 11400000, guid: e18a0ebca0fab684892a671d23043b94, type: 2}
   oneTimeOnly: 1
-  cameraDistance: 2.5
+  cameraFocusPoint: {fileID: 0}
   cameraHeightY: 0
   cameraHeightOffset: 0.1
-  cameraFocusPoint: {fileID: 0}
+  cameraDistance: 2.5
 --- !u!136 &1560687317
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -23925,6 +23943,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Target: {fileID: 2065732268}
   Target2: {fileID: 0}
+  animator: {fileID: 1606100618}
+  legacyAnimation: {fileID: 0}
+  walkingAnimationState: walking
+  idleAnimationState: 
+  movementAnimationThreshold: 0.01
+  animationCrossFadeDuration: 0.15
 --- !u!195 &1606100616
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -23950,6 +23974,11 @@ NavMeshAgent:
 --- !u!4 &1606100617 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6033595506832155640, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
+  m_PrefabInstance: {fileID: 1606100613}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1606100618 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2612038146419646444, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
   m_PrefabInstance: {fileID: 1606100613}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1610366957
@@ -25156,10 +25185,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -25360,10 +25389,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -25806,6 +25835,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorNumber: 2
   buttonAudioSource: {fileID: 0}
+  requirePlayerInsideToStart: 0
 --- !u!135 &1760371215
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -26454,10 +26484,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -27040,10 +27070,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -27239,10 +27269,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -27679,10 +27709,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -27773,10 +27803,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -28069,10 +28099,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -28635,10 +28665,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -29412,10 +29442,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -29644,10 +29674,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -30528,10 +30558,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.77
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 10
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
