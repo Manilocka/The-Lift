@@ -69,6 +69,7 @@ public class ElevatorMoving : MonoBehaviour
         // Если мы в процессе ожидания закрытия дверей — проверяем, закрылись ли они
         if (waitForDoorsClosed)
         {
+            
             if (doorController != null && doorController.AreDoorsFullyClosed())
             {
                 // Двери закрыты — разрешаем движение
