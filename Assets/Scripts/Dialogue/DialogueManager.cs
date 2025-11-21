@@ -57,18 +57,19 @@ public class DialogueManager : MonoBehaviour
     /// <summary>
     /// Устанавливает текущий NPC для диалога
     /// </summary>
-    public void SetCurrentNPC(NPCDialogue npc)
-    {
-        currentNPCDialogue = npc;
-    }
-
-    void Awake()
+    public void SetCurrentNPC(NPCDi    void Awake()
     {
         Instance = this;
     }
 
     void Start()
     {
+ npc;
+    }
+
+    void Start()
+    {
+        Instance = this;
         playerLiftCheck = FindObjectOfType<PlayerInLiftCheck>();
         elevator = FindObjectOfType<ElevatorMoving>();
         elevatorDoorController = FindObjectOfType<ElevatorDoorController>();

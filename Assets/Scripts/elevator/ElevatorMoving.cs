@@ -75,6 +75,14 @@ public class ElevatorMoving : MonoBehaviour
                 waitForDoorsClosed = false;
                 canMove = true;
                 Debug.Log("ElevatorMoving: Двери закрыты, продолжаем движение");
+
+                // Если за время открытых дверей сменили конечную точку — обновим текущую цель
+                if (currentTarget == startStop && startStop != endStop)
+                {
+                    currentTarget = endStop;
+                    UpdateDirection();
+                    Debug.Log($"ElevatorMoving: Обновлена цель после закрытия дверей: currentTarget = {currentTarget}, endStop = {endStop}");
+                }
             }
             else
             {

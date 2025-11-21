@@ -52,21 +52,28 @@ public class SendElevatorNew : MonoBehaviour
         
         if (platform != null && !platform.canMove)
         {
-            // Если лифт уже на этом этаже - просто открываем двери и не запускаем движение
+            // Если лифт уже на этом этаже - просто открываем двери.
+            // Но если кнопка находится внутри кабины — не возвращаемся, позволяем обработать нажатие (поездка вверх и т.п.).
             if (platform.startStop == floorNumber)
             {
                 if (doorController != null && !doorController.isOpen)
                 {
                     doorController.OpenDoors();
                 }
-                return;
+
+                // Если это внешняя кнопка (не находится в иерархии лифта), прекращаем обработку.
+                if (!transform.IsChildOf(platform.transform))
+                {
+                    return;
+                }
+                // Иначе — это внутренняя кнопка; продолжаем и допускаем смену endStop.
             }
             
             if (scene == "day4_e")
             {
                 platform.endStop = 1;
             }
-            if (scene == "day7_e")
+            else if (scene == "day7_e")
             {
                 platform.endStop = 2;
             }
@@ -76,11 +83,6 @@ public class SendElevatorNew : MonoBehaviour
                 if (platform.startStop == 3)
                 {
                     platform.endStop = 0;
-                }
-                else if (scene == "day4_e")
-                {
-                    // Лифт на другом этаже - устанавливаем конечную точку и запускаем движение
-                    platform.endStop = 1;
                 }
                 else
                 {
