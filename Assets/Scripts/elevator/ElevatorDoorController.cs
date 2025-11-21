@@ -150,6 +150,40 @@ public class ElevatorDoorController : MonoBehaviour
         CloseDoors();
     }
 
+    public void ForceOpenInstantly(bool playSound = false)
+    {
+        StopAllCoroutines();
+        leftDoorTarget = leftDoor.localPosition + Vector3.left * openPosition;
+        rightDoorTarget = rightDoor.localPosition + Vector3.right * openPosition;
+        leftDoor.localPosition = leftDoorTarget;
+        rightDoor.localPosition = rightDoorTarget;
+        isOpen = true;
+
+        if (playSound && isInitialized && doorOpenAudioSource != null)
+        {
+            doorOpenAudioSource.Play();
+        }
+
+        OpenFloorDoors();
+    }
+
+    public void ForceCloseInstantly(bool playSound = false)
+    {
+        StopAllCoroutines();
+        leftDoorTarget = new Vector3(closePosition, leftDoor.localPosition.y, leftDoor.localPosition.z);
+        rightDoorTarget = new Vector3(closePosition, rightDoor.localPosition.y, rightDoor.localPosition.z);
+        leftDoor.localPosition = leftDoorTarget;
+        rightDoor.localPosition = rightDoorTarget;
+        isOpen = false;
+
+        if (playSound && isInitialized && doorCloseAudioSource != null)
+        {
+            doorCloseAudioSource.Play();
+        }
+
+        CloseFloorDoors();
+    }
+
     // Проверка, что двери полностью закрыты (а не просто начали закрываться)
     public bool AreDoorsFullyClosed()
     {

@@ -36,13 +36,20 @@ public class SendElevatorNew : MonoBehaviour
     
     void OnMouseDown()
     {
+        string scene = SceneManager.GetActiveScene().name;
+        if (scene == "day7_fin")
+        {
+            // В финальной сцене управление лифтом перехватывается специальной логикой
+            Debug.Log("SendElevatorNew: управление отключено в day7_fin");
+            return;
+        }
+
         // Воспроизводим звук кнопки через AudioSource
         if (buttonAudioSource != null)
         {
             buttonAudioSource.Play();
         }
         
-        string scene = SceneManager.GetActiveScene().name;
         if (platform != null && !platform.canMove)
         {
             

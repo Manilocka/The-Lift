@@ -62,9 +62,13 @@ public class DialogueManager : MonoBehaviour
         currentNPCDialogue = npc;
     }
 
-    void Start()
+    void Awake()
     {
         Instance = this;
+    }
+
+    void Start()
+    {
         playerLiftCheck = FindObjectOfType<PlayerInLiftCheck>();
         elevator = FindObjectOfType<ElevatorMoving>();
         elevatorDoorController = FindObjectOfType<ElevatorDoorController>();

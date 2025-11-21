@@ -118,4 +118,12 @@ public class ElevatorAudioManager : MonoBehaviour
             arrivalAudioSource.Play();
         }
     }
+
+    public void StopArrivalSound()
+    {
+        if (arrivalAudioSource != null && arrivalAudioSource.isPlaying)
+        {
+            arrivalAudioSource.Stop();
+        }
+    }
 }

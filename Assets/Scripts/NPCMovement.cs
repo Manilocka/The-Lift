@@ -87,6 +87,15 @@ public class NPCMovement : MonoBehaviour
 
     void Update()
     {
+        if (groundCheck == null)
+        {
+            if (Application.isPlaying)
+            {
+                Debug.LogWarning($"NPCMovement: groundCheck не назначен на {name}, пропускаем обновление.");
+            }
+            return;
+        }
+
         // Проверка, на земле ли NPC
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         if (isGrounded && velocity.y < 0)

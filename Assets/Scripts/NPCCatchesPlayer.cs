@@ -13,6 +13,17 @@ public class NPCCatchesPlayer : MonoBehaviour
     public GameObject darkScreenPanel;
     public float fadeInDuration = 0.5f;
     
+    [Header("Аудио")]
+    public AudioClip catchSound;
+    [Range(0f, 1f)]
+    public float catchSoundVolume = 1f;
+    [SerializeField] private bool use2DAudio = true;
+    private AudioSource internalAudioSource;
+    
+    [Header("Перезапуск сцены")]
+    public bool restartSceneOnCatch = true;
+    public float restartDelay = 1.2f;
+    
     [Header("Отладка")]
     public bool debugMode = true;
     
@@ -20,7 +31,6 @@ public class NPCCatchesPlayer : MonoBehaviour
     private Image darkScreenImage;
     private bool hasCaughtPlayer = false;
     private string targetScene = "day7_fin";
-    private string nextScene = "Final"; // Сцена, на которую переходим после поимки
     
     void Start()
     {
@@ -68,6 +78,8 @@ public class NPCCatchesPlayer : MonoBehaviour
         
         // Создаем темный экран
         CreateDarkScreenImmediately();
+        
+        PrepareAudio();
         Debug.Log("=== NPCCatchesPlayer START ЗАВЕРШЕН ===");
     }
     
@@ -189,8 +201,15 @@ public class NPCCatchesPlayer : MonoBehaviour
             }
         }
         
+        PlayCatchSound();
+        
         // Показываем темный экран
         ShowDarkScreenNOW();
+        
+        if (restartSceneOnCatch)
+        {
+            StartCoroutine(RestartSceneAfterDelay());
+        }
     }
     
     void ShowDarkScreenNOW()
@@ -229,13 +248,13 @@ public class NPCCatchesPlayer : MonoBehaviour
         
         Debug.Log($"NPCCatchesPlayer: Темный экран показан! Panel.active: {darkScreenPanel.activeSelf}, Color: {darkScreenImage.color}");
         
-        // Запускаем проверку и переход на следующую сцену
-        StartCoroutine(VerifyDarkScreenAndTransition());
+        // Запускаем проверку
+        StartCoroutine(VerifyDarkScreen());
     }
     
-    IEnumerator VerifyDarkScreenAndTransition()
+    IEnumerator VerifyDarkScreen()
     {
-        Debug.Log("NPCCatchesPlayer: Запуск проверки темного экрана и перехода...");
+        Debug.Log("NPCCatchesPlayer: Запуск проверки темного экрана...");
         
         yield return new WaitForEndOfFrame();
         
@@ -254,14 +273,8 @@ public class NPCCatchesPlayer : MonoBehaviour
             Debug.LogError("NPCCatchesPlayer: Темный экран пропал при проверке!");
         }
         
-        // Ждем немного перед переходом на следующую сцену
-        yield return new WaitForSeconds(1.5f);
-        
-        // Переходим на сцену Final
-        Debug.Log($"NPCCatchesPlayer: Переход на сцену {nextScene}");
-        SceneManager.LoadScene(nextScene);
+        Debug.Log("NPCCatchesPlayer: Проверка завершена");
     }
-    
     
     // Метод для принудительного тестирования
     [ContextMenu("Тест поимки игрока")]
@@ -282,6 +295,68 @@ public class NPCCatchesPlayer : MonoBehaviour
     
     void OnDestroy()
     {
-        Debug.Log("NPCCatchesPlayer: Скрипт уничтожен");
+        if (debugMode)
+        {
+            Debug.Log("NPCCatchesPlayer: Скрипт уничтожен");
+        }
+    }
+    
+    void PlayCatchSound()
+    {
+        if (catchSound == null)
+        {
+            if (debugMode)
+            {
+                Debug.LogWarning("NPCCatchesPlayer: Нет аудиоклипа поимки");
+            }
+            return;
+        }
+
+        if (internalAudioSource == null)
+        {
+            PrepareAudio();
+        }
+
+        if (internalAudioSource == null)
+        {
+            AudioSource.PlayClipAtPoint(catchSound, transform.position, catchSoundVolume);
+            return;
+        }
+
+        internalAudioSource.Stop();
+        internalAudioSource.clip = catchSound;
+        internalAudioSource.volume = catchSoundVolume;
+        internalAudioSource.Play();
+    }
+
+    void PrepareAudio()
+    {
+        if (internalAudioSource != null)
+        {
+            return;
+        }
+
+        internalAudioSource = GetComponent<AudioSource>();
+        if (internalAudioSource == null)
+        {
+            internalAudioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        internalAudioSource.playOnAwake = false;
+        internalAudioSource.loop = false;
+        internalAudioSource.spatialBlend = use2DAudio ? 0f : 1f;
+        internalAudioSource.rolloffMode = AudioRolloffMode.Linear;
+        internalAudioSource.maxDistance = 500f;
+    }
+    
+    IEnumerator RestartSceneAfterDelay()
+    {
+        if (restartDelay > 0f)
+        {
+            yield return new WaitForSeconds(restartDelay);
+        }
+        
+        Debug.Log("NPCCatchesPlayer: Перезапуск сцены после поимки игрока");
+        SceneManager.LoadScene(targetScene);
     }
 }
