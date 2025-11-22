@@ -7154,11 +7154,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -4153223162037706079, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
---- !u!4 &498182502 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6033595506832155640, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
-  m_PrefabInstance: {fileID: 691144428}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &521179712 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4398895916132037879, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
@@ -9602,83 +9597,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 264.2463, y: 282.08862, z: 25.707764}
   m_Center: {x: 80.2762, y: 118.17908, z: -12.353882}
---- !u!1001 &691144428
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1449443206483601155, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
-      propertyPath: dialogue
-      value: 
-      objectReference: {fileID: 11400000, guid: 4548cfb7f7cf99645a618bb8a6c8f753, type: 2}
-    - target: {fileID: 4189148356166593763, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
-      propertyPath: groundCheck
-      value: 
-      objectReference: {fileID: 498182502}
-    - target: {fileID: 4189148356166593763, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
-      propertyPath: targetPoint
-      value: 
-      objectReference: {fileID: 2065732268}
-    - target: {fileID: 4189148356166593763, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
-      propertyPath: targetPoint2
-      value: 
-      objectReference: {fileID: 545703552}
-    - target: {fileID: 6033595506832155640, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -788.1316
-      objectReference: {fileID: 0}
-    - target: {fileID: 6033595506832155640, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1592
-      objectReference: {fileID: 0}
-    - target: {fileID: 6033595506832155640, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -1395.1349
-      objectReference: {fileID: 0}
-    - target: {fileID: 6033595506832155640, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6033595506832155640, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6033595506832155640, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6033595506832155640, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6033595506832155640, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6033595506832155640, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6033595506832155640, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7558010337227039432, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
-      propertyPath: m_Name
-      value: Batya
-      objectReference: {fileID: 0}
-    - target: {fileID: 7558010337227039432, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 870bae02e79132346ac2b5f1af7c181f, type: 3}
 --- !u!1 &698961075 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6545699909608218998, guid: 29cf9082250e2c34084e8032c91269c8, type: 3}
@@ -44801,7 +44719,6 @@ SceneRoots:
   - {fileID: 611527354}
   - {fileID: 1785994319797490731}
   - {fileID: 1625843384}
-  - {fileID: 691144428}
   - {fileID: 2065732268}
   - {fileID: 545703552}
   - {fileID: 1314147095}
