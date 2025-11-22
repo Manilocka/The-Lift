@@ -47,6 +47,8 @@ public class ElevatorAudioManager : MonoBehaviour
         {
             elevatorAudioSource.playOnAwake = false;
             elevatorAudioSource.loop = true; // Звук движения должен зацикливаться
+            // Останавливаем звук при загрузке сцены
+            elevatorAudioSource.Stop();
         }
 
         // Инициализация AudioSource для кнопок
@@ -71,6 +73,21 @@ public class ElevatorAudioManager : MonoBehaviour
             arrivalAudioSource.loop = false;
         }
         
+        // Подписываемся на событие загрузки сцены для сброса состояния
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    
+    void OnDestroy()
+    {
+        // Отписываемся от события при уничтожении объекта
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    
+    void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+    {
+        // Останавливаем все звуки лифта при загрузке новой сцены
+        StopElevatorMovement();
+        StopArrivalSound();
     }
     
     // Методы для воспроизведения звуков через AudioSource

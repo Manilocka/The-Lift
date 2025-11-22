@@ -18,9 +18,22 @@ public class ElevatorDoorController : MonoBehaviour
 
     void Start()
     {
+        // СБРОС СОСТОЯНИЯ ПРИ ЗАГРУЗКЕ СЦЕНЫ - предотвращает наследование состояния из предыдущей сцены
+        isOpen = false;
+        
         // Устанавливаем начальные позиции (закрыто)
-        leftDoorTarget = leftDoor.localPosition;
-        rightDoorTarget = rightDoor.localPosition;
+        leftDoorTarget = new Vector3(closePosition, leftDoor.localPosition.y, leftDoor.localPosition.z);
+        rightDoorTarget = new Vector3(closePosition, rightDoor.localPosition.y, rightDoor.localPosition.z);
+        
+        // Принудительно закрываем двери при загрузке сцены
+        if (leftDoor != null)
+        {
+            leftDoor.localPosition = leftDoorTarget;
+        }
+        if (rightDoor != null)
+        {
+            rightDoor.localPosition = rightDoorTarget;
+        }
         
         // Убеждаемся, что звуки не воспроизводятся автоматически
         if (doorOpenAudioSource != null)

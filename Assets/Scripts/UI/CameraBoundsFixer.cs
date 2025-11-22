@@ -10,9 +10,33 @@ public class CameraBoundsFixer : MonoBehaviour
     public float safeNearClip = 0.1f;
     public float safeFarClip = 10f;
     
+    [Header("Camera Position Limits")]
+    public bool enablePositionLimits = true;
+    public float maxCameraDistanceFromPlayer = 5f; // Максимальное расстояние камеры от игрока
+    public float minCameraHeight = -10f; // Минимальная высота камеры
+    public float maxCameraHeight = 50f; // Максимальная высота камеры
+    
+    private Transform playerTransform;
+    
     void Start()
     {
         FixCameraSettings();
+        
+        // Находим игрока
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            playerTransform = player.transform;
+        }
+        else
+        {
+            // Пытаемся найти через PlayerMovement
+            PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>();
+            if (playerMovement != null)
+            {
+                playerTransform = playerMovement.transform;
+            }
+        }
     }
     
     void FixCameraSettings()
@@ -55,6 +79,43 @@ public class CameraBoundsFixer : MonoBehaviour
             {
                 targetCamera.orthographicSize = safeOrthographicSize;
             }
+            
+            // Ограничиваем позицию камеры, если включено
+            if (enablePositionLimits && playerTransform != null)
+            {
+                ClampCameraPosition();
+            }
+        }
+    }
+    
+    void ClampCameraPosition()
+    {
+        Vector3 cameraPos = targetCamera.transform.position;
+        Vector3 playerPos = playerTransform.position;
+        
+        // Ограничиваем высоту камеры
+        if (cameraPos.y < minCameraHeight)
+        {
+            cameraPos.y = minCameraHeight;
+            targetCamera.transform.position = cameraPos;
+        }
+        else if (cameraPos.y > maxCameraHeight)
+        {
+            cameraPos.y = maxCameraHeight;
+            targetCamera.transform.position = cameraPos;
+        }
+        
+        // Ограничиваем расстояние камеры от игрока по горизонтали
+        Vector3 horizontalOffset = cameraPos - playerPos;
+        horizontalOffset.y = 0; // Игнорируем вертикальное смещение
+        
+        if (horizontalOffset.magnitude > maxCameraDistanceFromPlayer)
+        {
+            // Возвращаем камеру ближе к игроку
+            Vector3 clampedOffset = horizontalOffset.normalized * maxCameraDistanceFromPlayer;
+            cameraPos.x = playerPos.x + clampedOffset.x;
+            cameraPos.z = playerPos.z + clampedOffset.z;
+            targetCamera.transform.position = cameraPos;
         }
     }
 }

@@ -4,6 +4,12 @@ public class PlayerInLiftCheck : MonoBehaviour
 {
     private bool isPlayerInsideElevator = false;
 
+    void Start()
+    {
+        // СБРОС СОСТОЯНИЯ ПРИ ЗАГРУЗКЕ СЦЕНЫ - предотвращает наследование состояния из предыдущей сцены
+        isPlayerInsideElevator = false;
+    }
+
     // Проверка входа в триггер
     private void OnTriggerEnter(Collider other)
     {

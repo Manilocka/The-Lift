@@ -90,8 +90,8 @@ public class SendElevatorNew : MonoBehaviour
                     platform.endStop = 3;
                 }
             }
-            StartCoroutine(DelayedDoorClose(1f));
-            StartCoroutine(DelayedStart(5f)); // Запускаем корутину для задержки старта лифта
+            // Запускаем корутину, которая управляет закрытием дверей и проверкой игрока
+            StartCoroutine(DelayedStartWithDoorCheck(1f, 5f)); // Задержка закрытия дверей, задержка старта
         }
     }
 
@@ -101,26 +101,167 @@ public class SendElevatorNew : MonoBehaviour
 
         // Ждем, пока игрок не окажется внутри лифта.
         // Это предотвращает ситуацию: игрок нажал кнопку внутри, вышел, и лифт уехал без него.
-        PlayerInLiftCheck liftCheck = FindObjectOfType<PlayerInLiftCheck>(true);
-        if (liftCheck != null)
+        // ВАЖНО: Проверяем только для внутренних кнопок (кнопки внутри кабины лифта)
+        bool isInternalButton = (platform != null && transform.IsChildOf(platform.transform));
+        
+        PlayerInLiftCheck liftCheck = null;
+        if (isInternalButton)
         {
-            // Если игрок уже внутри — сразу стартуем
-            if (!liftCheck.IsPlayerInsideElevator())
+            liftCheck = FindObjectOfType<PlayerInLiftCheck>(true);
+            if (liftCheck != null)
             {
-                Debug.Log("SendElevatorNew: Ждем пока игрок зайдет в лифт перед стартом движения...");
-                // Ждем неопределённое время — пока игрок не войдёт
-                while (!liftCheck.IsPlayerInsideElevator())
+                // Если игрок уже внутри — продолжаем
+                if (!liftCheck.IsPlayerInsideElevator())
                 {
-                    yield return null;
+                    Debug.Log("SendElevatorNew: Ждем пока игрок зайдет в лифт перед стартом движения...");
+                    // Ждем максимум 30 секунд — если игрок не зайдет, лифт не поедет
+                    float timeout = 30f;
+                    float elapsed = 0f;
+                    while (!liftCheck.IsPlayerInsideElevator() && elapsed < timeout)
+                    {
+                        yield return null;
+                        elapsed += Time.deltaTime;
+                    }
+                    
+                    // Если таймаут истек, отменяем движение
+                    if (elapsed >= timeout && !liftCheck.IsPlayerInsideElevator())
+                    {
+                        Debug.LogWarning("SendElevatorNew: Таймаут ожидания игрока истек, движение лифта отменено");
+                        yield break; // Прекращаем выполнение корутины
+                    }
                 }
             }
         }
 
+        // КРИТИЧЕСКАЯ ПРОВЕРКА: Перед запуском движения проверяем, что игрок все еще в лифте
+        // Это предотвращает ситуацию, когда игрок выбежал из лифта во время ожидания
+        if (isInternalButton && liftCheck != null)
+        {
+            // Проверяем еще раз прямо перед запуском
+            if (!liftCheck.IsPlayerInsideElevator())
+            {
+                Debug.LogWarning("SendElevatorNew: Игрок вышел из лифта перед стартом, движение отменено");
+                // Открываем двери, если они закрыты, чтобы игрок мог вернуться
+                if (doorController != null && !doorController.isOpen)
+                {
+                    doorController.OpenDoors();
+                }
+                yield break; // Прекращаем выполнение корутины
+            }
+            
+            // Дополнительная проверка: ждем пока двери полностью закроются и проверяем, что игрок все еще внутри
+            if (doorController != null)
+            {
+                // Ждем, пока двери закроются
+                while (!doorController.AreDoorsFullyClosed())
+                {
+                    // Во время закрытия дверей проверяем, что игрок не выбежал
+                    if (!liftCheck.IsPlayerInsideElevator())
+                    {
+                        Debug.LogWarning("SendElevatorNew: Игрок выбежал из лифта во время закрытия дверей, движение отменено");
+                        // Останавливаем закрытие дверей и открываем их обратно
+                        doorController.OpenDoors();
+                        yield break; // Прекращаем выполнение корутины
+                    }
+                    yield return null;
+                }
+                
+                // Финальная проверка после закрытия дверей
+                if (!liftCheck.IsPlayerInsideElevator())
+                {
+                    Debug.LogWarning("SendElevatorNew: Игрок вышел из лифта после закрытия дверей, движение отменено");
+                    doorController.OpenDoors();
+                    yield break; // Прекращаем выполнение корутины
+                }
+            }
+        }
+
+        // Все проверки пройдены - запускаем движение лифта
         if (platform != null)
         {
-            platform.canMove = true; // Запускаем движение лифта после задержки (и после входа игрока, если требуется)
+            platform.canMove = true; // Запускаем движение лифта только если игрок внутри
+            Debug.Log("SendElevatorNew: Лифт запущен, игрок внутри");
         }
     }
+    private IEnumerator DelayedStartWithDoorCheck(float doorCloseDelay, float startDelay)
+    {
+        // Ждем перед закрытием дверей
+        yield return new WaitForSeconds(doorCloseDelay);
+        
+        // Проверяем, является ли это внутренней кнопкой
+        bool isInternalButton = (platform != null && transform.IsChildOf(platform.transform));
+        PlayerInLiftCheck liftCheck = isInternalButton ? FindObjectOfType<PlayerInLiftCheck>(true) : null;
+        
+        // Если это внутренняя кнопка, проверяем, что игрок все еще в лифте перед закрытием дверей
+        if (isInternalButton && liftCheck != null)
+        {
+            if (!liftCheck.IsPlayerInsideElevator())
+            {
+                Debug.LogWarning("SendElevatorNew: Игрок вышел из лифта перед закрытием дверей, отменяем движение");
+                yield break; // Прекращаем выполнение корутины
+            }
+        }
+        
+        // Закрываем двери
+        if (doorController != null)
+        {
+            doorController.CloseDoors();
+        }
+        
+        // Если это внутренняя кнопка, следим за закрытием дверей и проверяем, что игрок не выбежал
+        if (isInternalButton && liftCheck != null && doorController != null)
+        {
+            // Во время закрытия дверей проверяем, что игрок не выбежал
+            while (!doorController.AreDoorsFullyClosed())
+            {
+                if (!liftCheck.IsPlayerInsideElevator())
+                {
+                    Debug.LogWarning("SendElevatorNew: Игрок выбежал из лифта во время закрытия дверей, отменяем движение");
+                    // Останавливаем закрытие и открываем двери обратно
+                    doorController.OpenDoors();
+                    yield break; // Прекращаем выполнение корутины
+                }
+                yield return null;
+            }
+            
+            // Финальная проверка после закрытия дверей
+            if (!liftCheck.IsPlayerInsideElevator())
+            {
+                Debug.LogWarning("SendElevatorNew: Игрок вышел из лифта после закрытия дверей, отменяем движение");
+                doorController.OpenDoors();
+                yield break; // Прекращаем выполнение корутины
+            }
+        }
+        
+        // Ждем оставшееся время до старта
+        float remainingDelay = startDelay - doorCloseDelay;
+        if (remainingDelay > 0)
+        {
+            yield return new WaitForSeconds(remainingDelay);
+        }
+        
+        // Финальная проверка перед запуском движения
+        if (isInternalButton && liftCheck != null)
+        {
+            if (!liftCheck.IsPlayerInsideElevator())
+            {
+                Debug.LogWarning("SendElevatorNew: Игрок вышел из лифта перед стартом движения, отменяем");
+                if (doorController != null && !doorController.isOpen)
+                {
+                    doorController.OpenDoors();
+                }
+                yield break; // Прекращаем выполнение корутины
+            }
+        }
+        
+        // Все проверки пройдены - запускаем движение лифта
+        if (platform != null)
+        {
+            platform.canMove = true; // Запускаем движение лифта только если игрок внутри
+            Debug.Log("SendElevatorNew: Лифт запущен, игрок внутри");
+        }
+    }
+    
     private IEnumerator DelayedDoorClose(float delay)
     {
         yield return new WaitForSeconds(delay);

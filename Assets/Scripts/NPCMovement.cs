@@ -40,6 +40,11 @@ public class NPCMovement : MonoBehaviour
 
     void Start()
     {
+        // СБРОС СОСТОЯНИЯ ПРИ ЗАГРУЗКЕ СЦЕНЫ - предотвращает наследование состояния из предыдущей сцены
+        canMove = false;
+        isWalking = false;
+        wasWalking = false;
+        
         // Проверяем, нужно ли преследовать игрока (в сцене day7_fin)
         string currentScene = SceneManager.GetActiveScene().name;
         if (currentScene == "day7_fin")

@@ -22,6 +22,7 @@ public class ElevatorMoving : MonoBehaviour
     public int rememberEndStop;
     private bool wasMoving = false; // Флаг для отслеживания изменения состояния движения
     private bool waitForDoorsClosed = false; // Флаг, если мы закрываем двери перед стартом
+    private bool midStopHandled = false; // Флаг, что midStop уже обработан
 
     void Start()
     {
@@ -29,11 +30,24 @@ public class ElevatorMoving : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true; // Отключаем физическую гравитацию и включаем кинематический режим
         rb.useGravity = false; // Отключаем гравитацию
+        
+        // СБРОС СОСТОЯНИЯ ПРИ ЗАГРУЗКЕ СЦЕНЫ - предотвращает наследование состояния из предыдущей сцены
+        canMove = false;
+        waitForDoorsClosed = false;
+        wasMoving = false;
+        midStopHandled = false;
+        
         transform.position = stops[startStop].position; // Устанавливаем начальную позицию
         currentTarget = startStop;
         rememberEndStop = endStop;
+        rememberStartStop = startStop;
         UpdateDirection();
         
+        // Останавливаем звуки лифта при загрузке сцены
+        if (ElevatorAudioManager.Instance != null)
+        {
+            ElevatorAudioManager.Instance.StopElevatorMovement();
+        }
     }
 
     void FixedUpdate() // Используем FixedUpdate для физики
@@ -95,17 +109,19 @@ public class ElevatorMoving : MonoBehaviour
         // Проверяем, можно ли двигаться
         if (!canMove) return;
         
-        // Отладка состояния лифта
-        if (canMove)
-        {
-            // Debug.Log($"Elevator moving: startStop = {startStop}, endStop = {endStop}, currentTarget = {currentTarget}");
-        }
-        if (midStop > Mathf.Min(startStop, endStop) && 
+        // ИСПРАВЛЕНИЕ: Обрабатываем midStop только один раз в начале движения
+        // Это предотвращает лишние поездки (сначала на первый этаж, потом за NPC, потом опять на первый)
+        if (!midStopHandled && midStop >= 0 && 
+            midStop > Mathf.Min(startStop, endStop) && 
             midStop < Mathf.Max(startStop, endStop))
         {
-            // Едем сначала до промежуточной остановки
+            // Сохраняем конечную цель и устанавливаем промежуточную
+            rememberEndStop = endStop;
             endStop = midStop;
+            midStopHandled = true;
+            Debug.Log($"ElevatorMoving: Установлен midStop {midStop}, конечная цель {rememberEndStop}");
         }
+        
         // Если мы на стартовой позиции и нужно ехать к конечной, обновляем цель
         if (currentTarget == startStop && startStop != endStop)
         {
@@ -243,11 +259,11 @@ public class ElevatorMoving : MonoBehaviour
 
         // Сбрасываем промежуточную остановку и продолжаем движение до rememberEndStop
         midStop = -10;
+        midStopHandled = false; // Сбрасываем флаг для следующего использования
         endStop = rememberEndStop;
         currentTarget = endStop; // Устанавливаем цель как конечную остановку, а не стартовую
         UpdateDirection();
         canMove = true;
-    
-
+        Debug.Log($"ElevatorMoving: Продолжаем движение от midStop к конечной цели {endStop}");
     }
 }

@@ -35,7 +35,15 @@ public class DialogueManager : MonoBehaviour
     public DialogueSO tiredDialogue; // Диалог "я устала говорить"
 
     // Простое отслеживание пройденных диалогов
+    // ВАЖНО: HashSet сбрасывается при загрузке сцены, чтобы диалоги не наследовались между сценами
     private static HashSet<string> completedDialogues = new HashSet<string>();
+    
+    // Метод для сброса пройденных диалогов при загрузке новой сцены
+    public static void ResetCompletedDialogues()
+    {
+        completedDialogues.Clear();
+        Debug.Log("DialogueManager: Сброшены пройденные диалоги при загрузке сцены");
+    }
 
     // Добавляем ссылки на кнопки
     public Button choice1Button; // Первая кнопка выбора
@@ -47,6 +55,7 @@ public class DialogueManager : MonoBehaviour
     // Camera focus/restore
     private Vector3 savedCameraPosition;
     private Quaternion savedCameraRotation;
+    private Vector3 savedPlayerPosition; // Сохраняем позицию игрока для правильного восстановления
     private bool cameraMoved = false;
     [Header("Camera Dialogue Settings")]
     [Tooltip("Скорость перехода камеры к точке фокуса (если 0 - мгновенно)")]
@@ -69,6 +78,15 @@ public class DialogueManager : MonoBehaviour
 
     void Start()
     {
+        // СБРОС СОСТОЯНИЯ ПРИ ЗАГРУЗКЕ СЦЕНЫ - предотвращает наследование состояния из предыдущей сцены
+        IsDialogueActive = false;
+        currentNPCDialogue = null;
+        cameraMoved = false;
+        savedCameraPosition = Vector3.zero;
+        savedCameraRotation = Quaternion.identity;
+        savedPlayerPosition = Vector3.zero;
+        DialogueDone = false; // Сбрасываем статическую переменную при загрузке сцены
+        
         playerLiftCheck = FindObjectOfType<PlayerInLiftCheck>();
         elevator = FindObjectOfType<ElevatorMoving>();
         elevatorDoorController = FindObjectOfType<ElevatorDoorController>();
@@ -305,16 +323,21 @@ public class DialogueManager : MonoBehaviour
         Debug.Log($"Завершаем диалог: {currentDialogue?.name}");
         
         ui.Hide();
+        
+        // ВАЖНО: Восстанавливаем управление игроком и взаимодействие
         PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>();
-        if (playerMovement != null) playerMovement.canMove = true;
+        if (playerMovement != null) 
+        {
+            playerMovement.canMove = true;
+        }
         
         MouseLock mouseLock = FindObjectOfType<MouseLock>();
         if (mouseLock != null)
         {
-            // Восстанавливаем камеру только если диалог был с NPC
-            if (currentNPCDialogue != null)
+            // Восстанавливаем камеру и взаимодействие
+            mouseLock.canLook = true;
+            if (mouseLock.crosshair != null)
             {
-                mouseLock.canLook = true;
                 mouseLock.crosshair.gameObject.SetActive(true);
             }
         }
@@ -326,6 +349,7 @@ public class DialogueManager : MonoBehaviour
 
             // Если игрок внутри движущегося лифта — не возвращаем старую позицию камеры,
             // иначе восстанавливаем сохранённую позицию.
+            // Также проверяем, что сохраненная позиция валидна
             if (insideElevator && elevatorIsMoving)
             {
                 Debug.Log("Диалог завершён, но лифт движется — позиция камеры не восстанавливается, только разблокировка камеры");
@@ -334,6 +358,7 @@ public class DialogueManager : MonoBehaviour
             }
             else
             {
+                // Восстанавливаем камеру (проверка валидности внутри RestoreSavedCamera)
                 RestoreSavedCamera();
             }
         }
@@ -519,9 +544,31 @@ public class DialogueManager : MonoBehaviour
         Camera cam = Camera.main;
         if (cam == null) return;
 
-        // Сохраняем текущую позицию камеры
+        // Сохраняем текущую позицию камеры и игрока
+        // ВАЖНО: Сохраняем позицию игрока, чтобы правильно восстановить камеру относительно игрока
         savedCameraPosition = cam.transform.position;
         savedCameraRotation = cam.transform.rotation;
+        
+        // Находим игрока для сохранения его позиции
+        PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>();
+        if (playerMovement != null)
+        {
+            savedPlayerPosition = playerMovement.transform.position;
+        }
+        else
+        {
+            // Fallback: пытаемся найти через MouseLock
+            MouseLock mouseLock = FindObjectOfType<MouseLock>();
+            if (mouseLock != null && mouseLock.playerBody != null)
+            {
+                savedPlayerPosition = mouseLock.playerBody.position;
+            }
+            else
+            {
+                savedPlayerPosition = Vector3.zero;
+            }
+        }
+        
         cameraMoved = true;
 
         // Определяем точку фокуса
@@ -561,14 +608,60 @@ public class DialogueManager : MonoBehaviour
     {
         Camera cam = Camera.main;
         if (cam == null) return;
-
-        if (smoothCameraTransition && cameraTransitionSpeed > 0f)
+        
+        // Находим игрока для правильного восстановления камеры
+        Transform playerBody = null;
+        PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>();
+        if (playerMovement != null)
         {
-            StartCoroutine(SmoothMoveCamera(cam.transform, cam.transform.position, cam.transform.rotation, savedCameraPosition, savedCameraRotation, true));
+            playerBody = playerMovement.transform;
         }
         else
         {
-            cam.transform.position = savedCameraPosition;
+            MouseLock mouseLock = FindObjectOfType<MouseLock>();
+            if (mouseLock != null && mouseLock.playerBody != null)
+            {
+                playerBody = mouseLock.playerBody;
+            }
+        }
+        
+        if (playerBody == null)
+        {
+            Debug.LogWarning("DialogueManager: Не найден игрок для восстановления камеры");
+            cameraMoved = false;
+            return;
+        }
+        
+        // Вычисляем смещение камеры относительно игрока
+        Vector3 cameraOffset = savedCameraPosition - savedPlayerPosition;
+        
+        // Вычисляем новую позицию камеры относительно текущей позиции игрока
+        Vector3 newCameraPosition = playerBody.position + cameraOffset;
+        
+        // Проверяем, что смещение разумное (не слишком большое)
+        if (cameraOffset.magnitude > 10f)
+        {
+            Debug.LogWarning($"DialogueManager: Смещение камеры слишком большое ({cameraOffset.magnitude}), используем только поворот");
+            // Восстанавливаем только поворот, позицию оставляем как есть
+            if (smoothCameraTransition && cameraTransitionSpeed > 0f)
+            {
+                StartCoroutine(SmoothMoveCamera(cam.transform, cam.transform.position, cam.transform.rotation, cam.transform.position, savedCameraRotation, true));
+            }
+            else
+            {
+                cam.transform.rotation = savedCameraRotation;
+                cameraMoved = false;
+            }
+            return;
+        }
+
+        if (smoothCameraTransition && cameraTransitionSpeed > 0f)
+        {
+            StartCoroutine(SmoothMoveCamera(cam.transform, cam.transform.position, cam.transform.rotation, newCameraPosition, savedCameraRotation, true));
+        }
+        else
+        {
+            cam.transform.position = newCameraPosition;
             cam.transform.rotation = savedCameraRotation;
             cameraMoved = false;
         }
