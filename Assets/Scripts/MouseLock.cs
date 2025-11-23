@@ -39,6 +39,7 @@ public class MouseLock : MonoBehaviour
         clickActions.Add(typeof(LevelChange), (obj, hit) => sendClick(obj));
 
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         mainCamera = Camera.main;
 
         if (mainCamera == null)
@@ -67,17 +68,31 @@ public class MouseLock : MonoBehaviour
         // Блокируем взаимодействие во время диалога
         if (DialogueManager.Instance != null && DialogueManager.Instance.IsDialogueActive)
         {
-            // Если диалог с NPC, блокируем камеру
+            // Если диалог с NPC, блокируем камеру и разрешаем курсору быть разблокированным
             // Если диалог не с NPC (мысли, монологи), камера остается активной
             if (DialogueManager.Instance.currentNPCDialogue != null)
             {
-                // Диалог с NPC - блокируем камеру
+                // Диалог с NPC - блокируем камеру, курсор разблокирован для UI
+                // НЕ блокируем курсор здесь, так как он должен быть разблокирован для UI
                 return;
             }
             else
             {
                 // Диалог не с NPC - камера остается активной, но взаимодействие блокируем
                 // Продолжаем выполнение для обработки движения камеры
+            }
+        }
+        
+        // Убеждаемся, что курсор заблокирован только когда нет активного диалога с NPC
+        // Это исправляет проблему со смещением курсора
+        if (DialogueManager.Instance == null || 
+            !DialogueManager.Instance.IsDialogueActive || 
+            DialogueManager.Instance.currentNPCDialogue == null)
+        {
+            if (Cursor.lockState != CursorLockMode.Locked)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
             }
         }
 

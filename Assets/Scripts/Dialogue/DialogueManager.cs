@@ -57,6 +57,11 @@ public class DialogueManager : MonoBehaviour
     private Quaternion savedCameraRotation;
     private Vector3 savedPlayerPosition; // Сохраняем позицию игрока для правильного восстановления
     private bool cameraMoved = false;
+    // Сохраняем настройки камеры для правильного восстановления
+    private float savedNearClipPlane;
+    private float savedFarClipPlane;
+    private float savedOrthographicSize;
+    private bool savedOrthographic;
     [Header("Camera Dialogue Settings")]
     [Tooltip("Скорость перехода камеры к точке фокуса (если 0 - мгновенно)")]
     public float cameraTransitionSpeed = 8f;
@@ -121,6 +126,17 @@ public class DialogueManager : MonoBehaviour
         selectedChoice = 0;
         ui.Show();
 
+        // ВАЖНО: Сохраняем настройки камеры для всех диалогов (даже без NPC)
+        // Это предотвращает проблемы с X-ray зрением
+        Camera cam = Camera.main;
+        if (cam != null && !cameraMoved)
+        {
+            savedNearClipPlane = cam.nearClipPlane;
+            savedFarClipPlane = cam.farClipPlane;
+            savedOrthographicSize = cam.orthographicSize;
+            savedOrthographic = cam.orthographic;
+        }
+
         // Если передан NPC — сохраняем его и блокируем управление/фокусируем камеру
         if (npc != null)
         {
@@ -138,6 +154,11 @@ public class DialogueManager : MonoBehaviour
             {
                 playerMovement.canMove = false;
             }
+
+            // ВАЖНО: Разблокируем курсор для UI диалога
+            // Это позволяет кликать по кнопкам выбора
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
 
             TryFocusCameraOnNPC(npc);
         }
@@ -187,6 +208,36 @@ public class DialogueManager : MonoBehaviour
         currentIndex = 0;
         selectedChoice = 0;
         ui.Show();
+        
+        // ВАЖНО: Сохраняем настройки камеры для tiredDialogue
+        // Это предотвращает проблемы с X-ray зрением
+        Camera cam = Camera.main;
+        if (cam != null && !cameraMoved)
+        {
+            savedNearClipPlane = cam.nearClipPlane;
+            savedFarClipPlane = cam.farClipPlane;
+            savedOrthographicSize = cam.orthographicSize;
+            savedOrthographic = cam.orthographic;
+        }
+        
+        // ВАЖНО: tiredDialogue не должен двигать камеру
+        // Если камера была перемещена ранее (что не должно происходить для tiredDialogue),
+        // сбрасываем флаг, чтобы избежать проблем с восстановлением
+        if (cameraMoved)
+        {
+            Debug.LogWarning("DialogueManager: cameraMoved = true при запуске tiredDialogue, сбрасываем флаг");
+            // Восстанавливаем камеру перед началом tiredDialogue
+            if (cam != null)
+            {
+                RestoreSavedCamera();
+            }
+            else
+            {
+                // Если камера не найдена, просто сбрасываем флаг
+                cameraMoved = false;
+            }
+        }
+        
         DisplayLine();
     }
 
@@ -341,25 +392,52 @@ public class DialogueManager : MonoBehaviour
                 mouseLock.crosshair.gameObject.SetActive(true);
             }
         }
-        // Восстанавливаем позицию камеры, если мы её меняли
-        if (cameraMoved)
+        
+        // ВАЖНО: Правильно восстанавливаем блокировку курсора после завершения диалога
+        // Используем корутину для правильного восстановления позиции мыши
+        StartCoroutine(RestoreCursorAfterDialogue());
+        
+        // ВАЖНО: Всегда проверяем и восстанавливаем настройки камеры после диалога
+        // Это предотвращает X-ray зрение даже если cameraMoved = false
+        Camera cam = Camera.main;
+        if (cam != null)
         {
-            bool insideElevator = (playerLiftCheck != null && playerLiftCheck.IsPlayerInsideElevator());
-            bool elevatorIsMoving = (elevator != null && elevator.canMove);
-
-            // Если игрок внутри движущегося лифта — не возвращаем старую позицию камеры,
-            // иначе восстанавливаем сохранённую позицию.
-            // Также проверяем, что сохраненная позиция валидна
-            if (insideElevator && elevatorIsMoving)
+            // Восстанавливаем позицию камеры, если мы её меняли
+            if (cameraMoved)
             {
-                Debug.Log("Диалог завершён, но лифт движется — позиция камеры не восстанавливается, только разблокировка камеры");
-                // Просто помечаем, что мы больше не держим сохранённую позицию
-                cameraMoved = false;
+                bool insideElevator = (playerLiftCheck != null && playerLiftCheck.IsPlayerInsideElevator());
+                bool elevatorIsMoving = (elevator != null && elevator.canMove);
+
+                // Если игрок внутри движущегося лифта — не возвращаем старую позицию камеры,
+                // иначе восстанавливаем сохранённую позицию.
+                // Также проверяем, что сохраненная позиция валидна
+                if (insideElevator && elevatorIsMoving)
+                {
+                    Debug.Log("Диалог завершён, но лифт движется — позиция камеры не восстанавливается, только разблокировка камеры");
+                    // Восстанавливаем только настройки камеры, но не позицию
+                    RestoreCameraSettings(cam);
+                    cameraMoved = false;
+                }
+                else
+                {
+                    // Восстанавливаем камеру (проверка валидности внутри RestoreSavedCamera)
+                    RestoreSavedCamera();
+                }
             }
             else
             {
-                // Восстанавливаем камеру (проверка валидности внутри RestoreSavedCamera)
-                RestoreSavedCamera();
+                // Даже если cameraMoved = false, проверяем настройки камеры
+                // Это исправляет проблему с X-ray зрением после диалогов без NPC
+                if (cam.nearClipPlane < 0.1f)
+                {
+                    Debug.LogWarning($"DialogueManager: nearClipPlane слишком маленький ({cam.nearClipPlane}) после диалога, исправляем");
+                    cam.nearClipPlane = 0.1f;
+                }
+                if (cam.orthographic && cam.orthographicSize > 20f)
+                {
+                    Debug.LogWarning($"DialogueManager: orthographicSize слишком большой ({cam.orthographicSize}) после диалога, исправляем");
+                    cam.orthographicSize = Mathf.Min(cam.orthographicSize, 20f);
+                }
             }
         }
 
@@ -512,7 +590,8 @@ public class DialogueManager : MonoBehaviour
         {
             if (!hasChoices)
             {
-                if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+                // Добавлена поддержка пробела для перехода к следующей реплике
+                if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
                 {
                     Continue();
                 }
@@ -548,6 +627,12 @@ public class DialogueManager : MonoBehaviour
         // ВАЖНО: Сохраняем позицию игрока, чтобы правильно восстановить камеру относительно игрока
         savedCameraPosition = cam.transform.position;
         savedCameraRotation = cam.transform.rotation;
+        
+        // Сохраняем настройки камеры для правильного восстановления
+        savedNearClipPlane = cam.nearClipPlane;
+        savedFarClipPlane = cam.farClipPlane;
+        savedOrthographicSize = cam.orthographicSize;
+        savedOrthographic = cam.orthographic;
         
         // Находим игрока для сохранения его позиции
         PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>();
@@ -650,6 +735,8 @@ public class DialogueManager : MonoBehaviour
             else
             {
                 cam.transform.rotation = savedCameraRotation;
+                // Восстанавливаем настройки камеры
+                RestoreCameraSettings(cam);
                 cameraMoved = false;
             }
             return;
@@ -663,12 +750,42 @@ public class DialogueManager : MonoBehaviour
         {
             cam.transform.position = newCameraPosition;
             cam.transform.rotation = savedCameraRotation;
+            // Восстанавливаем настройки камеры
+            RestoreCameraSettings(cam);
             cameraMoved = false;
+        }
+    }
+    
+    private void RestoreCameraSettings(Camera cam)
+    {
+        // Восстанавливаем настройки камеры для предотвращения X-ray зрения
+        if (cam != null)
+        {
+            cam.nearClipPlane = savedNearClipPlane;
+            cam.farClipPlane = savedFarClipPlane;
+            cam.orthographicSize = savedOrthographicSize;
+            cam.orthographic = savedOrthographic;
+            
+            // Дополнительная проверка: если nearClipPlane слишком маленький, устанавливаем безопасное значение
+            // Это предотвращает X-ray зрение (видимость сквозь стены)
+            if (cam.nearClipPlane < 0.1f)
+            {
+                Debug.LogWarning($"DialogueManager: nearClipPlane слишком маленький ({cam.nearClipPlane}), устанавливаем 0.1f");
+                cam.nearClipPlane = 0.1f;
+            }
+            
+            // Дополнительная проверка: если orthographicSize слишком большой, это может вызвать проблемы
+            if (cam.orthographic && cam.orthographicSize > 20f)
+            {
+                Debug.LogWarning($"DialogueManager: orthographicSize слишком большой ({cam.orthographicSize}), ограничиваем до 20f");
+                cam.orthographicSize = Mathf.Min(cam.orthographicSize, 20f);
+            }
         }
     }
 
     private IEnumerator SmoothMoveCamera(Transform camTransform, Vector3 fromPos, Quaternion fromRot, Vector3 toPos, Quaternion toRot, bool clearAfter = false)
     {
+        Camera cam = camTransform.GetComponent<Camera>();
         float t = 0f;
         float speed = Mathf.Max(0.0001f, cameraTransitionSpeed);
         while (t < 1f)
@@ -680,6 +797,31 @@ public class DialogueManager : MonoBehaviour
         }
         camTransform.position = toPos;
         camTransform.rotation = toRot;
+        
+        // Восстанавливаем настройки камеры после завершения анимации
+        if (cam != null)
+        {
+            RestoreCameraSettings(cam);
+        }
+        
         if (clearAfter) cameraMoved = false;
+    }
+    
+    private IEnumerator RestoreCursorAfterDialogue()
+    {
+        // Ждем один кадр, чтобы UI диалога успел скрыться
+        yield return null;
+        
+        // Сбрасываем позицию мыши в центр экрана перед блокировкой
+        // Это предотвращает смещение курсора
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = false;
+        
+        // Ждем еще один кадр
+        yield return null;
+        
+        // Теперь блокируем курсор
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }

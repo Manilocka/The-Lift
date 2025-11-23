@@ -134,6 +134,14 @@ public class AdditionalCheck : MonoBehaviour
                 Debug.Log("2");
                 return true;
             }
+            
+            // ИСПРАВЛЕНИЕ: Если диалог завершен и игрок не внутри лифта, двери должны открываться
+            // Это позволяет игроку снова зайти в лифт после выхода
+            if (!playerLiftCheck.IsPlayerInsideElevator() && IsDialogueDone())
+            {
+                Debug.Log("4 - Диалог завершен, игрок не в лифте, разрешаем открытие дверей");
+                return true;
+            }
 
             Debug.Log("3");
             return false;
@@ -202,6 +210,14 @@ public class AdditionalCheck : MonoBehaviour
             if (!playerLiftCheck.IsPlayerInsideElevator() && (IsDialogueDone() == false))
             {
                 Debug.Log("2");
+                return true;
+            }
+            
+            // ИСПРАВЛЕНИЕ: Если диалог завершен и игрок не внутри лифта, двери должны открываться
+            // Это позволяет игроку снова зайти в лифт после выхода
+            if (!playerLiftCheck.IsPlayerInsideElevator() && IsDialogueDone())
+            {
+                Debug.Log("4 - Диалог завершен, игрок не в лифте, разрешаем открытие дверей");
                 return true;
             }
 

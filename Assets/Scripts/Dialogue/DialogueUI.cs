@@ -136,10 +136,10 @@ public class DialogueUI : MonoBehaviour
         foreach (char c in fullText)
         {
             dialogueText.text += c;
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.03f); // Ускорено с 0.05f до 0.03f
             
-            // Проверяем, не нажал ли пользователь левую кнопку мыши или Enter для пропуска
-            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+            // Проверяем, не нажал ли пользователь левую кнопку мыши, пробел или Enter для пропуска
+            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
             {
                 // Показываем весь текст сразу
                 dialogueText.text = fullText;

@@ -88,6 +88,23 @@ public class ElevatorAudioManager : MonoBehaviour
         // Останавливаем все звуки лифта при загрузке новой сцены
         StopElevatorMovement();
         StopArrivalSound();
+        
+        // ВАЖНО: Проверяем, есть ли в новой сцене лифт, и если нет - полностью останавливаем звуки
+        // Это предотвращает наследование звуков из предыдущих сцен
+        ElevatorMoving elevator = FindObjectOfType<ElevatorMoving>();
+        if (elevator == null)
+        {
+            // В сцене нет лифта - убеждаемся, что все звуки остановлены
+            if (elevatorAudioSource != null && elevatorAudioSource.isPlaying)
+            {
+                elevatorAudioSource.Stop();
+            }
+            if (arrivalAudioSource != null && arrivalAudioSource.isPlaying)
+            {
+                arrivalAudioSource.Stop();
+            }
+            Debug.Log("ElevatorAudioManager: В сцене нет лифта, все звуки остановлены");
+        }
     }
     
     // Методы для воспроизведения звуков через AudioSource

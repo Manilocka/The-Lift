@@ -46,11 +46,24 @@ public class CallElevator : MonoBehaviour
         
         // Проверяем расстояние от камеры до триггера
         float distance = Vector3.Distance(Camera.main.transform.position, transform.position);
-        if (distance <= maxDistance && platform != null && !platform.canMove)
+        if (distance <= maxDistance && platform != null)
         {
-            // Устанавливаем конечную точку (этаж) и включаем движение
-            platform.endStop = floorNumber;
-            platform.canMove = true;
+            // Если лифт уже на нужном этаже и не движется, просто открываем двери
+            if (!platform.canMove && platform.startStop == floorNumber)
+            {
+                ElevatorDoorController doorController = platform.GetComponentInChildren<ElevatorDoorController>();
+                if (doorController != null && !doorController.isOpen)
+                {
+                    Debug.Log($"CallElevator: Лифт уже на этаже {floorNumber}, открываем двери");
+                    doorController.OpenDoors();
+                }
+            }
+            else if (!platform.canMove)
+            {
+                // Устанавливаем конечную точку (этаж) и включаем движение
+                platform.endStop = floorNumber;
+                platform.canMove = true;
+            }
         }
     }
 }
