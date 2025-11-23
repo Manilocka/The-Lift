@@ -17,6 +17,11 @@ public class NPCDialogue : MonoBehaviour {
     // Проверяем, можно ли говорить с этим NPC
     public bool CanTalk()
     {
+        if (!AdditionalCheck.CanNPCTalk())
+        {
+            return false;
+        }
+        
         if (!oneTimeOnly) return true;
         return !hasBeenTalkedTo;
     }

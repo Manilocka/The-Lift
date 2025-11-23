@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f537d165-ca17-40b6-8ad2-122f74fff72a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.The-Lift/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.The-Lift/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/day 7/day7_e.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/day 7/day7_e.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/day 7/day7_fin.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/day 7/day7_fin.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AddTests/AdditionalCheck.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AddTests/AdditionalCheck.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/NPCDialogue.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/NPCDialogue.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,15 +171,7 @@
       <workItem from="1762030381556" duration="2269000" />
       <workItem from="1762713901805" duration="1928000" />
       <workItem from="1763815964791" duration="1728000" />
-      <workItem from="1763920197259" duration="6765000" />
-    </task>
-    <task id="LOCAL-00024" summary="sth minor fixed, we're good">
-      <option name="closed" value="true" />
-      <created>1760921933524</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1760921933524</updated>
+      <workItem from="1763920197259" duration="7748000" />
     </task>
     <task id="LOCAL-00025" summary="can't go out and call elevator when not needed">
       <option name="closed" value="true" />
@@ -565,7 +557,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763930027652</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="day7_fin can't come into batya's room">
+      <option name="closed" value="true" />
+      <created>1763930816428</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1763930816428</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -592,7 +592,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
-    <MESSAGE value="test" />
     <MESSAGE value="catch script deleted" />
     <MESSAGE value="yeah" />
     <MESSAGE value="day6_e doors close when dialogue finished!!!" />
@@ -617,25 +616,11 @@
     <MESSAGE value="day7)2 can't walk" />
     <MESSAGE value="npc ni ai ignoe us (walk through)" />
     <MESSAGE value="batya room fixed" />
-    <option name="LAST_COMMIT_MESSAGE" value="batya room fixed" />
+    <MESSAGE value="day7_fin can't come into batya's room" />
+    <option name="LAST_COMMIT_MESSAGE" value="day7_fin can't come into batya's room" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/AddTests/AdditionalCheck.cs</url>
-          <line>17</line>
-          <properties documentPath="C:\Users\olesy\docks\uni\The Lift\The-Lift\Assets\Scripts\AddTests\AdditionalCheck.cs" containingFunctionPresentation="Method 'IsDialogueDone'">
-            <startOffsets>
-              <option value="449" />
-            </startOffsets>
-            <endOffsets>
-              <option value="519" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-      </breakpoints>
       <default-breakpoints>
         <breakpoint enabled="true" type="CidrExceptionBreakpoint" />
       </default-breakpoints>

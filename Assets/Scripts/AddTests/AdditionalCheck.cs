@@ -288,7 +288,28 @@ public class AdditionalCheck : MonoBehaviour
         }
         return true;
     }
-    
+
+    public static bool CanNPCTalk()
+    {
+        string scene = SceneManager.GetActiveScene().name;
+
+        if (scene == "day1_e")
+        {
+            PlayerInLiftCheck playerLiftCheck = FindObjectOfType<PlayerInLiftCheck>();
+
+            // Защитная проверка
+            if (playerLiftCheck == null)
+                return true;
+
+            if (!playerLiftCheck.IsPlayerInsideElevator())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     
 
 
