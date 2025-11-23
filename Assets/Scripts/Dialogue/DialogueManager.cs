@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
@@ -207,6 +208,22 @@ public class DialogueManager : MonoBehaviour
     
     public void StartTiredDialogue()
     {
+        // Проверка для сцены day1_e: диалог tired не должен воспроизводиться, если игрок не в лифте
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (currentScene == "day1_e")
+        {
+            if (playerLiftCheck == null)
+            {
+                playerLiftCheck = FindObjectOfType<PlayerInLiftCheck>();
+            }
+            
+            if (playerLiftCheck != null && !playerLiftCheck.IsPlayerInsideElevator())
+            {
+                Debug.Log("DialogueManager: В сцене day1_e диалог 'tired' не воспроизводится, так как игрок не в лифте");
+                return; // Не запускаем диалог, если игрок не в лифте
+            }
+        }
+        
         Debug.Log("Запускаем tiredDialogue");
         
         IsDialogueActive = true;
