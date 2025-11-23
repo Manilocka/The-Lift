@@ -288,7 +288,6 @@ public class AdditionalCheck : MonoBehaviour
         }
         return true;
     }
-
     public static bool CanNPCTalk()
     {
         string scene = SceneManager.GetActiveScene().name;
