@@ -421,10 +421,8 @@ public class DialogueManager : MonoBehaviour
                 else
                 {
                     // Восстанавливаем камеру (проверка валидности внутри RestoreSavedCamera)
+                    // ВАЖНО: Восстанавливаем камеру только после завершения диалога
                     RestoreSavedCamera();
-                    
-                    // Дополнительная проверка после восстановления: убеждаемся, что камера не сместилась
-                    StartCoroutine(VerifyCameraPositionAfterRestore());
                 }
             }
             else
@@ -734,30 +732,37 @@ public class DialogueManager : MonoBehaviour
             return;
         }
         
+        // ВАЖНО: Временно полностью отключаем CameraBoundsFixer
+        CameraBoundsFixer boundsFixer = FindObjectOfType<CameraBoundsFixer>();
+        bool boundsFixerWasEnabled = false;
+        if (boundsFixer != null)
+        {
+            boundsFixerWasEnabled = boundsFixer.enablePositionLimits;
+            boundsFixer.enablePositionLimits = false;
+            // ВАЖНО: Временно отключаем весь компонент
+            boundsFixer.enabled = false;
+        }
+        
         // ВАЖНО: Восстанавливаем камеру точно на место с правильной высотой относительно игрока
         // Вычисляем горизонтальное смещение
         Vector3 horizontalOffset = savedCameraPosition - savedPlayerPosition;
         horizontalOffset.y = 0; // Игнорируем вертикальное смещение
         
         // ВАЖНО: Используем сохраненную высоту камеры относительно игрока
-        // Это предотвращает изменение роста игрока
         float cameraHeight = savedCameraHeightOffset;
         
         // Вычисляем новую позицию камеры
         Vector3 newCameraPosition = playerBody.position + horizontalOffset;
         newCameraPosition.y = playerBody.position.y + cameraHeight;
         
-        // ВАЖНО: Сначала восстанавливаем настройки камеры, чтобы предотвратить X-ray зрение
+        Debug.Log($"DialogueManager: Восстанавливаем камеру на позицию {newCameraPosition}, высота относительно игрока: {cameraHeight}");
+        
+        // ВАЖНО: Сначала восстанавливаем настройки камеры
         RestoreCameraSettings(cam);
         
-        // ВАЖНО: Временно отключаем CameraBoundsFixer, чтобы он не изменял высоту камеры
-        CameraBoundsFixer boundsFixer = FindObjectOfType<CameraBoundsFixer>();
-        bool boundsFixerWasEnabled = false;
-        if (boundsFixer != null && boundsFixer.enablePositionLimits)
-        {
-            boundsFixerWasEnabled = true;
-            boundsFixer.enablePositionLimits = false;
-        }
+        // ВАЖНО: Принудительно устанавливаем позицию камеры
+        cam.transform.position = newCameraPosition;
+        cam.transform.rotation = savedCameraRotation;
         
         // Восстанавливаем камеру точно на место
         if (smoothCameraTransition && cameraTransitionSpeed > 0f)
@@ -766,17 +771,87 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            // ВАЖНО: Восстанавливаем позицию и поворот точно
+            // ВАЖНО: Повторно устанавливаем позицию для надежности
             cam.transform.position = newCameraPosition;
             cam.transform.rotation = savedCameraRotation;
             
-            // Включаем обратно CameraBoundsFixer после небольшой задержки
-            if (boundsFixerWasEnabled && boundsFixer != null)
+            cameraMoved = false;
+        }
+        
+        // ВАЖНО: Запускаем агрессивное восстановление позиции камеры ТОЛЬКО после завершения диалога
+        // Ждем, пока диалог точно завершится
+        StartCoroutine(AggressiveCameraRestoreAfterDialogue(newCameraPosition, boundsFixer, boundsFixerWasEnabled));
+    }
+    
+    private IEnumerator AggressiveCameraRestoreAfterDialogue(Vector3 targetPosition, CameraBoundsFixer boundsFixer, bool reenableBoundsFixer)
+    {
+        // ВАЖНО: Ждем, пока диалог точно завершится
+        // Проверяем, что диалог не активен
+        while (IsDialogueActive)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        
+        // Дополнительная задержка для уверенности
+        yield return new WaitForSeconds(0.2f);
+        
+        Camera cam = Camera.main;
+        if (cam == null) yield break;
+        
+        // Принудительно устанавливаем позицию несколько раз с задержками
+        for (int i = 0; i < 5; i++)
+        {
+            yield return new WaitForSeconds(0.1f);
+            
+            if (cam == null) yield break;
+            
+            // ВАЖНО: Проверяем, что диалог не активен
+            if (IsDialogueActive)
             {
-                StartCoroutine(ReenableCameraBoundsFixer(boundsFixer));
+                Debug.LogWarning("DialogueManager: Диалог снова активен, прерываем восстановление камеры");
+                yield break;
             }
             
-            cameraMoved = false;
+            // Находим игрока
+            Transform playerBody = null;
+            PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>();
+            if (playerMovement != null)
+            {
+                playerBody = playerMovement.transform;
+            }
+            else
+            {
+                MouseLock mouseLock = FindObjectOfType<MouseLock>();
+                if (mouseLock != null && mouseLock.playerBody != null)
+                {
+                    playerBody = mouseLock.playerBody;
+                }
+            }
+            
+            if (playerBody != null && savedCameraHeightOffset != 0f)
+            {
+                // Вычисляем правильную позицию
+                Vector3 horizontalOffset = savedCameraPosition - savedPlayerPosition;
+                horizontalOffset.y = 0;
+                
+                Vector3 correctPosition = playerBody.position + horizontalOffset;
+                correctPosition.y = playerBody.position.y + savedCameraHeightOffset;
+                
+                // Принудительно устанавливаем позицию
+                cam.transform.position = correctPosition;
+                cam.transform.rotation = savedCameraRotation;
+                
+                Debug.Log($"DialogueManager: Принудительно восстанавливаем камеру ПОСЛЕ диалога (попытка {i + 1}/5) на позицию {correctPosition}");
+            }
+        }
+        
+        // Включаем обратно CameraBoundsFixer только после всех попыток
+        if (reenableBoundsFixer && boundsFixer != null)
+        {
+            yield return new WaitForSeconds(0.2f);
+            boundsFixer.enabled = true;
+            boundsFixer.enablePositionLimits = true;
+            Debug.Log("DialogueManager: CameraBoundsFixer включен обратно");
         }
     }
     
@@ -836,25 +911,22 @@ public class DialogueManager : MonoBehaviour
             RestoreCameraSettings(cam);
         }
         
-        // Включаем обратно CameraBoundsFixer после небольшой задержки
-        if (reenableBoundsFixer && boundsFixer != null)
-        {
-            yield return new WaitForSeconds(0.1f);
-            boundsFixer.enablePositionLimits = true;
-        }
+        // ВАЖНО: Запускаем агрессивное восстановление позиции камеры ПОСЛЕ завершения диалога
+        StartCoroutine(AggressiveCameraRestoreAfterDialogue(toPos, boundsFixer, reenableBoundsFixer));
         
         if (clearAfter) cameraMoved = false;
     }
     
     private IEnumerator ReenableCameraBoundsFixer(CameraBoundsFixer boundsFixer)
     {
-        // Ждем немного, чтобы камера успела восстановиться
-        yield return new WaitForSeconds(0.1f);
+        // ВАЖНО: Увеличена задержка, чтобы камера точно восстановилась
+        yield return new WaitForSeconds(0.5f);
         if (boundsFixer != null)
         {
             boundsFixer.enablePositionLimits = true;
         }
     }
+    
     
     private IEnumerator RestoreCursorAfterDialogue()
     {
@@ -876,8 +948,14 @@ public class DialogueManager : MonoBehaviour
     
     private IEnumerator VerifyCameraPositionAfterRestore()
     {
+        // ВАЖНО: Ждем, пока диалог точно завершится
+        while (IsDialogueActive)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        
         // Ждем несколько кадров, чтобы камера успела восстановиться
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
         
         Camera cam = Camera.main;
         if (cam == null) yield break;
@@ -905,20 +983,39 @@ public class DialogueManager : MonoBehaviour
         if (playerBody != null && savedPlayerPosition != Vector3.zero && savedCameraPosition != Vector3.zero)
         {
             // ВАЖНО: Используем сохраненную высоту камеры относительно игрока
-            // Вычисляем горизонтальное смещение
-            Vector3 horizontalOffset = savedCameraPosition - savedPlayerPosition;
-            horizontalOffset.y = 0; // Игнорируем вертикальное смещение
-            
-            // Используем сохраненную высоту камеры
-            Vector3 correctPosition = playerBody.position + horizontalOffset;
-            correctPosition.y = playerBody.position.y + savedCameraHeightOffset;
-            
-            // Если камера не на правильной позиции, исправляем
-            if (Vector3.Distance(cam.transform.position, correctPosition) > 0.1f)
+            if (savedCameraHeightOffset != 0f)
             {
-                Debug.LogWarning($"DialogueManager: Камера не на правильной позиции, исправляем (высота: {savedCameraHeightOffset})");
-                cam.transform.position = correctPosition;
-                cam.transform.rotation = savedCameraRotation;
+                // Вычисляем горизонтальное смещение
+                Vector3 horizontalOffset = savedCameraPosition - savedPlayerPosition;
+                horizontalOffset.y = 0; // Игнорируем вертикальное смещение
+                
+                // Используем сохраненную высоту камеры
+                Vector3 correctPosition = playerBody.position + horizontalOffset;
+                correctPosition.y = playerBody.position.y + savedCameraHeightOffset;
+                
+                // Если камера не на правильной позиции, исправляем
+                if (Vector3.Distance(cam.transform.position, correctPosition) > 0.1f)
+                {
+                    Debug.LogWarning($"DialogueManager: Камера не на правильной позиции ПОСЛЕ диалога, исправляем (высота: {savedCameraHeightOffset})");
+                    
+                    // Временно отключаем CameraBoundsFixer
+                    CameraBoundsFixer boundsFixer = FindObjectOfType<CameraBoundsFixer>();
+                    bool wasEnabled = false;
+                    if (boundsFixer != null && boundsFixer.enablePositionLimits)
+                    {
+                        wasEnabled = true;
+                        boundsFixer.enablePositionLimits = false;
+                    }
+                    
+                    cam.transform.position = correctPosition;
+                    cam.transform.rotation = savedCameraRotation;
+                    
+                    // Включаем обратно через задержку
+                    if (wasEnabled && boundsFixer != null)
+                    {
+                        StartCoroutine(ReenableCameraBoundsFixer(boundsFixer));
+                    }
+                }
             }
         }
     }

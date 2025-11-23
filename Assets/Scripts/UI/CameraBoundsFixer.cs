@@ -95,17 +95,8 @@ public class CameraBoundsFixer : MonoBehaviour
         Vector3 cameraPos = targetCamera.transform.position;
         Vector3 playerPos = playerTransform.position;
         
-        // Ограничиваем высоту камеры
-        if (cameraPos.y < minCameraHeight)
-        {
-            cameraPos.y = minCameraHeight;
-            targetCamera.transform.position = cameraPos;
-        }
-        else if (cameraPos.y > maxCameraHeight)
-        {
-            cameraPos.y = maxCameraHeight;
-            targetCamera.transform.position = cameraPos;
-        }
+        // ВАЖНО: НЕ изменяем высоту камеры - это может нарушить восстановление после диалогов
+        // Ограничиваем только горизонтальное расстояние
         
         // Ограничиваем расстояние камеры от игрока по горизонтали
         Vector3 horizontalOffset = cameraPos - playerPos;
@@ -113,11 +104,30 @@ public class CameraBoundsFixer : MonoBehaviour
         
         if (horizontalOffset.magnitude > maxCameraDistanceFromPlayer)
         {
-            // Возвращаем камеру ближе к игроку
+            // Возвращаем камеру ближе к игроку по горизонтали, сохраняя высоту
             Vector3 clampedOffset = horizontalOffset.normalized * maxCameraDistanceFromPlayer;
             cameraPos.x = playerPos.x + clampedOffset.x;
             cameraPos.z = playerPos.z + clampedOffset.z;
+            // ВАЖНО: Сохраняем высоту камеры - не изменяем cameraPos.y
             targetCamera.transform.position = cameraPos;
+        }
+        
+        // ВАЖНО: Проверяем высоту только если она критически неправильная (за пределами разумного)
+        // Это предотвращает изменение роста игрока
+        float cameraHeight = cameraPos.y - playerPos.y;
+        if (cameraHeight < -5f || cameraHeight > 20f)
+        {
+            // Только в крайних случаях корректируем высоту
+            if (cameraPos.y < minCameraHeight)
+            {
+                cameraPos.y = minCameraHeight;
+                targetCamera.transform.position = cameraPos;
+            }
+            else if (cameraPos.y > maxCameraHeight)
+            {
+                cameraPos.y = maxCameraHeight;
+                targetCamera.transform.position = cameraPos;
+            }
         }
     }
 }
