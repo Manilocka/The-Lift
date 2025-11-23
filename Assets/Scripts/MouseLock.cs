@@ -210,13 +210,26 @@ public class MouseLock : MonoBehaviour
     void LoadMouseSensitivitySettings()
     {
         // Загружаем чувствительность мыши из PlayerPrefs
-        float savedSensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 1f);
+        // ВАЖНО: Дефолтное значение 0.5, и значение никогда не может быть 0
+        float savedSensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 0.5f);
+        if (savedSensitivity <= 0f)
+        {
+            savedSensitivity = 0.5f; // Минимальное значение
+            PlayerPrefs.SetFloat("MouseSensitivity", savedSensitivity);
+            PlayerPrefs.Save();
+        }
         mouseSensitivity = savedSensitivity * 500f; // Конвертируем из диапазона 0-2 в 0-1000
         Debug.Log($"MouseLock: Загружена чувствительность мыши: {savedSensitivity} (конвертировано в {mouseSensitivity})");
     }
     
     public void UpdateMouseSensitivity(float sensitivity)
     {
+        // ВАЖНО: Значение никогда не может быть 0
+        if (sensitivity <= 0f)
+        {
+            sensitivity = 0.1f; // Минимальное значение
+            Debug.LogWarning($"MouseLock: Попытка установить чувствительность 0, устанавливаем минимальное значение 0.1");
+        }
         // Обновляем чувствительность мыши
         mouseSensitivity = sensitivity * 500f; // Конвертируем из диапазона 0-2 в 0-1000
         Debug.Log($"MouseLock: Обновлена чувствительность мыши: {sensitivity} (конвертировано в {mouseSensitivity})");

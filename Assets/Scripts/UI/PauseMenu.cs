@@ -105,7 +105,14 @@ public class PauseMenu : MonoBehaviour
     {
         if (mouseSensitivitySlider != null)
         {
-            float sensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 1f);
+            // ВАЖНО: Дефолтное значение 0.5, и значение никогда не может быть 0
+            float sensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 0.5f);
+            if (sensitivity <= 0f)
+            {
+                sensitivity = 0.5f; // Минимальное значение
+                PlayerPrefs.SetFloat("MouseSensitivity", sensitivity);
+                PlayerPrefs.Save();
+            }
             mouseSensitivitySlider.value = sensitivity;
             UpdateMouseSensitivityDisplay(sensitivity);
         }
@@ -153,6 +160,17 @@ public class PauseMenu : MonoBehaviour
     
     public void OnMouseSensitivityChanged(float value)
     {
+        // ВАЖНО: Значение никогда не может быть 0
+        if (value <= 0f)
+        {
+            value = 0.1f; // Минимальное значение
+            if (mouseSensitivitySlider != null)
+            {
+                mouseSensitivitySlider.value = value;
+            }
+            Debug.LogWarning($"PauseMenu: Попытка установить чувствительность 0, устанавливаем минимальное значение 0.1");
+        }
+        
         UpdateMouseSensitivityDisplay(value);
         PlayerPrefs.SetFloat("MouseSensitivity", value);
         PlayerPrefs.Save();
@@ -190,8 +208,20 @@ public class PauseMenu : MonoBehaviour
     // Округляем значение чувствительности до 0.1
     public void OnMouseSensitivitySliderChanged(float value)
     {
+        // ВАЖНО: Значение никогда не может быть 0
+        if (value <= 0f)
+        {
+            value = 0.1f; // Минимальное значение
+        }
+        
         // Округляем до ближайшего 0.1
         float roundedValue = Mathf.Round(value * 10f) / 10f;
+        
+        // Убеждаемся, что округленное значение не 0
+        if (roundedValue <= 0f)
+        {
+            roundedValue = 0.1f;
+        }
         
         // Устанавливаем округленное значение обратно в слайдер
         if (mouseSensitivitySlider != null)

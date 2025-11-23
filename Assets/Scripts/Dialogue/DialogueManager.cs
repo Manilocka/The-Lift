@@ -529,6 +529,11 @@ public class DialogueManager : MonoBehaviour
             {
                 string sceneToLoad = "Game menu";
                 
+                // ВАЖНО: Разблокируем курсор перед переходом в главное меню
+                // Это исправляет проблему с пропавшим курсором
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                
                 Debug.Log($"Переход на главное меню из Final после завершения диалога {currentDialogue.name}");
                 UnityEngine.SceneManagement.SceneManager.LoadScene(sceneToLoad);
             }
