@@ -51,6 +51,11 @@ public class RetroMainMenu : MonoBehaviour
     
     void Start()
     {
+        // ВАЖНО: Разблокируем курсор в главном меню
+        // Это исправляет проблему с пропавшим курсором после сцены Final
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        
         CheckForSaveGame();
         InitializeMenu();
         SetupRetroEffects();
