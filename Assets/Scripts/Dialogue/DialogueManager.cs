@@ -129,12 +129,16 @@ public class DialogueManager : MonoBehaviour
         // ВАЖНО: Сохраняем настройки камеры для всех диалогов (даже без NPC)
         // Это предотвращает проблемы с X-ray зрением
         Camera cam = Camera.main;
-        if (cam != null && !cameraMoved)
+        if (cam != null)
         {
-            savedNearClipPlane = cam.nearClipPlane;
-            savedFarClipPlane = cam.farClipPlane;
-            savedOrthographicSize = cam.orthographicSize;
-            savedOrthographic = cam.orthographic;
+            // Всегда сохраняем настройки камеры, если они еще не сохранены или камера не двигалась
+            if (!cameraMoved || savedNearClipPlane == 0)
+            {
+                savedNearClipPlane = cam.nearClipPlane;
+                savedFarClipPlane = cam.farClipPlane;
+                savedOrthographicSize = cam.orthographicSize;
+                savedOrthographic = cam.orthographic;
+            }
         }
 
         // Если передан NPC — сохраняем его и блокируем управление/фокусируем камеру
@@ -709,66 +713,60 @@ public class DialogueManager : MonoBehaviour
             return;
         }
         
-        // Простое восстановление: вычисляем смещение и применяем его к текущей позиции игрока
+        // ВАЖНО: Всегда восстанавливаем камеру точно на место
+        // Вычисляем смещение и применяем его к текущей позиции игрока
         Vector3 cameraOffset = savedCameraPosition - savedPlayerPosition;
         Vector3 newCameraPosition = playerBody.position + cameraOffset;
         
-        // Простая проверка: если смещение слишком большое, не восстанавливаем позицию
-        if (cameraOffset.magnitude > 10f)
-        {
-            Debug.LogWarning($"DialogueManager: Смещение камеры слишком большое ({cameraOffset.magnitude}), используем только поворот");
-            // Восстанавливаем только поворот, позицию оставляем как есть
-            if (smoothCameraTransition && cameraTransitionSpeed > 0f)
-            {
-                StartCoroutine(SmoothMoveCamera(cam.transform, cam.transform.position, cam.transform.rotation, cam.transform.position, savedCameraRotation, true));
-            }
-            else
-            {
-                cam.transform.rotation = savedCameraRotation;
-                RestoreCameraSettings(cam);
-                cameraMoved = false;
-            }
-            return;
-        }
-
-        // Восстанавливаем камеру
+        // ВАЖНО: Сначала восстанавливаем настройки камеры, чтобы предотвратить X-ray зрение
+        RestoreCameraSettings(cam);
+        
+        // Восстанавливаем камеру точно на место
         if (smoothCameraTransition && cameraTransitionSpeed > 0f)
         {
             StartCoroutine(SmoothMoveCamera(cam.transform, cam.transform.position, cam.transform.rotation, newCameraPosition, savedCameraRotation, true));
         }
         else
         {
+            // ВАЖНО: Восстанавливаем позицию и поворот точно
             cam.transform.position = newCameraPosition;
             cam.transform.rotation = savedCameraRotation;
-            RestoreCameraSettings(cam);
             cameraMoved = false;
         }
     }
     
     private void RestoreCameraSettings(Camera cam)
     {
-        // Восстанавливаем настройки камеры для предотвращения X-ray зрения
+        // ВАЖНО: Восстанавливаем настройки камеры для предотвращения X-ray зрения
         if (cam != null)
         {
-            cam.nearClipPlane = savedNearClipPlane;
-            cam.farClipPlane = savedFarClipPlane;
-            cam.orthographicSize = savedOrthographicSize;
+            // Восстанавливаем сохраненные настройки
+            if (savedNearClipPlane > 0)
+                cam.nearClipPlane = savedNearClipPlane;
+            if (savedFarClipPlane > 0)
+                cam.farClipPlane = savedFarClipPlane;
+            if (savedOrthographicSize > 0)
+                cam.orthographicSize = savedOrthographicSize;
+            
             cam.orthographic = savedOrthographic;
             
-            // Дополнительная проверка: если nearClipPlane слишком маленький, устанавливаем безопасное значение
-            // Это предотвращает X-ray зрение (видимость сквозь стены)
+            // ВАЖНО: Дополнительная проверка для предотвращения X-ray зрения
+            // Если nearClipPlane слишком маленький, устанавливаем безопасное значение
             if (cam.nearClipPlane < 0.1f)
             {
-                Debug.LogWarning($"DialogueManager: nearClipPlane слишком маленький ({cam.nearClipPlane}), устанавливаем 0.1f");
-                cam.nearClipPlane = 0.1f;
+                Debug.LogWarning($"DialogueManager: nearClipPlane слишком маленький ({cam.nearClipPlane}), устанавливаем 0.3f");
+                cam.nearClipPlane = 0.3f; // Безопасное значение из настроек камеры
             }
             
-            // Дополнительная проверка: если orthographicSize слишком большой, это может вызвать проблемы
+            // Если orthographicSize слишком большой, ограничиваем
             if (cam.orthographic && cam.orthographicSize > 20f)
             {
-                Debug.LogWarning($"DialogueManager: orthographicSize слишком большой ({cam.orthographicSize}), ограничиваем до 20f");
-                cam.orthographicSize = Mathf.Min(cam.orthographicSize, 20f);
+                Debug.LogWarning($"DialogueManager: orthographicSize слишком большой ({cam.orthographicSize}), ограничиваем до 5f");
+                cam.orthographicSize = 5f; // Безопасное значение из настроек камеры
             }
+            
+            // Убеждаемся, что viewport правильный
+            cam.rect = new Rect(0, 0, 1, 1);
         }
     }
 
@@ -801,7 +799,7 @@ public class DialogueManager : MonoBehaviour
         // Ждем один кадр, чтобы UI диалога успел скрыться
         yield return null;
         
-        // Сбрасываем позицию мыши в центр экрана перед блокировкой
+        // ВАЖНО: Сбрасываем позицию мыши в центр экрана перед блокировкой
         // Это предотвращает смещение курсора
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = false;
@@ -809,7 +807,7 @@ public class DialogueManager : MonoBehaviour
         // Ждем еще один кадр
         yield return null;
         
-        // Теперь блокируем курсор
+        // Теперь блокируем курсор в центре экрана
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -822,8 +820,39 @@ public class DialogueManager : MonoBehaviour
         Camera cam = Camera.main;
         if (cam == null) yield break;
         
-        // Простая проверка: если камера слишком далеко, просто восстанавливаем настройки
-        // Позицию не трогаем, чтобы не создавать проблем
+        // ВАЖНО: Убеждаемся, что настройки камеры правильно восстановлены
+        // Это предотвращает X-ray зрение
         RestoreCameraSettings(cam);
+        
+        // Дополнительная проверка: убеждаемся, что камера на правильной позиции
+        Transform playerBody = null;
+        PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>();
+        if (playerMovement != null)
+        {
+            playerBody = playerMovement.transform;
+        }
+        else
+        {
+            MouseLock mouseLock = FindObjectOfType<MouseLock>();
+            if (mouseLock != null && mouseLock.playerBody != null)
+            {
+                playerBody = mouseLock.playerBody;
+            }
+        }
+        
+        if (playerBody != null && savedPlayerPosition != Vector3.zero && savedCameraPosition != Vector3.zero)
+        {
+            // Вычисляем правильную позицию камеры
+            Vector3 cameraOffset = savedCameraPosition - savedPlayerPosition;
+            Vector3 correctPosition = playerBody.position + cameraOffset;
+            
+            // Если камера не на правильной позиции, исправляем
+            if (Vector3.Distance(cam.transform.position, correctPosition) > 0.1f)
+            {
+                Debug.LogWarning($"DialogueManager: Камера не на правильной позиции, исправляем");
+                cam.transform.position = correctPosition;
+                cam.transform.rotation = savedCameraRotation;
+            }
+        }
     }
 }
