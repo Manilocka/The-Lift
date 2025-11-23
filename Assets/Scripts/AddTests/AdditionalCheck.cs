@@ -167,6 +167,13 @@ public class AdditionalCheck : MonoBehaviour
                 return true;
             }
             
+            // ИСПРАВЛЕНИЕ: Если диалог завершен и игрок не внутри лифта, двери должны открываться
+            if (!playerLiftCheck.IsPlayerInsideElevator() && IsDialogueDone())
+            {
+                Debug.Log("day2_m - Диалог завершен, игрок не в лифте, разрешаем открытие дверей");
+                return true;
+            }
+            
             Debug.Log("3");
             return false;
             
@@ -193,8 +200,24 @@ public class AdditionalCheck : MonoBehaviour
                 return true;
             }
             
+            // ИСПРАВЛЕНИЕ: Если диалог завершен и игрок не внутри лифта, двери должны открываться
+            if (!playerLiftCheck.IsPlayerInsideElevator() && IsDialogueDone())
+            {
+                Debug.Log("day3_m - Диалог завершен, игрок не в лифте, разрешаем открытие дверей");
+                return true;
+            }
+            
             Debug.Log("3");
             return false;
+        }
+        
+        // ИСПРАВЛЕНИЕ: Добавляем проверку для day3_e, day5_m, day6_e и других сцен
+        // Если диалог завершен и игрок не внутри лифта, двери должны открываться
+        if ((scene == "day3_e" || scene == "day5_m" || scene == "day6_e") && 
+            !playerLiftCheck.IsPlayerInsideElevator() && IsDialogueDone())
+        {
+            Debug.Log($"{scene} - Диалог завершен, игрок не в лифте, разрешаем открытие дверей");
+            return true;
         } 
         if (scene == "day7_e")
         {

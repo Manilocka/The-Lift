@@ -5,7 +5,7 @@ using UnityEngine;
 public interface IInteractable
 {
     string GetDescription();
-    void Interact();
+        void Interact();
 }
 
 public class Door : MonoBehaviour, IInteractable

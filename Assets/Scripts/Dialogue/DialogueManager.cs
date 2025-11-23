@@ -209,33 +209,23 @@ public class DialogueManager : MonoBehaviour
         selectedChoice = 0;
         ui.Show();
         
-        // ВАЖНО: Сохраняем настройки камеры для tiredDialogue
-        // Это предотвращает проблемы с X-ray зрением
+        // ВАЖНО: tiredDialogue НЕ должен двигать камеру вообще
+        // Сбрасываем флаг cameraMoved, чтобы камера не восстанавливалась после диалога
+        // Это предотвращает смещение камеры
+        if (cameraMoved)
+        {
+            Debug.Log("DialogueManager: cameraMoved = true при запуске tiredDialogue, сбрасываем флаг (камера не будет двигаться)");
+            cameraMoved = false;
+        }
+        
+        // Сохраняем настройки камеры только для проверки X-ray зрения, но НЕ позицию
         Camera cam = Camera.main;
-        if (cam != null && !cameraMoved)
+        if (cam != null)
         {
             savedNearClipPlane = cam.nearClipPlane;
             savedFarClipPlane = cam.farClipPlane;
             savedOrthographicSize = cam.orthographicSize;
             savedOrthographic = cam.orthographic;
-        }
-        
-        // ВАЖНО: tiredDialogue не должен двигать камеру
-        // Если камера была перемещена ранее (что не должно происходить для tiredDialogue),
-        // сбрасываем флаг, чтобы избежать проблем с восстановлением
-        if (cameraMoved)
-        {
-            Debug.LogWarning("DialogueManager: cameraMoved = true при запуске tiredDialogue, сбрасываем флаг");
-            // Восстанавливаем камеру перед началом tiredDialogue
-            if (cam != null)
-            {
-                RestoreSavedCamera();
-            }
-            else
-            {
-                // Если камера не найдена, просто сбрасываем флаг
-                cameraMoved = false;
-            }
         }
         
         DisplayLine();
@@ -402,8 +392,12 @@ public class DialogueManager : MonoBehaviour
         Camera cam = Camera.main;
         if (cam != null)
         {
-            // Восстанавливаем позицию камеры, если мы её меняли
-            if (cameraMoved)
+            // ВАЖНО: Если это был tiredDialogue, НЕ восстанавливаем позицию камеры
+            // tiredDialogue не должен двигать камеру вообще
+            bool wasTiredDialogue = (currentDialogue != null && currentDialogue == tiredDialogue);
+            
+            // Восстанавливаем позицию камеры, если мы её меняли И это НЕ был tiredDialogue
+            if (cameraMoved && !wasTiredDialogue)
             {
                 bool insideElevator = (playerLiftCheck != null && playerLiftCheck.IsPlayerInsideElevator());
                 bool elevatorIsMoving = (elevator != null && elevator.canMove);
@@ -426,17 +420,12 @@ public class DialogueManager : MonoBehaviour
             }
             else
             {
-                // Даже если cameraMoved = false, проверяем настройки камеры
+                // Даже если cameraMoved = false или это был tiredDialogue, проверяем настройки камеры
                 // Это исправляет проблему с X-ray зрением после диалогов без NPC
-                if (cam.nearClipPlane < 0.1f)
+                RestoreCameraSettings(cam);
+                if (wasTiredDialogue)
                 {
-                    Debug.LogWarning($"DialogueManager: nearClipPlane слишком маленький ({cam.nearClipPlane}) после диалога, исправляем");
-                    cam.nearClipPlane = 0.1f;
-                }
-                if (cam.orthographic && cam.orthographicSize > 20f)
-                {
-                    Debug.LogWarning($"DialogueManager: orthographicSize слишком большой ({cam.orthographicSize}) после диалога, исправляем");
-                    cam.orthographicSize = Mathf.Min(cam.orthographicSize, 20f);
+                    Debug.Log("DialogueManager: Завершен tiredDialogue, камера не двигалась, только проверка настроек");
                 }
             }
         }

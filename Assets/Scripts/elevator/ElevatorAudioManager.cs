@@ -105,6 +105,23 @@ public class ElevatorAudioManager : MonoBehaviour
             }
             Debug.Log("ElevatorAudioManager: В сцене нет лифта, все звуки остановлены");
         }
+        else
+        {
+            // ИСПРАВЛЕНИЕ: Если в сцене есть лифт, убеждаемся, что AudioSource правильно настроены
+            // Это особенно важно для day7 сцен, где звук может не работать
+            if (elevatorAudioSource != null)
+            {
+                elevatorAudioSource.playOnAwake = false;
+                elevatorAudioSource.loop = true;
+                // Убеждаемся, что clip назначен
+                if (elevatorAudioSource.clip == null && elevatorMovementSound != null)
+                {
+                    elevatorAudioSource.clip = elevatorMovementSound;
+                    Debug.Log($"ElevatorAudioManager: Назначен clip для звука лифта в сцене {scene.name}");
+                }
+            }
+            Debug.Log($"ElevatorAudioManager: В сцене {scene.name} найден лифт, AudioSource настроены");
+        }
     }
     
     // Методы для воспроизведения звуков через AudioSource
