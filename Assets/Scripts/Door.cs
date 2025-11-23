@@ -13,6 +13,7 @@ public class Door : MonoBehaviour, IInteractable
 
     public Animator m_Animator;
     public bool isOpen;
+
     
     [Header("Audio")]
     public AudioSource doorSound; 
