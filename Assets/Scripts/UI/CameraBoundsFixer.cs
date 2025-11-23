@@ -90,6 +90,8 @@ public class CameraBoundsFixer : MonoBehaviour
     
     void ClampCameraPosition()
     {
+        if (targetCamera == null || playerTransform == null) return;
+        
         Vector3 cameraPos = targetCamera.transform.position;
         Vector3 playerPos = playerTransform.position;
         

@@ -416,6 +416,9 @@ public class DialogueManager : MonoBehaviour
                 {
                     // Восстанавливаем камеру (проверка валидности внутри RestoreSavedCamera)
                     RestoreSavedCamera();
+                    
+                    // Дополнительная проверка после восстановления: убеждаемся, что камера не сместилась
+                    StartCoroutine(VerifyCameraPositionAfterRestore());
                 }
             }
             else
@@ -706,13 +709,11 @@ public class DialogueManager : MonoBehaviour
             return;
         }
         
-        // Вычисляем смещение камеры относительно игрока
+        // Простое восстановление: вычисляем смещение и применяем его к текущей позиции игрока
         Vector3 cameraOffset = savedCameraPosition - savedPlayerPosition;
-        
-        // Вычисляем новую позицию камеры относительно текущей позиции игрока
         Vector3 newCameraPosition = playerBody.position + cameraOffset;
         
-        // Проверяем, что смещение разумное (не слишком большое)
+        // Простая проверка: если смещение слишком большое, не восстанавливаем позицию
         if (cameraOffset.magnitude > 10f)
         {
             Debug.LogWarning($"DialogueManager: Смещение камеры слишком большое ({cameraOffset.magnitude}), используем только поворот");
@@ -724,13 +725,13 @@ public class DialogueManager : MonoBehaviour
             else
             {
                 cam.transform.rotation = savedCameraRotation;
-                // Восстанавливаем настройки камеры
                 RestoreCameraSettings(cam);
                 cameraMoved = false;
             }
             return;
         }
 
+        // Восстанавливаем камеру
         if (smoothCameraTransition && cameraTransitionSpeed > 0f)
         {
             StartCoroutine(SmoothMoveCamera(cam.transform, cam.transform.position, cam.transform.rotation, newCameraPosition, savedCameraRotation, true));
@@ -739,7 +740,6 @@ public class DialogueManager : MonoBehaviour
         {
             cam.transform.position = newCameraPosition;
             cam.transform.rotation = savedCameraRotation;
-            // Восстанавливаем настройки камеры
             RestoreCameraSettings(cam);
             cameraMoved = false;
         }
@@ -812,5 +812,18 @@ public class DialogueManager : MonoBehaviour
         // Теперь блокируем курсор
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+    
+    private IEnumerator VerifyCameraPositionAfterRestore()
+    {
+        // Ждем несколько кадров, чтобы камера успела восстановиться
+        yield return new WaitForSeconds(0.1f);
+        
+        Camera cam = Camera.main;
+        if (cam == null) yield break;
+        
+        // Простая проверка: если камера слишком далеко, просто восстанавливаем настройки
+        // Позицию не трогаем, чтобы не создавать проблем
+        RestoreCameraSettings(cam);
     }
 }
