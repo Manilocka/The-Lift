@@ -26,7 +26,7 @@ public class DialogueColliderInteraction : MonoBehaviour
         Collider col = GetComponent<Collider>();
         if (col != null && !col.isTrigger)
         {
-            Debug.LogWarning($"DialogueColliderInteraction: Коллайдер на {gameObject.name} не настроен как Trigger!");
+            // Debug.LogWarning($"DialogueColliderInteraction: Коллайдер на {gameObject.name} не настроен как Trigger!");
         }
     }
 
@@ -69,31 +69,31 @@ public class DialogueColliderInteraction : MonoBehaviour
 
     private void ShowDialogue()
     {
-        if (logDebug) Debug.Log($"DialogueColliderInteraction: Попытка показать диалог на {gameObject.name}");
+        // if (logDebug) Debug.Log($"DialogueColliderInteraction: Попытка показать диалог на {gameObject.name}");
         
         // Если диалог уже был запущен и oneTimeOnly включён — выходим
         if (oneTimeOnly && alreadyActivated)
         {
-            if (logDebug) Debug.Log($"DialogueColliderInteraction: уже активирован ранее на {gameObject.name}");
+            // if (logDebug) Debug.Log($"DialogueColliderInteraction: уже активирован ранее на {gameObject.name}");
             return;
         }
 
         if (dialogue == null)
         {
-            Debug.LogWarning($"DialogueColliderInteraction: Диалог не назначен на объекте {gameObject.name}");
+            // Debug.LogWarning($"DialogueColliderInteraction: Диалог не назначен на объекте {gameObject.name}");
             return;
         }
 
         if (DialogueManager.Instance == null)
         {
-            Debug.LogWarning("DialogueColliderInteraction: DialogueManager не найден на сцене!");
+            // Debug.LogWarning("DialogueColliderInteraction: DialogueManager не найден на сцене!");
             return;
         }
 
         // Если сейчас уже идёт другой диалог — игнорируем
         if (DialogueManager.Instance.IsDialogueActive)
         {
-            if (logDebug) Debug.Log("DialogueColliderInteraction: Диалог уже активен, игнорируем");
+            // if (logDebug) Debug.Log("DialogueColliderInteraction: Диалог уже активен, игнорируем");
             return;
         }
 
@@ -101,7 +101,7 @@ public class DialogueColliderInteraction : MonoBehaviour
         DialogueManager.Instance.StartDialogue(dialogue);
         alreadyActivated = true;
         
-        if (logDebug) Debug.Log($"DialogueColliderInteraction: Диалог запущен на {gameObject.name}");
+        // if (logDebug) Debug.Log($"DialogueColliderInteraction: Диалог запущен на {gameObject.name}");
     }
 
     // Публичные методы для внешнего управления
