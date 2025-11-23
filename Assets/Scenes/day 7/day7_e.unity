@@ -20789,7 +20789,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1269103249}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ddc228410b89e194d8a08c953ff1cd68, type: 3}
   m_Name: 
@@ -32603,6 +32603,93 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1860265974}
   m_CullTransparentMesh: 1
+--- !u!1 &1861365889
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1861365890}
+  - component: {fileID: 1861365891}
+  - component: {fileID: 1861365892}
+  - component: {fileID: 1861365893}
+  m_Layer: 0
+  m_Name: BatyaRoomNoEscape
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1861365890
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861365889}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0, z: -0, w: 1}
+  m_LocalPosition: {x: -1237, y: 1868.5, z: 276.5}
+  m_LocalScale: {x: 3.782, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1785994319797490731}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1861365891
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861365889}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 149.33948, y: 266.50354, z: 26.110352}
+  m_Center: {x: 15.964661, y: -6.2669067, z: 12.555176}
+--- !u!114 &1861365892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861365889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4b7e4384c9240c468b8ef82a2eec256, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetSceneName: day7_e
+  darkScreenPanel: {fileID: 0}
+--- !u!114 &1861365893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861365889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddc228410b89e194d8a08c953ff1cd68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue: {fileID: 11400000, guid: a9b90adb557247c4084e4145cd20b77a, type: 2}
+  oneTimeOnly: 1
+  triggerOnEnter: 1
+  triggerOnExit: 0
+  delayBeforeDialogue: 1
+  logDebug: 1
 --- !u!1 &1870582429
 GameObject:
   m_ObjectHideFlags: 0
@@ -44141,6 +44228,7 @@ Transform:
   - {fileID: 984149690}
   - {fileID: 1480608283}
   - {fileID: 1565375186}
+  - {fileID: 1861365890}
   - {fileID: 553100844}
   - {fileID: 2959264533950859306}
   - {fileID: 8512819951269152733}
