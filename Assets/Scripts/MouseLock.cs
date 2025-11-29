@@ -83,11 +83,15 @@ public class MouseLock : MonoBehaviour
             }
         }
         
-        // Убеждаемся, что курсор заблокирован только когда нет активного диалога с NPC
+        // Убеждаемся, что курсор заблокирован только когда нет активного диалога с NPC и нет паузы
         // Это исправляет проблему со смещением курсора
-        if (DialogueManager.Instance == null || 
+        PauseMenu pauseMenu = FindObjectOfType<PauseMenu>();
+        bool isPaused = pauseMenu != null && pauseMenu.IsPaused();
+        
+        if (!isPaused && 
+            (DialogueManager.Instance == null || 
             !DialogueManager.Instance.IsDialogueActive || 
-            DialogueManager.Instance.currentNPCDialogue == null)
+            DialogueManager.Instance.currentNPCDialogue == null))
         {
             if (Cursor.lockState != CursorLockMode.Locked)
             {

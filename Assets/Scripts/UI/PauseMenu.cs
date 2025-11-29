@@ -91,6 +91,11 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = false;
     }
 
+    public bool IsPaused()
+    {
+        return isPaused;
+    }
+
     void LoadVolumeSettings()
     {
         if (volumeSlider != null)
