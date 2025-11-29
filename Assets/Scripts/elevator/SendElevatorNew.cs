@@ -191,7 +191,6 @@ public class SendElevatorNew : MonoBehaviour
         // Проверяем, является ли это внутренней кнопкой
         bool isInternalButton = (platform != null && transform.IsChildOf(platform.transform));
         PlayerInLiftCheck liftCheck = isInternalButton ? FindObjectOfType<PlayerInLiftCheck>(true) : null;
-        NPCInLiftCheck npcLiftCheck = isInternalButton ? FindObjectOfType<NPCInLiftCheck>(true) : null;
         
         // Если это внутренняя кнопка, проверяем, что игрок все еще в лифте перед закрытием дверей
         if (isInternalButton && liftCheck != null)
@@ -200,42 +199,6 @@ public class SendElevatorNew : MonoBehaviour
             {
                 Debug.LogWarning("SendElevatorNew: Игрок вышел из лифта перед закрытием дверей, отменяем движение");
                 yield break; // Прекращаем выполнение корутины
-            }
-        }
-        
-        // НОВАЯ ПРОВЕРКА: Если игрок и NPC в лифте, лифт на остановке и диалог не завершен - ждем
-        if (isInternalButton && liftCheck != null && npcLiftCheck != null && platform != null)
-        {
-            bool playerInLift = liftCheck.IsPlayerInsideElevator();
-            bool npcInLift = npcLiftCheck.IsNPCInsideElevator();
-            bool elevatorAtStop = !platform.canMove && Vector3.Distance(platform.transform.position, platform.stops[platform.currentTarget].position) < 0.1f;
-            bool dialogueNotDone = !AdditionalCheck.IsDialogueDone();
-            
-            if (playerInLift && npcInLift && elevatorAtStop && dialogueNotDone)
-            {
-                Debug.Log("SendElevatorNew: Игрок и NPC в лифте, диалог не завершен - ждем завершения диалога");
-                
-                // Ждем, пока диалог не завершится
-                while (!AdditionalCheck.IsDialogueDone())
-                {
-                    // Проверяем, что игрок и NPC все еще в лифте
-                    if (!liftCheck.IsPlayerInsideElevator() || !npcLiftCheck.IsNPCInsideElevator())
-                    {
-                        Debug.Log("SendElevatorNew: Игрок или NPC вышел из лифта во время ожидания диалога");
-                        yield break;
-                    }
-                    
-                    // Проверяем, что лифт все еще на остановке
-                    if (platform.canMove || Vector3.Distance(platform.transform.position, platform.stops[platform.currentTarget].position) >= 0.1f)
-                    {
-                        Debug.Log("SendElevatorNew: Лифт начал движение во время ожидания диалога");
-                        yield break;
-                    }
-                    
-                    yield return null;
-                }
-                
-                Debug.Log("SendElevatorNew: Диалог завершен, продолжаем движение лифта");
             }
         }
         
