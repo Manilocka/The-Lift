@@ -43,6 +43,19 @@ public class SendElevatorNew : MonoBehaviour
             Debug.Log("SendElevatorNew: управление отключено в day7_fin");
             return;
         }
+        if (scene == "day6_e")
+        {
+            // Если мы находимся на midStop и диалог ещё идёт — НЕ разрешаем ехать дальше
+            if (platform != null && 
+                platform.midStop >= 0 && 
+                platform.currentTarget == platform.midStop && 
+                !AdditionalCheck.IsDialogueDone())
+            {
+                Debug.Log("SendElevatorNew: Диалог на промежуточной остановке ещё идёт — движение заблокировано!");
+                if (buttonAudioSource != null) buttonAudioSource.Play(); // можно звук нажатия оставить
+                return; // полностью блокируем запуск лифта
+            }
+        }
 
         // Воспроизводим звук кнопки через AudioSource
         if (buttonAudioSource != null)
