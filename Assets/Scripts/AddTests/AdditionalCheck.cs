@@ -40,8 +40,9 @@ public class AdditionalCheck : MonoBehaviour
         ElevatorMoving elevator = FindObjectOfType<ElevatorMoving>();
         ElevatorDoorController doors = Object.FindObjectOfType<ElevatorDoorController>();
 
-        if (scene == "day1_e" && IsDialogueDone() && elevator != null && Vector3.Distance(elevator.transform.position, elevator.stops[elevator.currentTarget].position) < 0.1f)
+        if (scene == "day1_e" && IsDialogueDone() && elevator != null && Vector3.Distance(elevator.transform.position, elevator.stops[elevator.currentTarget].position) < 0.1f && elevator.currentTarget == elevator.endStop)
         {
+            Debug.Log("elevator.endStop = " + elevator.endStop);
             return true;
         }
         if (scene == "day2_m")
