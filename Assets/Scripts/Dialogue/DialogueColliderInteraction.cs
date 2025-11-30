@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Collider))]
 public class DialogueColliderInteraction : MonoBehaviour
@@ -69,6 +70,22 @@ public class DialogueColliderInteraction : MonoBehaviour
 
     private void ShowDialogue()
     {
+        if (SceneManager.GetActiveScene().name == "day4_e")
+        {
+            ElevatorMoving elevator = FindObjectOfType<ElevatorMoving>();
+        
+            if (elevator == null)
+            {
+                Debug.LogWarning("ElevatorMoving не найден на сцене!");
+                return;
+            }
+        
+            if (elevator.currentTarget != 1)
+            {
+                // Игрок едет НЕ на 1-й этаж → диалог НЕ показываем
+                return;
+            }
+        }
         // if (logDebug) Debug.Log($"DialogueColliderInteraction: Попытка показать диалог на {gameObject.name}");
         
         // Если диалог уже был запущен и oneTimeOnly включён — выходим

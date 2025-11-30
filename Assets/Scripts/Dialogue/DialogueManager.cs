@@ -110,6 +110,7 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue(DialogueSO dialogue, NPCDialogue npc)
     {
         Debug.Log($"Попытка начать диалог: {dialogue.name}");
+        
 
         // Простая проверка через HashSet
         if (oneTimeDialogueOnly && completedDialogues.Contains(dialogue.name))
