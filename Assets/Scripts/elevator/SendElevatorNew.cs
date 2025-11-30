@@ -179,13 +179,13 @@ public class SendElevatorNew : MonoBehaviour
                     yield return null;
                 }
                 
-                // Финальная проверка после закрытия дверей
-                if (!liftCheck.IsPlayerInsideElevator())
-                {
-                    Debug.LogWarning("SendElevatorNew: Игрок вышел из лифта после закрытия дверей, движение отменено");
-                    doorController.OpenDoors();
-                    yield break; // Прекращаем выполнение корутины
-                }
+                // // Финальная проверка после закрытия дверей
+                // if (!liftCheck.IsPlayerInsideElevator())
+                // {
+                //     Debug.LogWarning("SendElevatorNew: Игрок вышел из лифта после закрытия дверей, движение отменено");
+                //     doorController.OpenDoors();
+                //     yield break; // Прекращаем выполнение корутины
+                // }
             }
         }
 
