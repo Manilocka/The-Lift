@@ -539,13 +539,30 @@ public class DialogueManager : MonoBehaviour
             // Переход на Final происходит через NPCCatchesPlayer, но можно добавить проверку здесь если нужно
         }
         // Проверка для сцены Final - переход на главное меню после завершения диалога Final
+        // else if (currentSceneName == "Final")
+        // {
+        //     // Проверяем, что диалог завершился и это диалог Final
+        //     // Для Final сцены проверяем просто завершение диалога, а не DialogueDone
+        //     if (currentDialogue != null && currentDialogue.name == "Final" && !IsDialogueActive)
+        //     {
+        //         string sceneToLoad = "Game menu";
+        //         
+        //         // ВАЖНО: Разблокируем курсор перед переходом в главное меню
+        //         // Это исправляет проблему с пропавшим курсором
+        //         Cursor.lockState = CursorLockMode.None;
+        //         Cursor.visible = true;
+        //         
+        //         Debug.Log($"Переход на главное меню из Final после завершения диалога {currentDialogue.name}");
+        //         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneToLoad);
+        //     }
+        // }
         else if (currentSceneName == "Final")
         {
             // Проверяем, что диалог завершился и это диалог Final
             // Для Final сцены проверяем просто завершение диалога, а не DialogueDone
             if (currentDialogue != null && currentDialogue.name == "Final" && !IsDialogueActive)
             {
-                string sceneToLoad = "Game menu";
+                string sceneToLoad = "DanceScene";
                 
                 // ВАЖНО: Разблокируем курсор перед переходом в главное меню
                 // Это исправляет проблему с пропавшим курсором
@@ -553,7 +570,7 @@ public class DialogueManager : MonoBehaviour
                 Cursor.visible = true;
                 
                 Debug.Log($"Переход на главное меню из Final после завершения диалога {currentDialogue.name}");
-                UnityEngine.SceneManagement.SceneManager.LoadScene(sceneToLoad);
+                SceneManager.LoadScene(sceneToLoad);
             }
         }
     }
