@@ -79,8 +79,8 @@ public class ElevatorDoorController : MonoBehaviour
     {
         if (!isOpen && AdditionalCheck.ElevatorDoorsCanBeOpened())
         {
-            leftDoorTarget = leftDoor.localPosition + Vector3.left * openPosition;  // Движение влево
-            rightDoorTarget = rightDoor.localPosition + Vector3.right * openPosition; // Движение вправо
+            leftDoorTarget = new Vector3(-openPosition, leftDoor.localPosition.y, leftDoor.localPosition.z);
+            rightDoorTarget = new Vector3(openPosition, rightDoor.localPosition.y, rightDoor.localPosition.z);
             isOpen = true;
             
             // Воспроизводим звук открытия дверей только после инициализации
@@ -115,8 +115,8 @@ public class ElevatorDoorController : MonoBehaviour
     {
         if (!isOpen && AdditionalCheck.ElevatorDoorsCanBeOpened())
         {
-            leftDoorTarget = leftDoor.localPosition + Vector3.left * openPosition;
-            rightDoorTarget = rightDoor.localPosition + Vector3.right * openPosition;
+            leftDoorTarget = new Vector3(-openPosition, leftDoor.localPosition.y, leftDoor.localPosition.z);
+            rightDoorTarget = new Vector3(openPosition, rightDoor.localPosition.y, rightDoor.localPosition.z);
             isOpen = true;
             
             // Воспроизводим звук открытия дверей только после инициализации
@@ -166,8 +166,8 @@ public class ElevatorDoorController : MonoBehaviour
     public void ForceOpenInstantly(bool playSound = false)
     {
         StopAllCoroutines();
-        leftDoorTarget = leftDoor.localPosition + Vector3.left * openPosition;
-        rightDoorTarget = rightDoor.localPosition + Vector3.right * openPosition;
+        leftDoorTarget = new Vector3(-openPosition, leftDoor.localPosition.y, leftDoor.localPosition.z);
+        rightDoorTarget = new Vector3(openPosition, rightDoor.localPosition.y, rightDoor.localPosition.z);
         leftDoor.localPosition = leftDoorTarget;
         rightDoor.localPosition = rightDoorTarget;
         isOpen = true;

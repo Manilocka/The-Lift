@@ -9,6 +9,8 @@ public class SendElevatorNew : MonoBehaviour
     [SerializeField] private AudioSource buttonAudioSource; // AudioSource для звука кнопки
     ElevatorMoving platform;
     ElevatorDoorController doorController;
+    [SerializeField] float maxDistance = 5f; // Максимальное расстояние активации (в единицах Unity)
+
     
 
     void Start()

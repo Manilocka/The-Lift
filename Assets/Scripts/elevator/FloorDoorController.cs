@@ -60,8 +60,8 @@ public class FloorDoorController : MonoBehaviour
             PlayDoorSound();
         }
         
-        leftDoorTarget = leftDoor.localPosition + Vector3.left * openPosition;
-        rightDoorTarget = rightDoor.localPosition + Vector3.right * openPosition;
+        leftDoorTarget = new Vector3(-openPosition, leftDoor.localPosition.y, leftDoor.localPosition.z);
+        rightDoorTarget = new Vector3(openPosition, rightDoor.localPosition.y, rightDoor.localPosition.z);
         isOpen = true;
         
         Debug.Log("Floor doors opening on floor " + floorNumber);
