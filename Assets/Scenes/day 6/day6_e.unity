@@ -21707,7 +21707,6 @@ GameObject:
   - component: {fileID: 1461938838}
   - component: {fileID: 1461938840}
   - component: {fileID: 1461938839}
-  - component: {fileID: 1461938841}
   - component: {fileID: 1461938842}
   m_Layer: 6
   m_Name: button_Out_3
@@ -21767,23 +21766,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1461938841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1461938837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f56d40255bc8a8e4281fb4c37ee4b279, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogue: {fileID: 11400000, guid: e91ca91d1bfdb54469336ed86099af23, type: 2}
-  oneTimeOnly: 1
-  autoClose: 1
-  autoCloseSeconds: 2
-  logDebug: 1
 --- !u!82 &1461938842
 AudioSource:
   m_ObjectHideFlags: 0
@@ -26582,6 +26564,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorNumber: 0
   buttonAudioSource: {fileID: 1778212891}
+  maxDistance: 5
 --- !u!65 &1778212887
 BoxCollider:
   m_ObjectHideFlags: 0
